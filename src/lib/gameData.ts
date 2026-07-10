@@ -41,8 +41,8 @@ export const TASK_CONFIGS: TaskConfig[] = [
     icon: '🏃',
     reward: 5,
     penalty: 0,
-    description: '运动30min+，+1次转盘',
-    condition: '额外+1次转盘机会',
+    description: '运动30min+',
+    condition: '',
   },
   {
     type: 'weekly_review',
@@ -50,8 +50,8 @@ export const TASK_CONFIGS: TaskConfig[] = [
     icon: '📝',
     reward: 10,
     penalty: 0,
-    description: '周日复盘，达标率≥80%+3次转盘',
-    condition: '额外+3次转盘机会',
+    description: '周日复盘，达标率≥80%，+1次转盘',
+    condition: '额外+1次转盘机会',
   },
 ];
 

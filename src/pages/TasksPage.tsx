@@ -61,7 +61,7 @@ export default function TasksPage({ showToast }: Props) {
       const updatedUser = await updateUser(user.id, {
         beans_small: user.beans_small + beans,
         xp: user.xp + xpGain,
-        spin_chances: taskType === 'exercise' && status === 'completed'
+        spin_chances: taskType === 'weekly_review' && status === 'completed'
           ? user.spin_chances + 1
           : user.spin_chances,
       })
