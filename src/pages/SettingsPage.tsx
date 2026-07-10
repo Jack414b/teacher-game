@@ -54,9 +54,13 @@ export default function SettingsPage({ showToast }: Props) {
   const handleSaveNickname = async () => {
     if (!user || !nickname.trim()) return
     const updated = { ...user, nickname: nickname.trim() }
-    setUser(updated)
-    try { await updateUser(user.id, { nickname: nickname.trim() }) } catch {}
-    showToast('✅ 昵称已更新！')
+    try {
+      await updateUser(user.id, { nickname: nickname.trim() })
+      setUser(updated)
+      showToast('✅ 昵称已更新！')
+    } catch {
+      showToast('❌ 同步失败，请检查网络')
+    }
   }
 
   return (
