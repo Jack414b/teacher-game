@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useGameStore } from '../stores/gameStore'
 import { PixelCard, PixelButton } from '../components/ui/PixelComponents'
 import { TASK_CONFIGS } from '../lib/gameData'
+import { updateUser } from '../lib/supabase'
 import type { User } from '../types'
 import { STARTER_PACK } from '../types'
 
@@ -26,7 +27,7 @@ export default function SettingsPage({ showToast }: Props) {
   }
 
   // 导入数据
-  const handleImport = () => {
+  const handleImport = async () => {
     const input = document.createElement('input')
     input.type = 'file'
     input.accept = '.json'
@@ -34,11 +35,11 @@ export default function SettingsPage({ showToast }: Props) {
       const file = (e.target as HTMLInputElement).files?.[0]
       if (!file) return
       const reader = new FileReader()
-      reader.onload = (ev) => {
+      reader.onload = async (ev) => {
         try {
           const data = JSON.parse(ev.target?.result as string) as User
-          setUser(data)
-          localStorage.setItem('teacher_game_user_id', data.id)
+          setUser({ ...data, id: user?.id || data.id })
+          try { await updateUser(user?.id || data.id, data as unknown as Record<string, unknown>) } catch {}
           showToast('✅ 数据恢复成功！')
         } catch {
           showToast('❌ 文件格式错误')
@@ -50,7 +51,7 @@ export default function SettingsPage({ showToast }: Props) {
   }
 
   // 激活新手礼包
-  const handleActivateStarter = () => {
+  const handleActivateStarter = async () => {
     if (!user) return
     const updated = {
       ...user,
@@ -63,13 +64,16 @@ export default function SettingsPage({ showToast }: Props) {
       },
     }
     setUser(updated)
+    try { await updateUser(user.id, updated as unknown as Record<string, unknown>) } catch {}
     showToast('🎁 新手礼包已激活！')
   }
 
   // 修改昵称
-  const handleSaveNickname = () => {
+  const handleSaveNickname = async () => {
     if (!user || !nickname.trim()) return
-    setUser({ ...user, nickname: nickname.trim() })
+    const updated = { ...user, nickname: nickname.trim() }
+    setUser(updated)
+    try { await updateUser(user.id, { nickname: nickname.trim() }) } catch {}
     showToast('✅ 昵称已更新！')
   }
 
