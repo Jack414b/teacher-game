@@ -14,7 +14,8 @@ export default function TasksPage({ showToast }: Props) {
   const [customRules, setCustomRules] = useState<CustomRule[]>([])
 
   const today = new Date().toISOString().slice(0, 10)
-  const isSunday = new Date().getDay() === 0
+  const restDay = parseInt(localStorage.getItem('teacher_game_rest_day') || '0') // 默认周日
+  const isRestDay = new Date().getDay() === restDay
 
   useEffect(() => {
     if (!user) return
@@ -41,7 +42,7 @@ export default function TasksPage({ showToast }: Props) {
       const penalty = customRule?.penalty ?? config.penalty
       beans = status === 'completed' ? reward : penalty
       // 周末双倍
-      if (isSunday && status === 'completed' && taskType !== 'weekly_review') beans *= 2
+      if (isRestDay && status === 'completed' && taskType !== 'weekly_review') beans *= 2
     }
 
     let detail: Record<string, unknown> | undefined = undefined
@@ -81,7 +82,7 @@ export default function TasksPage({ showToast }: Props) {
       {/* 今日进度 */}
       <PixelCard>
         <h3 style={{ fontSize: '13px', marginBottom: '8px' }}>
-          📊 今日完成度 {isSunday ? '(周日双倍加成!)' : ''}
+          📊 今日完成度 {isRestDay ? '(休息日双倍加成!)' : ''}
         </h3>
         <RpgProgress
           value={progressPct}

@@ -99,6 +99,29 @@ export default function SettingsPage({ showToast }: Props) {
         </div>
       </PixelCard>
 
+      {/* 休息日 */}
+      <PixelCard>
+        <h3 style={{ fontSize: '13px', marginBottom: '8px' }}>🏖️ 每周休息日</h3>
+        <p style={{ fontSize: '11px', color: 'var(--text-dim)', marginBottom: '8px' }}>
+          选一天作为休息日，当天若学习则奖励双倍
+        </p>
+        <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
+          {['日', '一', '二', '三', '四', '五', '六'].map((label, idx) => {
+            const current = parseInt(localStorage.getItem('teacher_game_rest_day') || '0')
+            return (
+              <button
+                key={idx}
+                className={`pixel-btn sm ${current === idx ? 'primary' : ''}`}
+                onClick={() => { localStorage.setItem('teacher_game_rest_day', String(idx)); showToast(`✅ 休息日设为周${label}`) }}
+                style={{ minWidth: '36px' }}
+              >
+                周{label}
+              </button>
+            )
+          })}
+        </div>
+      </PixelCard>
+
       {/* 音效 */}
       <PixelCard>
         <h3 style={{ fontSize: '13px', marginBottom: '8px' }}>🔊 音效</h3>
