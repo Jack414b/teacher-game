@@ -29,8 +29,17 @@ export default function TasksPage({ showToast }: Props) {
     const yesterday = new Date(); yesterday.setDate(yesterday.getDate() - 1)
     getTasksInRange(user.id, '2026-01-01', yesterday.toISOString().slice(0, 10)).then(oldTasks => {
       const pending = oldTasks.filter(t => t.status === 'pending')
-      if (pending.length === 0) return
       let totalPenalty = 0
+
+      // 计算昨日净增小豆（XP每日结算）
+      const yd = yesterday.toISOString().slice(0, 10)
+      const yt = oldTasks.filter(t => t.task_date === yd)
+      const netBeans = yt.reduce((sum, t) => sum + (t.beans_earned || 0), 0)
+      if (netBeans > 0) {
+        updateUser(user.id, { xp: user.xp + netBeans }).then(u => { if (u) setUser(u) }).catch(() => {})
+      }
+
+      if (pending.length === 0) return
       Promise.all(pending.map(async t => {
         const config = TASK_CONFIGS.find(c => c.type === t.task_type)
         const penalty = config?.penalty || 0
@@ -87,16 +96,13 @@ export default function TasksPage({ showToast }: Props) {
         return [...filtered, record]
       })
 
-      // 更新用户货币
-      const xpGain = beans > 0 ? beans : 0
-      // 计算转盘变化
+      // 更新用户货币（XP每天结算，不在这里加）
       let spinDelta = 0
       if (taskType === 'weekly_review' && status === 'completed') spinDelta = 1
       if (taskType === 'weekly_review' && isUndo && existingTask?.status === 'completed') spinDelta = -1
 
       const updatedUser = await updateUser(user.id, {
         beans_small: user.beans_small + beans,
-        xp: user.xp + xpGain,
         spin_chances: user.spin_chances + spinDelta,
       })
       setUser(updatedUser)

@@ -13,10 +13,11 @@ interface Props { showToast: (msg: string) => void }
 
 export default function AdminPage({ showToast }: Props) {
   const { user, setUser, setBossMode } = useGameStore()
-  const [tab, setTab] = useState<'overview' | 'rules' | 'shop'>('overview')
+  const [tab, setTab] = useState<'overview' | 'rules' | 'shop' | 'log'>('overview')
   const [redemptions, setRedemptions] = useState<Redemption[]>([])
   const [weekStats, setWeekStats] = useState({ completed: 0, total: 0, beans: 0 })
   const [beanAmount, setBeanAmount] = useState('5')
+  const [activityLog, setActivityLog] = useState<Array<{time:string,text:string,type:string}>>([])
 
   // 规则编辑
   const [customRules, setCustomRules] = useState<CustomRule[]>([])
@@ -33,8 +34,9 @@ export default function AdminPage({ showToast }: Props) {
 
   useEffect(() => {
     if (!user) return
-    // 加载兑换记录
     getRedemptions(user.id).then(setRedemptions).catch(() => {})
+    // 加载活动日志
+    loadActivityLog()
     // 加载本周统计
     const now = new Date()
     const dayOfWeek = now.getDay()
@@ -53,6 +55,30 @@ export default function AdminPage({ showToast }: Props) {
   }, [user])
 
   // === 货币调整 ===
+  const loadActivityLog = async () => {
+    if (!user) return
+    const logs: Array<{time:string,text:string,type:string}> = []
+    try {
+      const start = new Date(); start.setDate(start.getDate() - 7)
+      const tasks = await getTasksInRange(user.id, start.toISOString().slice(0,10), new Date().toISOString().slice(0,10))
+      tasks.forEach(t => {
+        if (t.status === 'completed') logs.push({time:t.task_date,text:`✅ ${t.task_type} +${t.beans_earned}豆`,'type':'earn'})
+        if (t.status === 'failed') logs.push({time:t.task_date,text:`❌ ${t.task_type} ${t.beans_earned}豆`,'type':'lose'})
+      })
+      const reds = await getRedemptions(user.id)
+      reds.forEach(r => logs.push({time:r.created_at.slice(0,10),text:`🛒 ${r.item_name} -${r.price}${r.item_type==='small_bean'?'🫘':'🌰'}`,'type':'spend'}))
+    } catch {}
+    logs.sort((a,b) => b.time.localeCompare(a.time))
+    setActivityLog(logs.slice(0, 50))
+  }
+
+  const handleAdjustCards = async (card: string, delta: number) => {
+    if (!user) return
+    const cards = { ...user.cards }
+    cards[card as keyof typeof cards] = (cards[card as keyof typeof cards] || 0) + delta
+    try { await updateUser(user.id, { cards }); setUser({ ...user, cards }); showToast('✅ 已调整') } catch { showToast('操作失败') }
+  }
+
   const handleAdjustBeans = async (type: 'small' | 'big', amount: number) => {
     if (!user) return
     const num = parseInt(beanAmount) || 0
@@ -196,6 +222,7 @@ export default function AdminPage({ showToast }: Props) {
           { key: 'overview' as const, label: '📊 总览' },
           { key: 'rules' as const, label: '📋 规则' },
           { key: 'shop' as const, label: '🛒 商城' },
+          { key: 'log' as const, label: '📜 记录' },
         ].map(t => (
           <button key={t.key}
             className={`pixel-btn sm ${tab === t.key ? 'primary' : ''}`}
@@ -227,6 +254,20 @@ export default function AdminPage({ showToast }: Props) {
               <PixelButton size="sm" variant="success" onClick={() => handleAdjustBeans('big', 1)}>+🌰</PixelButton>
               <PixelButton size="sm" variant="danger" onClick={() => handleAdjustBeans('big', -1)}>-🌰</PixelButton>
             </div>
+          </PixelCard>
+
+          {/* 卡片调整 */}
+          <PixelCard>
+            <h3 style={{ fontSize: '13px', marginBottom: '8px' }}>🃏 调整特权卡</h3>
+            {['免早起卡','免学休息日','免学半日券'].map(card => (
+              <div key={card} style={{ display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'6px',fontSize:'12px' }}>
+                <span>{card}: <strong style={{color:'var(--gold)'}}>{(user?.cards as unknown as Record<string,number>)?.[card]||0}</strong></span>
+                <div style={{display:'flex',gap:'4px'}}>
+                  <PixelButton size="sm" variant="success" onClick={()=>handleAdjustCards(card,1)}>+</PixelButton>
+                  <PixelButton size="sm" variant="danger" onClick={()=>handleAdjustCards(card,-1)}>-</PixelButton>
+                </div>
+              </div>
+            ))}
           </PixelCard>
 
           <PixelCard>
@@ -426,6 +467,27 @@ export default function AdminPage({ showToast }: Props) {
               )
             })
           })()}
+        </>
+      )}
+
+      {/* ===== 记录 Tab ===== */}
+      {tab === 'log' && (
+        <>
+          <p style={{ fontSize: '11px', color: 'var(--text-dim)', marginBottom: '8px' }}>📜 最近7天行为记录</p>
+          {activityLog.length === 0 ? (
+            <p className="empty-state" style={{ padding: '20px 0' }}>暂无记录</p>
+          ) : (
+            activityLog.map((item, i) => (
+              <div key={i} style={{
+                display: 'flex', justifyContent: 'space-between', padding: '8px 12px',
+                margin: '2px 0', background: 'var(--bg-card)', border: '1px solid var(--border)',
+                fontSize: '12px',
+              }}>
+                <span>{item.text}</span>
+                <span style={{ color: 'var(--text-dim)', fontSize: '10px' }}>{item.time}</span>
+              </div>
+            ))
+          )}
         </>
       )}
     </div>

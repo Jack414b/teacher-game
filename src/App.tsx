@@ -72,13 +72,18 @@ function App() {
   const location = useLocation()
   const navigate = useNavigate()
 
-  const navItems = [
+  const navItems = isBossMode ? [
+    { path: '/', icon: '🏠', label: '主页' },
+    { path: '/admin', icon: '👑', label: '后台' },
+    { path: '/calendar', icon: '📅', label: '日历' },
+    { path: '/shop', icon: '🛒', label: '商城' },
+    { path: '/settings', icon: '⚙️', label: '设置' },
+  ] : [
     { path: '/', icon: '🏠', label: '主页' },
     { path: '/tasks', icon: '📋', label: '打卡' },
     { path: '/calendar', icon: '📅', label: '日历' },
     { path: '/shop', icon: '🛒', label: '商城' },
     { path: '/backpack', icon: '🎒', label: '背包' },
-    ...(isBossMode ? [{ path: '/admin', icon: '👑', label: '后台' }] : []),
     { path: '/settings', icon: '⚙️', label: '设置' },
   ]
 
