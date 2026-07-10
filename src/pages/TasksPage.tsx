@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useGameStore } from '../stores/gameStore'
 import { PixelCard, RpgProgress } from '../components/ui/PixelComponents'
 import { TASK_CONFIGS } from '../lib/gameData'
-import { getTodayTasks, upsertTask, updateUser, getCustomRules } from '../lib/supabase'
+import { getTodayTasks, getTasksInRange, upsertTask, updateUser, getCustomRules } from '../lib/supabase'
 import type { DailyTask, TaskType, CustomRule } from '../types'
 
 interface Props { showToast: (msg: string) => void }
@@ -24,6 +24,28 @@ export default function TasksPage({ showToast }: Props) {
     if (!user) return
     getTodayTasks(user.id, today).then(setTasks).catch(() => {})
     getCustomRules(user.id).then(setCustomRules).catch(() => {})
+
+    // 自动失败：昨天及之前未完成的任务
+    const yesterday = new Date(); yesterday.setDate(yesterday.getDate() - 1)
+    getTasksInRange(user.id, '2026-01-01', yesterday.toISOString().slice(0, 10)).then(oldTasks => {
+      const pending = oldTasks.filter(t => t.status === 'pending')
+      if (pending.length === 0) return
+      let totalPenalty = 0
+      Promise.all(pending.map(async t => {
+        const config = TASK_CONFIGS.find(c => c.type === t.task_type)
+        const penalty = config?.penalty || 0
+        if (penalty < 0) {
+          totalPenalty += penalty
+          await upsertTask(user.id, t.task_date, t.task_type, 'failed', penalty)
+        }
+      })).then(() => {
+        if (totalPenalty < 0) {
+          updateUser(user.id, { beans_small: user.beans_small + totalPenalty }).then(u => {
+            if (u) setUser(u)
+          })
+        }
+      }).catch(() => {})
+    }).catch(() => {})
   }, [user, today])
 
   const handleTask = async (taskType: TaskType, status: 'completed' | 'failed' | 'pending') => {
