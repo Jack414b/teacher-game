@@ -61,6 +61,7 @@ export default function SettingsPage({ showToast }: Props) {
         免早起卡: (user.cards?.['免早起卡'] || 0) + STARTER_PACK.cards.免早起卡,
         休息卡: (user.cards?.['休息卡'] || 0) + STARTER_PACK.cards.休息卡,
         免学休息日: user.cards?.['免学休息日'] || 0,
+        免学半日券: user.cards?.['免学半日券'] || 0,
       },
     }
     setUser(updated)

@@ -1,17 +1,96 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useGameStore } from '../stores/gameStore'
-import { PixelModal } from '../components/ui/PixelComponents'
-import { SMALL_BEAN_SHOP, BIG_BEAN_SHOP } from '../lib/gameData'
-import { updateUser, createRedemption, getCustomShopItems } from '../lib/supabase'
-import type { ShopItem, CustomShopItem } from '../types'
+import { PixelCard, PixelModal } from '../components/ui/PixelComponents'
+import { SMALL_BEAN_SHOP, BIG_BEAN_SHOP, SPIN_PRIZES } from '../lib/gameData'
+import { updateUser, createRedemption, getCustomShopItems, logSpin } from '../lib/supabase'
+import type { ShopItem, CustomShopItem, SpinPrize } from '../types'
+
+const SEGMENTS = SPIN_PRIZES.length
+const COLORS = ['#e74c3c', '#e2b04a', '#6fdc6f', '#e67e22', '#e91e63', '#3498db']
 
 interface Props { showToast: (msg: string) => void }
 
 export default function ShopPage({ showToast }: Props) {
-  const { user, setUser } = useGameStore()
+  const { user, setUser, useSpinChance } = useGameStore()
   const [selectedItem, setSelectedItem] = useState<ShopItem | null>(null)
   const [confirming, setConfirming] = useState(false)
   const [customItems, setCustomItems] = useState<CustomShopItem[]>([])
+
+  // 转盘
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const [spinning, setSpinning] = useState(false)
+  const [result, setResult] = useState<SpinPrize | null>(null)
+  const [currentAngle, setCurrentAngle] = useState(0)
+
+  useEffect(() => { drawWheel() }, [currentAngle])
+
+  const drawWheel = () => {
+    const canvas = canvasRef.current; if (!canvas) return
+    const ctx = canvas.getContext('2d')!
+    const size = canvas.width, cx = size / 2, cy = size / 2, radius = size / 2 - 10
+    ctx.clearRect(0, 0, size, size)
+    const arcAngle = (2 * Math.PI) / SEGMENTS
+    for (let i = 0; i < SEGMENTS; i++) {
+      const sa = currentAngle + i * arcAngle, ea = sa + arcAngle
+      ctx.beginPath(); ctx.moveTo(cx, cy); ctx.arc(cx, cy, radius, sa, ea); ctx.closePath()
+      ctx.fillStyle = COLORS[i]; ctx.fill(); ctx.strokeStyle = '#1a1a2e'; ctx.lineWidth = 2; ctx.stroke()
+      ctx.save(); ctx.translate(cx, cy); ctx.rotate(sa + arcAngle / 2)
+      ctx.textAlign = 'center'; ctx.fillStyle = '#fff'; ctx.font = '24px sans-serif'
+      ctx.fillText(SPIN_PRIZES[i].icon, radius * 0.65, 8)
+      ctx.font = 'bold 9px sans-serif'; ctx.fillStyle = '#000'
+      ctx.fillText(SPIN_PRIZES[i].label, radius * 0.65, 24)
+      ctx.restore()
+    }
+    ctx.beginPath(); ctx.arc(cx, cy, 24, 0, 2 * Math.PI); ctx.fillStyle = '#1a1a2e'; ctx.fill()
+    ctx.strokeStyle = '#e2b04a'; ctx.lineWidth = 3; ctx.stroke()
+    ctx.fillStyle = '#e2b04a'; ctx.font = 'bold 12px sans-serif'; ctx.textAlign = 'center'
+    ctx.fillText('GO', cx, cy + 5)
+  }
+
+  const handleSpin = async () => {
+    if (!user || spinning || user.spin_chances <= 0) { if (user?.spin_chances === 0) showToast('转盘次数不足！'); return }
+    setSpinning(true); setResult(null); useSpinChance()
+    const prizeIndex = Math.floor(Math.random() * SEGMENTS)
+    const prize = SPIN_PRIZES[prizeIndex]
+    const segmentAngle = (2 * Math.PI) / SEGMENTS
+    const targetAngle = 2 * Math.PI - (prizeIndex * segmentAngle + segmentAngle / 2)
+    const spins = 5 * 2 * Math.PI + targetAngle - (currentAngle % (2 * Math.PI))
+    const finalAngle = currentAngle + spins
+    const startTime = Date.now(), startAngle = currentAngle
+    const animate = () => {
+      const elapsed = Date.now() - startTime, progress = Math.min(elapsed / 4000, 1)
+      const eased = 1 - Math.pow(1 - progress, 3)
+      setCurrentAngle(startAngle + spins * eased)
+      if (progress < 1) requestAnimationFrame(animate)
+      else { setCurrentAngle(finalAngle); setResult(prize); setSpinning(false); handlePrize(prize) }
+    }
+    requestAnimationFrame(animate)
+    try { await logSpin(user.id, prize.label) } catch {}
+  }
+
+  const handlePrize = async (prize: SpinPrize) => {
+    if (!user) return
+    try {
+      switch (prize.type) {
+        case 'bean_small':
+          await updateUser(user.id, { beans_small: user.beans_small + prize.value })
+          setUser({ ...user, beans_small: user.beans_small + prize.value })
+          showToast(`🎉 获得 ${prize.value} 小豆！`); break
+        case 'card':
+          if (prize.label.includes('半日')) {
+            const nc = { ...user.cards, 免学半日券: (user.cards?.['免学半日券'] || 0) + 1 }
+            await updateUser(user.id, { cards: nc }); setUser({ ...user, cards: nc })
+          }
+          showToast(`🎉 获得 ${prize.label}！`); break
+        case 'physical':
+          showToast(`🎉 ${prize.label}！请找Boss兑现~`); break
+        case 'reroll':
+          await updateUser(user.id, { spin_chances: user.spin_chances + 1 })
+          setUser({ ...user, spin_chances: user.spin_chances + 1 })
+          showToast('🍀 再来一次！'); break
+      }
+    } catch {}
+  }
 
   useEffect(() => {
     if (!user) return
@@ -109,6 +188,34 @@ export default function ShopPage({ showToast }: Props) {
           <span style={{ fontSize: '10px', color: 'var(--text-dim)' }}>大豆</span>
         </div>
       </div>
+
+      {/* 转盘 */}
+      <PixelCard>
+        <div style={{ textAlign: 'center' }}>
+          <h3 style={{ fontSize: '13px', color: 'var(--gold)', marginBottom: '4px' }}>🎰 幸运转盘</h3>
+          <p style={{ fontSize: '11px', color: 'var(--text-dim)', marginBottom: '8px' }}>
+            剩余 <strong style={{ color: 'var(--gold)' }}>{user?.spin_chances || 0}</strong> 次
+          </p>
+          <div style={{ position: 'relative', width: '200px', height: '200px', margin: '0 auto' }}>
+            <div style={{ position: 'absolute', top: '-12px', left: '50%', transform: 'translateX(-50%)', fontSize: '24px', zIndex: 10 }}>▼</div>
+            <canvas ref={canvasRef} width={200} height={200} style={{ width: '100%', height: '100%' }} />
+          </div>
+          <button className="pixel-btn primary" onClick={handleSpin} disabled={spinning || (user?.spin_chances || 0) <= 0}
+            style={{ marginTop: '8px' }}>
+            {spinning ? '🎰 转盘中...' : '🎰 开始抽奖!'}
+          </button>
+        </div>
+      </PixelCard>
+
+      {result && (
+        <PixelModal title="🎉 恭喜!" onClose={() => setResult(null)}>
+          <div style={{ fontSize: '48px', margin: '12px 0' }}>{result.icon}</div>
+          <p style={{ fontSize: '18px', fontWeight: 'bold' }}>{result.label}</p>
+          <div style={{ marginTop: '16px' }}>
+            <button className="pixel-btn primary" onClick={() => setResult(null)}>知道了!</button>
+          </div>
+        </PixelModal>
+      )}
 
       {/* 小豆兑换区 */}
       <h3 className="section-title">🫘 小豆兑换区（日常补给）</h3>

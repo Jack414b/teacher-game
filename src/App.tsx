@@ -6,11 +6,11 @@ import type { User } from './types'
 import { STARTER_PACK } from './types'
 import Dashboard from './pages/Dashboard'
 import TasksPage from './pages/TasksPage'
-import SpinPage from './pages/SpinPage'
 import ShopPage from './pages/ShopPage'
 import AdminPage from './pages/AdminPage'
 import SettingsPage from './pages/SettingsPage'
 import CalendarPage from './pages/CalendarPage'
+import BackpackPage from './pages/BackpackPage'
 import './App.css'
 
 function App() {
@@ -74,8 +74,8 @@ function App() {
     { path: '/', icon: '🏠', label: '主页' },
     { path: '/tasks', icon: '📋', label: '打卡' },
     { path: '/calendar', icon: '📅', label: '日历' },
-    { path: '/spin', icon: '🎰', label: '转盘' },
     { path: '/shop', icon: '🛒', label: '商城' },
+    { path: '/backpack', icon: '🎒', label: '背包' },
     ...(isBossMode ? [{ path: '/admin', icon: '👑', label: '后台' }] : []),
     { path: '/settings', icon: '⚙️', label: '设置' },
   ]
@@ -123,8 +123,8 @@ function App() {
         <Route path="/" element={<Dashboard showToast={showToast} />} />
         <Route path="/tasks" element={<TasksPage showToast={showToast} />} />
         <Route path="/calendar" element={<CalendarPage showToast={showToast} />} />
-        <Route path="/spin" element={<SpinPage showToast={showToast} />} />
         <Route path="/shop" element={<ShopPage showToast={showToast} />} />
+        <Route path="/backpack" element={<BackpackPage showToast={showToast} />} />
         {isBossMode && <Route path="/admin" element={<AdminPage showToast={showToast} />} />}
         <Route path="/settings" element={<SettingsPage showToast={showToast} />} />
       </Routes>

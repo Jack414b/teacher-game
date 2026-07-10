@@ -13,6 +13,7 @@ export interface UserCards {
   免早起卡: number;
   休息卡: number;
   免学休息日: number;
+  免学半日券: number;
 }
 
 // ===== 每日任务 =====
