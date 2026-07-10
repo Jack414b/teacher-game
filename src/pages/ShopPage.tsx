@@ -18,20 +18,37 @@ export default function ShopPage({ showToast }: Props) {
     getCustomShopItems(user.id).then(setCustomItems).catch(() => {})
   }, [user])
 
-  // 合并默认商品和自定义商品
-  const defaultSmallItems: ShopItem[] = SMALL_BEAN_SHOP
-  const defaultBigItems: ShopItem[] = BIG_BEAN_SHOP
-  const customShopItems: ShopItem[] = customItems
-    .filter(i => i.active)
-    .map(i => ({
-      id: i.id!,
-      name: i.name,
-      price: i.price,
-      currency: i.currency,
-      icon: i.icon,
-      description: i.description,
-      category: i.category,
-    }))
+  // 合并默认商品和自定义覆盖
+  const overrideMap = new Map<string, CustomShopItem>()
+  customItems.forEach(i => overrideMap.set(i.name, i))
+
+  function applyOverrides(defaults: ShopItem[]): ShopItem[] {
+    return defaults
+      .filter(d => {
+        const ov = overrideMap.get(d.name)
+        if (ov) { overrideMap.delete(d.name); return ov.active } // 覆盖：按下架状态过滤
+        return true
+      })
+      .map(d => {
+        const ov = customItems.find(c => c.name === d.name && c.active)
+        if (ov) return { ...d, price: ov.price, id: ov.id! }
+        return d
+      })
+  }
+
+  const smallShopItems: ShopItem[] = [
+    ...applyOverrides([...SMALL_BEAN_SHOP]),
+    ...customItems
+      .filter(i => i.active && !SMALL_BEAN_SHOP.some(d => d.name === i.name) && !BIG_BEAN_SHOP.some(d => d.name === i.name) && i.currency === 'small_bean')
+      .map(i => ({ id: i.id!, name: i.name, price: i.price, currency: i.currency, icon: i.icon, description: i.description, category: i.category })),
+  ]
+
+  const bigShopItems: ShopItem[] = [
+    ...applyOverrides([...BIG_BEAN_SHOP]),
+    ...customItems
+      .filter(i => i.active && !SMALL_BEAN_SHOP.some(d => d.name === i.name) && !BIG_BEAN_SHOP.some(d => d.name === i.name) && i.currency === 'big_bean')
+      .map(i => ({ id: i.id!, name: i.name, price: i.price, currency: i.currency, icon: i.icon, description: i.description, category: i.category })),
+  ]
 
   const handleBuy = async (item: ShopItem) => {
     if (!user) return
@@ -96,7 +113,7 @@ export default function ShopPage({ showToast }: Props) {
       {/* 小豆兑换区 */}
       <h3 className="section-title">🫘 小豆兑换区（日常补给）</h3>
       <div className="shop-grid">
-        {[...defaultSmallItems, ...customShopItems.filter(i => i.currency === 'small_bean')].map(item => (
+        {smallShopItems.map(item => (
           <div key={item.id} className="shop-item pixel-border" onClick={() => handleBuy(item)}>
             <div className="item-icon">{item.icon}</div>
             <div className="item-name">{item.name}</div>
@@ -112,7 +129,7 @@ export default function ShopPage({ showToast }: Props) {
       {/* 大豆兑换区 */}
       <h3 className="section-title">🌰 大豆兑换区（终极奖励）</h3>
       <div className="shop-grid">
-        {[...defaultBigItems, ...customShopItems.filter(i => i.currency === 'big_bean')].map(item => (
+        {bigShopItems.map(item => (
           <div key={item.id} className="shop-item pixel-border" onClick={() => handleBuy(item)}>
             <div className="item-icon">{item.icon}</div>
             <div className="item-name">{item.name}</div>

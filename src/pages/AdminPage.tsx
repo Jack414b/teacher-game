@@ -301,7 +301,7 @@ export default function AdminPage({ showToast }: Props) {
       {tab === 'shop' && (
         <>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-            <p style={{ fontSize: '11px', color: 'var(--text-dim)' }}>💡 自定义商品会出现在玩家商城页。默认商品不可编辑。</p>
+            <p style={{ fontSize: '11px', color: 'var(--text-dim)' }}>💡 所有商品均可编辑价格和上下架。新增商品出现在玩家商城。</p>
             <PixelButton size="sm" variant="primary" onClick={() => setShowAddItem(true)}>+ 上新</PixelButton>
           </div>
 
@@ -333,60 +333,81 @@ export default function AdminPage({ showToast }: Props) {
             </PixelModal>
           )}
 
-          {/* 自定义商品列表 */}
-          <h4 style={{ fontSize: '12px', color: 'var(--gold)', marginTop: '12px' }}>📦 自定义商品</h4>
-          {shopItems.filter(i => i.user_id !== '').length === 0 ? (
-            <p className="empty-state" style={{ padding: '16px 0' }}>还没有自定义商品</p>
-          ) : (
-            shopItems.filter(i => i.user_id !== '').map(item => (
-              <PixelCard key={item.id}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <span style={{ fontSize: '28px' }}>{item.icon}</span>
-                    <div>
-                      <h4 style={{ fontSize: '13px', opacity: item.active ? 1 : 0.4 }}>{item.name}</h4>
-                      {editingShopItem === item.id ? (
-                        <div style={{ display: 'flex', gap: '4px', alignItems: 'center', marginTop: '4px' }}>
-                          <input type="number" value={editPrice} onChange={e => setEditPrice(e.target.value)}
-                            style={{ width: '60px', padding: '4px', background: 'var(--bg-dark)', border: '2px solid var(--gold)', color: 'var(--gold)', textAlign: 'center', fontSize: '11px' }} />
-                          <PixelButton size="sm" variant="primary" onClick={() => updatePrice(item)}>💾</PixelButton>
-                          <PixelButton size="sm" onClick={() => setEditingShopItem(null)}>✖</PixelButton>
-                        </div>
-                      ) : (
-                        <p style={{ fontSize: '11px', color: 'var(--text-dim)' }}>
-                          {item.currency === 'small_bean' ? '🫘' : '🌰'} {item.price}
-                          {!item.active && <span style={{ color: 'var(--red)', marginLeft: '6px' }}>[已下架]</span>}
-                        </p>
+          {/* 统一商品列表（默认 + 自定义） */}
+          <h4 style={{ fontSize: '12px', color: 'var(--gold)', marginTop: '12px' }}>📦 全部商品管理</h4>
+          {(() => {
+            // 合并默认商品和自定义覆盖，按名称去重
+            const overrideMap = new Map<string, CustomShopItem>()
+            shopItems.filter(i => i.user_id !== '').forEach(i => overrideMap.set(i.name, i))
+
+            const allItems: Array<{ isDefault: boolean; item: CustomShopItem; defaultData?: typeof defaultItems[0] }> = [
+              // 默认商品（用覆盖数据）
+              ...defaultItems.map(d => {
+                const override = overrideMap.get(d.name)
+                if (override) {
+                  overrideMap.delete(d.name)
+                  return { isDefault: true, item: override, defaultData: d }
+                }
+                return { isDefault: true, item: { ...d, active: true, user_id: '' } as CustomShopItem, defaultData: d }
+              }),
+              // 纯自定义商品
+              ...[...overrideMap.values()].map(i => ({ isDefault: false, item: i })),
+            ]
+
+            if (allItems.length === 0) return <p className="empty-state" style={{ padding: '16px 0' }}>暂无商品</p>
+
+            return allItems.map(({ isDefault, item }) => {
+              const isEditing = editingShopItem === item.id
+              const hasOverride = item.user_id !== '' && isDefault
+              const displayPrice = item.price
+              const displayActive = item.active
+
+              return (
+                <PixelCard key={item.id || item.name}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flex: 1 }}>
+                      <span style={{ fontSize: '28px', opacity: displayActive ? 1 : 0.3 }}>{item.icon}</span>
+                      <div>
+                        <h4 style={{ fontSize: '13px', opacity: displayActive ? 1 : 0.4 }}>
+                          {item.name}
+                          {isDefault && <span style={{ fontSize: '10px', color: 'var(--text-dim)', marginLeft: '4px' }}>[默认]</span>}
+                          {hasOverride && <span style={{ fontSize: '10px', color: 'var(--gold)', marginLeft: '4px' }}>[已改]</span>}
+                        </h4>
+                        {isEditing ? (
+                          <div style={{ display: 'flex', gap: '4px', alignItems: 'center', marginTop: '4px' }}>
+                            <input type="number" value={editPrice} onChange={e => setEditPrice(e.target.value)}
+                              style={{ width: '60px', padding: '4px', background: 'var(--bg-dark)', border: '2px solid var(--gold)', color: 'var(--gold)', textAlign: 'center', fontSize: '11px' }} />
+                            <PixelButton size="sm" variant="primary" onClick={() => updatePrice(item)}>💾</PixelButton>
+                            <PixelButton size="sm" onClick={() => setEditingShopItem(null)}>✖</PixelButton>
+                          </div>
+                        ) : (
+                          <p style={{ fontSize: '11px', color: 'var(--text-dim)' }}>
+                            {item.currency === 'small_bean' ? '🫘' : '🌰'} {displayPrice}
+                            {!displayActive && <span style={{ color: 'var(--red)', marginLeft: '6px' }}>[已下架]</span>}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    <div style={{ display: 'flex', gap: '4px', flexShrink: 0 }}>
+                      {isEditing ? null : (
+                        <>
+                          <PixelButton size="sm" onClick={() => { setEditingShopItem(item.id!); setEditPrice(String(displayPrice)) }}>💰</PixelButton>
+                          <PixelButton size="sm" variant={displayActive ? 'danger' : 'success'} onClick={() => toggleItem(item)}>
+                            {displayActive ? '📴' : '📦'}
+                          </PixelButton>
+                          {isDefault ? (
+                            hasOverride && <PixelButton size="sm" variant="danger" onClick={() => deleteItem(item)}>↩</PixelButton>
+                          ) : (
+                            <PixelButton size="sm" variant="danger" onClick={() => deleteItem(item)}>🗑️</PixelButton>
+                          )}
+                        </>
                       )}
                     </div>
                   </div>
-                  <div style={{ display: 'flex', gap: '4px' }}>
-                    {editingShopItem !== item.id && (
-                      <>
-                        <PixelButton size="sm" onClick={() => { setEditingShopItem(item.id!); setEditPrice(String(item.price)) }}>💰</PixelButton>
-                        <PixelButton size="sm" variant={item.active ? 'danger' : 'success'} onClick={() => toggleItem(item)}>
-                          {item.active ? '📴' : '📦'}
-                        </PixelButton>
-                        <PixelButton size="sm" variant="danger" onClick={() => deleteItem(item)}>🗑️</PixelButton>
-                      </>
-                    )}
-                  </div>
-                </div>
-              </PixelCard>
-            ))
-          )}
-
-          {/* 默认商品预览 */}
-          <h4 style={{ fontSize: '12px', color: 'var(--text-dim)', marginTop: '16px' }}>📋 默认商品（不可编辑）</h4>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px', marginTop: '6px', opacity: 0.6 }}>
-            {defaultItems.map(item => (
-              <div key={item.id} style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', padding: '8px', textAlign: 'center', fontSize: '11px' }}>
-                <span style={{ fontSize: '20px' }}>{item.icon}</span><br />
-                <span>{item.name}</span><br />
-                <span style={{ color: 'var(--gold)', fontSize: '10px' }}>{item.currency === 'small_bean' ? '🫘' : '🌰'} {item.price}</span>
-              </div>
-            ))}
-          </div>
+                </PixelCard>
+              )
+            })
+          })()}
         </>
       )}
     </div>

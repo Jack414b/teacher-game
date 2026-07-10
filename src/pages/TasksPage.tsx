@@ -33,26 +33,30 @@ export default function TasksPage({ showToast }: Props) {
       .catch(() => {})
   }, [showCalendar, user, today])
 
-  const handleTask = async (taskType: TaskType, status: 'completed' | 'failed') => {
+  const handleTask = async (taskType: TaskType, status: 'completed' | 'failed' | 'pending') => {
     if (!user || loading) return
     setLoading(true)
 
-    const config = TASK_CONFIGS.find(t => t.type === taskType)!
-    const customRule = customRules.find(r => r.task_type === taskType)
-    const reward = customRule?.reward ?? config.reward
-    const penalty = customRule?.penalty ?? config.penalty
-    let beans = status === 'completed' ? reward : penalty
+    // 如果是取消（pending），需要反向扣除之前的小豆
+    const existingTask = tasks.find(t => t.task_type === taskType)
+    const isUndo = status === 'pending' && existingTask && existingTask.status !== 'pending'
 
-    // 周末双倍
-    if (isSunday && status === 'completed' && taskType !== 'weekly_review') {
-      beans *= 2
+    let beans = 0
+    if (isUndo) {
+      // 反向操作：之前得的扣掉，之前扣的加回
+      beans = -(existingTask!.beans_earned)
+    } else if (status !== 'pending') {
+      const config = TASK_CONFIGS.find(t => t.type === taskType)!
+      const customRule = customRules.find(r => r.task_type === taskType)
+      const reward = customRule?.reward ?? config.reward
+      const penalty = customRule?.penalty ?? config.penalty
+      beans = status === 'completed' ? reward : penalty
+      // 周末双倍
+      if (isSunday && status === 'completed' && taskType !== 'weekly_review') beans *= 2
     }
 
-    // 学习时长特殊处理：已完成时检查是否超过6小时
     let detail: Record<string, unknown> | undefined = undefined
-    if (taskType === 'study_hours' && status === 'completed') {
-      detail = { hours: 6 }
-    }
+    if (taskType === 'study_hours' && status === 'completed') detail = { hours: 6 }
 
     try {
       const record = await upsertTask(user.id, today, taskType, status, beans, detail)
@@ -139,16 +143,16 @@ export default function TasksPage({ showToast }: Props) {
             <div className="task-actions">
               <button
                 className={`status-btn ${isDone ? 'active-done' : ''}`}
-                onClick={() => handleTask(config.type, 'completed')}
+                onClick={() => handleTask(config.type, isDone ? 'pending' : 'completed')}
                 disabled={loading}
-                title="完成"
+                title={isDone ? '点击取消' : '完成'}
               >✅</button>
               {config.penalty !== 0 && (
                 <button
                   className={`status-btn ${isFailed ? 'active-fail' : ''}`}
-                  onClick={() => handleTask(config.type, 'failed')}
+                  onClick={() => handleTask(config.type, isFailed ? 'pending' : 'failed')}
                   disabled={loading}
-                  title="未完成"
+                  title={isFailed ? '点击取消' : '未完成'}
                 >❌</button>
               )}
             </div>
