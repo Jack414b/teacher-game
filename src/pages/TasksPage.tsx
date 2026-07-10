@@ -67,12 +67,15 @@ export default function TasksPage({ showToast }: Props) {
 
       // 更新用户货币
       const xpGain = beans > 0 ? beans : 0
+      // 计算转盘变化
+      let spinDelta = 0
+      if (taskType === 'weekly_review' && status === 'completed') spinDelta = 1
+      if (taskType === 'weekly_review' && isUndo && existingTask?.status === 'completed') spinDelta = -1
+
       const updatedUser = await updateUser(user.id, {
         beans_small: user.beans_small + beans,
         xp: user.xp + xpGain,
-        spin_chances: taskType === 'weekly_review' && status === 'completed'
-          ? user.spin_chances + 1
-          : user.spin_chances,
+        spin_chances: user.spin_chances + spinDelta,
       })
       setUser(updatedUser)
       showToast(status === 'completed' ? `✅ +${beans}小豆！` : `❌ ${beans}小豆`)
