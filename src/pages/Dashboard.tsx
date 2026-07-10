@@ -6,6 +6,7 @@ import { getTodayTasks } from '../lib/supabase'
 import { useEffect, useState } from 'react'
 import type { DailyTask } from '../types'
 import { getLevel, getTitle } from '../types'
+import UsagiAvatar from '../components/ui/UsagiAvatar'
 
 interface Props { showToast: (msg: string) => void }
 
@@ -36,7 +37,7 @@ export default function Dashboard(_props: Props) {
       {/* 角色信息 */}
       <PixelCard gold>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          <div style={{ fontSize: '48px' }}>🧑‍🏫</div>
+          <UsagiAvatar />
           <div style={{ flex: 1 }}>
             <h2 style={{ color: 'var(--gold)', fontSize: '18px', margin: '0 0 4px' }}>
               {user.nickname}
