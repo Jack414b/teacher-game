@@ -140,10 +140,7 @@ function App() {
             <span>{item.label}</span>
           </button>
         ))}
-        <div style={{ position: 'absolute', right: '8px', bottom: '50px' }}>
-          <PixelPet />
-          <span style={{ fontSize: '7px', color: 'var(--text-dim)', display: 'block', textAlign: 'center', marginTop: '2px' }}>土土</span>
-        </div>
+        <PixelPet />
       </nav>
     </div>
   )
