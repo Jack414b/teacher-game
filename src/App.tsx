@@ -27,7 +27,7 @@ function App() {
   }, [])
 
   // 唯一玩家账号：所有设备共用同一个ID
-  const MAIN_USER_ID = 'teacher-game-main'
+  const MAIN_USER_ID = '00000000-0000-0000-0000-000000000001'
 
   useEffect(() => {
     const initUser = async () => {
