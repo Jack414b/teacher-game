@@ -13,7 +13,8 @@ export default function TasksPage({ showToast }: Props) {
   const [loading, setLoading] = useState(false)
   const [customRules, setCustomRules] = useState<CustomRule[]>([])
 
-  const today = new Date().toISOString().slice(0, 10)
+  const d = new Date()
+  const today = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`
   const restDay = parseInt(localStorage.getItem('teacher_game_rest_day') || '0') // 默认周日
   const isRestDay = new Date().getDay() === restDay
 

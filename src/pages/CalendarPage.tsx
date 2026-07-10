@@ -8,6 +8,11 @@ interface Props { showToast: (msg: string) => void }
 
 const WEEKDAYS = ['一', '二', '三', '四', '五', '六', '日']
 
+// 获取本地时间日期字符串 YYYY-MM-DD
+function localDate(d: Date) {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+}
+
 export default function CalendarPage(_props: Props) {
   const { user } = useGameStore()
   const [monthTasks, setMonthTasks] = useState<DailyTask[]>([])
@@ -18,7 +23,7 @@ export default function CalendarPage(_props: Props) {
   const month = viewDate.getMonth()
   const firstDay = new Date(year, month, 1)
   const lastDay = new Date(year, month + 1, 0)
-  const today = new Date().toISOString().slice(0, 10)
+  const today = localDate(new Date())
 
   // 计算加载范围
   const loadStart = new Date(year, month, 1)
@@ -30,7 +35,7 @@ export default function CalendarPage(_props: Props) {
 
   useEffect(() => {
     if (!user) return
-    getTasksInRange(user.id, loadStart.toISOString().slice(0, 10), loadEnd.toISOString().slice(0, 10))
+    getTasksInRange(user.id, localDate(loadStart), localDate(loadEnd))
       .then(setMonthTasks).catch(() => {})
   }, [user, year, month])
 
@@ -54,16 +59,16 @@ export default function CalendarPage(_props: Props) {
   const startDayOfWeek = (firstDay.getDay() + 6) % 7
   for (let i = 0; i < startDayOfWeek; i++) {
     const d = new Date(year, month, 1 - startDayOfWeek + i)
-    cells.push({ date: d.toISOString().slice(0, 10), day: d.getDate(), isCurrentMonth: false, isToday: d.toISOString().slice(0, 10) === today })
+    cells.push({ date: localDate(d), day: d.getDate(), isCurrentMonth: false, isToday: localDate(d) === today })
   }
   for (let d = 1; d <= lastDay.getDate(); d++) {
-    const dateStr = new Date(year, month, d).toISOString().slice(0, 10)
+    const dateStr = localDate(new Date(year, month, d))
     cells.push({ date: dateStr, day: d, isCurrentMonth: true, isToday: dateStr === today })
   }
   const remaining = 7 - (cells.length % 7)
   if (remaining < 7) {
     for (let d = 1; d <= remaining; d++) {
-      const dateStr = new Date(year, month + 1, d).toISOString().slice(0, 10)
+      const dateStr = localDate(new Date(year, month + 1, d))
       cells.push({ date: dateStr, day: d, isCurrentMonth: false, isToday: dateStr === today })
     }
   }
