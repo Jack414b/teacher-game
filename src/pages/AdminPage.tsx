@@ -131,19 +131,34 @@ export default function AdminPage({ showToast }: Props) {
     } catch { showToast('操作失败') }
   }
 
+  const ensureItem = async (item: CustomShopItem): Promise<CustomShopItem> => {
+    if (!item.user_id && user) {
+      // 默认商品，先创建覆盖记录
+      const created = await upsertCustomShopItem(user.id, {
+        name: item.name, price: item.price, currency: item.currency,
+        icon: item.icon, category: item.category, description: item.description, active: item.active,
+      })
+      setShopItems(prev => prev.map(i => i.id === item.id ? created : i))
+      return created
+    }
+    return item
+  }
+
   const toggleItem = async (item: CustomShopItem) => {
     try {
-      await updateCustomShopItem(item.id!, { active: !item.active })
-      setShopItems(prev => prev.map(i => i.id === item.id ? { ...i, active: !i.active } : i))
-      showToast(item.active ? '📴 已下架' : '📦 已上架')
+      const real = await ensureItem(item)
+      await updateCustomShopItem(real.id!, { active: !real.active })
+      setShopItems(prev => prev.map(i => i.id === real.id ? { ...i, active: !real.active } : i))
+      showToast(real.active ? '📴 已下架' : '📦 已上架')
     } catch { showToast('操作失败') }
   }
 
   const updatePrice = async (item: CustomShopItem) => {
     const newPrice = parseInt(editPrice) || 0
     try {
-      await updateCustomShopItem(item.id!, { price: newPrice })
-      setShopItems(prev => prev.map(i => i.id === item.id ? { ...i, price: newPrice } : i))
+      const real = await ensureItem(item)
+      await updateCustomShopItem(real.id!, { price: newPrice })
+      setShopItems(prev => prev.map(i => i.id === real.id ? { ...i, price: newPrice } : i))
       setEditingShopItem(null)
       showToast('✅ 价格已更新')
     } catch { showToast('操作失败') }
