@@ -12,6 +12,8 @@ export default function TasksPage({ showToast }: Props) {
   const [tasks, setTasks] = useState<DailyTask[]>([])
   const [loading, setLoading] = useState(false)
   const [customRules, setCustomRules] = useState<CustomRule[]>([])
+  const [studyHours, setStudyHours] = useState(6)
+  const [editingStudy, setEditingStudy] = useState(false)
 
   const d = new Date()
   const today = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`
@@ -33,21 +35,28 @@ export default function TasksPage({ showToast }: Props) {
     const isUndo = status === 'pending' && existingTask && existingTask.status !== 'pending'
 
     let beans = 0
+    let detail: Record<string, unknown> | undefined = undefined
+
     if (isUndo) {
-      // 反向操作：之前得的扣掉，之前扣的加回
       beans = -(existingTask!.beans_earned)
+    } else if (status === 'completed' && taskType === 'study_hours') {
+      // 学习时长：根据小时数计算
+      const h = studyHours
+      detail = { hours: h }
+      if (h >= 6) beans = h
+      else if (h >= 3) beans = 2
+      else beans = -8
+      if (isRestDay) beans *= 2
+    } else if (status === 'failed' && taskType === 'study_hours') {
+      beans = -8
     } else if (status !== 'pending') {
       const config = TASK_CONFIGS.find(t => t.type === taskType)!
       const customRule = customRules.find(r => r.task_type === taskType)
       const reward = customRule?.reward ?? config.reward
       const penalty = customRule?.penalty ?? config.penalty
       beans = status === 'completed' ? reward : penalty
-      // 周末双倍
       if (isRestDay && status === 'completed' && taskType !== 'weekly_review') beans *= 2
     }
-
-    let detail: Record<string, unknown> | undefined = undefined
-    if (taskType === 'study_hours' && status === 'completed') detail = { hours: 6 }
 
     try {
       const record = await upsertTask(user.id, today, taskType, status, beans, detail)
@@ -108,6 +117,19 @@ export default function TasksPage({ showToast }: Props) {
               <div className="task-detail">
                 <h4>{config.label}</h4>
                 <p>{config.description}</p>
+                {config.type === 'study_hours' && isDone && (
+                  <p style={{ color: 'var(--gold-light)', fontSize: '10px' }}>今日学了 {(record?.detail as Record<string,number> | null)?.hours || 6}h</p>
+                )}
+                {config.type === 'study_hours' && editingStudy && (
+                  <div style={{ display: 'flex', gap: '4px', alignItems: 'center', marginTop: '4px' }}>
+                    <input type="number" value={studyHours} min={0} max={16}
+                      onChange={e => setStudyHours(parseInt(e.target.value) || 0)}
+                      style={{ width: '48px', padding: '4px', background: 'var(--bg-dark)', border: '2px solid var(--gold)', color: 'var(--gold)', textAlign: 'center', fontSize: '12px' }} />
+                    <span style={{ fontSize: '11px' }}>小时</span>
+                    <button className="pixel-btn primary sm" style={{ padding: '4px 8px' }} onClick={() => { handleTask(config.type, 'completed'); setEditingStudy(false) }} disabled={loading}>确认</button>
+                    <button className="pixel-btn sm" style={{ padding: '4px 8px' }} onClick={() => setEditingStudy(false)}>取消</button>
+                  </div>
+                )}
                 {config.condition && (
                   <p style={{ color: 'var(--gold)', fontSize: '10px' }}>{config.condition}</p>
                 )}
@@ -116,7 +138,13 @@ export default function TasksPage({ showToast }: Props) {
             <div className="task-actions">
               <button
                 className={`status-btn ${isDone ? 'active-done' : ''}`}
-                onClick={() => handleTask(config.type, isDone ? 'pending' : 'completed')}
+                onClick={() => {
+                  if (config.type === 'study_hours' && !isDone) {
+                    setEditingStudy(true); setStudyHours(6)
+                  } else {
+                    handleTask(config.type, isDone ? 'pending' : 'completed')
+                  }
+                }}
                 disabled={loading}
                 title={isDone ? '点击取消' : '完成'}
               >✅</button>
