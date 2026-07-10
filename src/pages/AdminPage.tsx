@@ -3,7 +3,7 @@ import { useGameStore } from '../stores/gameStore'
 import { PixelCard, PixelButton, PixelModal } from '../components/ui/PixelComponents'
 import { TASK_CONFIGS, SMALL_BEAN_SHOP, BIG_BEAN_SHOP } from '../lib/gameData'
 import {
-  updateUser, getRedemptions, updateRedemptionStatus, getTasksInRange,
+  updateUser, getRedemptions, updateRedemptionStatus, getTasksInRange, getSpinLogs,
   getCustomRules, upsertCustomRule, getAllCustomShopItems,
   upsertCustomShopItem, updateCustomShopItem, deleteCustomShopItem,
 } from '../lib/supabase'
@@ -62,14 +62,19 @@ export default function AdminPage({ showToast }: Props) {
       const start = new Date(); start.setDate(start.getDate() - 7)
       const tasks = await getTasksInRange(user.id, start.toISOString().slice(0,10), new Date().toISOString().slice(0,10))
       tasks.forEach(t => {
-        if (t.status === 'completed') logs.push({time:t.task_date,text:`✅ ${t.task_type} +${t.beans_earned}豆`,'type':'earn'})
-        if (t.status === 'failed') logs.push({time:t.task_date,text:`❌ ${t.task_type} ${t.beans_earned}豆`,'type':'lose'})
+        const cfg = TASK_CONFIGS.find(c => c.type === t.task_type)
+        const label = cfg ? cfg.icon + cfg.label : t.task_type
+        if (t.status === 'completed') logs.push({time:t.task_date,text:`✅ ${label} +${t.beans_earned}豆`,'type':'earn'})
+        if (t.status === 'failed') logs.push({time:t.task_date,text:`❌ ${label} ${t.beans_earned}豆`,'type':'lose'})
+        if (t.status === 'pending' && t.task_date < new Date().toISOString().slice(0,10)) logs.push({time:t.task_date,text:`⚠ ${label} 过期未打卡`,'type':'lose'})
       })
       const reds = await getRedemptions(user.id)
-      reds.forEach(r => logs.push({time:r.created_at.slice(0,10),text:`🛒 ${r.item_name} -${r.price}${r.item_type==='small_bean'?'🫘':'🌰'}`,'type':'spend'}))
+      reds.forEach(r => logs.push({time:r.created_at.slice(0,10),text:`🛒 ${r.item_name} -${r.price}${r.item_type==='small_bean'?'🫘':'🌰'} ${r.status==='delivered'?'✅已兑现':r.status==='pending'?'⏳待兑现':''}`,'type':'spend'}))
+      const spins = await getSpinLogs(user.id)
+      spins.forEach((s: {result:string,created_at:string}) => logs.push({time:s.created_at.slice(0,10),text:`🎰 ${s.result}`,'type':s.result.includes('大豆')||s.result.includes('小豆')?'earn':'spend'}))
     } catch {}
     logs.sort((a,b) => b.time.localeCompare(a.time))
-    setActivityLog(logs.slice(0, 50))
+    setActivityLog(logs.slice(0, 100))
   }
 
   const handleAdjustCards = async (card: string, delta: number) => {

@@ -96,6 +96,14 @@ export async function syncUser(userData: Record<string, unknown>) {
   return data;
 }
 
+export async function getSpinLogs(userId: string) {
+  const c = getClient();
+  if (!c) return [];
+  const { data, error } = await c.from('spin_logs').select('*').eq('user_id', userId).order('created_at', { ascending: false }).limit(50);
+  if (error) throw error;
+  return data || [];
+}
+
 export async function logSpin(userId: string, result: string) {
   const c = getClient();
   if (!c) return { id: crypto.randomUUID(), user_id: userId, result };
