@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useGameStore } from '../stores/gameStore'
 import { PixelCard, RpgProgress } from '../components/ui/PixelComponents'
 import { TASK_CONFIGS } from '../lib/gameData'
-import { getTodayTasks, getTasksInRange, upsertTask, updateUser, getCustomRules } from '../lib/supabase'
+import { getTodayTasks, upsertTask, updateUser, getCustomRules } from '../lib/supabase'
 import type { DailyTask, TaskType, CustomRule } from '../types'
 
 interface Props { showToast: (msg: string) => void }
@@ -11,8 +11,6 @@ export default function TasksPage({ showToast }: Props) {
   const { user, setUser } = useGameStore()
   const [tasks, setTasks] = useState<DailyTask[]>([])
   const [loading, setLoading] = useState(false)
-  const [showCalendar, setShowCalendar] = useState(false)
-  const [monthTasks, setMonthTasks] = useState<DailyTask[]>([])
   const [customRules, setCustomRules] = useState<CustomRule[]>([])
 
   const today = new Date().toISOString().slice(0, 10)
@@ -23,15 +21,6 @@ export default function TasksPage({ showToast }: Props) {
     getTodayTasks(user.id, today).then(setTasks).catch(() => {})
     getCustomRules(user.id).then(setCustomRules).catch(() => {})
   }, [user, today])
-
-  useEffect(() => {
-    if (!showCalendar || !user) return
-    const start = new Date()
-    start.setDate(start.getDate() - 30)
-    getTasksInRange(user.id, start.toISOString().slice(0, 10), today)
-      .then(setMonthTasks)
-      .catch(() => {})
-  }, [showCalendar, user, today])
 
   const handleTask = async (taskType: TaskType, status: 'completed' | 'failed' | 'pending') => {
     if (!user || loading) return
@@ -87,26 +76,6 @@ export default function TasksPage({ showToast }: Props) {
   const totalTasks = TASK_CONFIGS.filter(t => t.type !== 'weekly_review').length
   const progressPct = totalTasks > 0 ? Math.round((completedCount / totalTasks) * 100) : 0
 
-  // 日历热力图数据
-  const getHeatLevel = (date: string) => {
-    const dayTasks = monthTasks.filter(t => t.task_date === date)
-    const done = dayTasks.filter(t => t.status === 'completed').length
-    if (done === 0) return 0
-    if (done <= 1) return 1
-    if (done <= 2) return 2
-    if (done <= 3) return 3
-    if (done <= 4) return 4
-    return 5
-  }
-
-  // 生成过去30天格子
-  const heatCells = Array.from({ length: 30 }, (_, i) => {
-    const d = new Date()
-    d.setDate(d.getDate() - 29 + i)
-    const dateStr = d.toISOString().slice(0, 10)
-    return { date: dateStr, level: getHeatLevel(dateStr), day: d.getDate() }
-  })
-
   return (
     <div className="page-content">
       {/* 今日进度 */}
@@ -160,38 +129,6 @@ export default function TasksPage({ showToast }: Props) {
         )
       })}
 
-      {/* 日历热力图 */}
-      <div style={{ marginTop: '16px' }}>
-        <button
-          className="pixel-btn sm full"
-          onClick={() => setShowCalendar(!showCalendar)}
-        >
-          {showCalendar ? '收起' : '📅 查看打卡日历'}
-        </button>
-        {showCalendar && (
-          <PixelCard>
-            <h4 style={{ fontSize: '12px', marginBottom: '8px' }}>过去30天打卡记录</h4>
-            <div className="heatmap-grid">
-              {heatCells.map((cell, i) => (
-                <div
-                  key={i}
-                  className={`heatmap-cell lv${cell.level}`}
-                  title={`${cell.date}: ${cell.level}项完成`}
-                />
-              ))}
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '9px', color: 'var(--text-dim)', marginTop: '6px' }}>
-              <span>少</span>
-              <div style={{ display: 'flex', gap: '2px' }}>
-                {[0,1,2,3,4,5].map(lv => (
-                  <div key={lv} className={`heatmap-cell lv${lv}`} />
-                ))}
-              </div>
-              <span>多</span>
-            </div>
-          </PixelCard>
-        )}
-      </div>
     </div>
   )
 }

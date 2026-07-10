@@ -10,6 +10,7 @@ import SpinPage from './pages/SpinPage'
 import ShopPage from './pages/ShopPage'
 import AdminPage from './pages/AdminPage'
 import SettingsPage from './pages/SettingsPage'
+import CalendarPage from './pages/CalendarPage'
 import './App.css'
 
 function App() {
@@ -76,6 +77,7 @@ function App() {
   const navItems = [
     { path: '/', icon: '🏠', label: '主页' },
     { path: '/tasks', icon: '📋', label: '打卡' },
+    { path: '/calendar', icon: '📅', label: '日历' },
     { path: '/spin', icon: '🎰', label: '转盘' },
     { path: '/shop', icon: '🛒', label: '商城' },
     ...(isBossMode ? [{ path: '/admin', icon: '👑', label: '后台' }] : []),
@@ -124,6 +126,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Dashboard showToast={showToast} />} />
         <Route path="/tasks" element={<TasksPage showToast={showToast} />} />
+        <Route path="/calendar" element={<CalendarPage showToast={showToast} />} />
         <Route path="/spin" element={<SpinPage showToast={showToast} />} />
         <Route path="/shop" element={<ShopPage showToast={showToast} />} />
         {isBossMode && <Route path="/admin" element={<AdminPage showToast={showToast} />} />}
