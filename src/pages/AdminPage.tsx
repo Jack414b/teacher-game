@@ -256,6 +256,29 @@ export default function AdminPage({ showToast }: Props) {
             </div>
           </PixelCard>
 
+          {/* 转盘次数 */}
+          <PixelCard>
+            <h3 style={{ fontSize: '13px', marginBottom: '8px' }}>🎰 调整转盘次数</h3>
+            <p style={{ fontSize: '11px', color: 'var(--text-dim)', marginBottom: '8px' }}>
+              当前：<strong style={{color:'var(--gold)'}}>{user?.spin_chances || 0}</strong> 次
+            </p>
+            <div className="admin-actions">
+              <PixelButton size="sm" variant="success" onClick={async () => {
+                if (!user) return
+                try { const u = await updateUser(user.id, { spin_chances: user.spin_chances + 1 }); setUser(u); showToast('✅ +1转盘') } catch { showToast('操作失败') }
+              }}>+1</PixelButton>
+              <PixelButton size="sm" variant="danger" onClick={async () => {
+                if (!user) return
+                try { const u = await updateUser(user.id, { spin_chances: Math.max(0, user.spin_chances - 1) }); setUser(u); showToast('✅ -1转盘') } catch { showToast('操作失败') }
+              }}>-1</PixelButton>
+              <PixelButton size="sm" onClick={async () => {
+                if (!user) return
+                const n = parseInt(prompt('设置转盘次数') || '0')
+                if (n >= 0) { try { const u = await updateUser(user.id, { spin_chances: n }); setUser(u); showToast(`✅ 设为${n}次`) } catch { showToast('操作失败') } }
+              }}>自定义</PixelButton>
+            </div>
+          </PixelCard>
+
           {/* 卡片调整 */}
           <PixelCard>
             <h3 style={{ fontSize: '13px', marginBottom: '8px' }}>🃏 调整特权卡</h3>
