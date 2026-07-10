@@ -9,7 +9,7 @@ interface Props { showToast: (msg: string) => void }
 
 export default function SettingsPage({ showToast }: Props) {
   const { user, setUser, soundEnabled, toggleSound, isBossMode } = useGameStore()
-  const [nickname, setNickname] = useState(user?.nickname || 'XX酱')
+  const [nickname, setNickname] = useState(user?.nickname || '哈基慧')
 
   // 导出数据
   const handleExport = () => {

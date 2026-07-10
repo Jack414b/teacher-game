@@ -40,7 +40,7 @@ function App() {
       // 云端不存在则创建
       const newUser: User = {
         id: MAIN_USER_ID,
-        nickname: 'XX酱',
+        nickname: '哈基慧',
         beans_small: STARTER_PACK.beans_small,
         beans_big: 0,
         spin_chances: STARTER_PACK.spin_chances,
