@@ -1,26 +1,30 @@
 import { useState, useEffect } from 'react'
 
 const P = 4
-const G  = '#c0c0c0'  // 灰
-const W  = '#fff'      // 白
-const PK = '#ffb6c1'   // 粉
-const BK = '#333'      // 黑
-const T  = ''
+// 使用土土.png 原版调色板
+const BG  = '#504C54'  // 轮廓深灰
+const SK  = '#C09B88'  // 身体皮肤
+const CR  = '#FAF7DA'  // 奶油白
+const PK  = '#FFEBF4'  // 粉（耳朵内侧）
+const RD  = '#D40708'  // 红眼
+const T   = ''
 
-// 经典可爱像素兔 — 10x12
+// 奶油白兔，粉耳红眼，经典像素风 — 12×14
 const R: string[][] = [
-  [ T , T , T , W , W , W , W , T , T , T ],
-  [ T , T , W , PK, PK, PK, PK, W , T , T ],
-  [ T , T , W , W , W , W , W , W , T , T ],
-  [ T , W , W , W , G , G , W , W , W , T ],
-  [ W , W , G , G , G , G , G , G , W , W ],
-  [ W , G , G , G , G , G , G , G , G , W ],
-  [ W , G , G , BK, G , G , BK, G , G , W ],
-  [ W , G , G , G , G , G , G , G , G , W ],
-  [ W , G , PK, G , G , G , G , PK, G , W ],
-  [ T , W , G , G , G , G , G , G , W , T ],
-  [ T , W , G , G , T , T , G , G , W , T ],
-  [ T , T , W , W , T , T , W , W , T , T ],
+  [ T , T , T , BG, BG, T , T , T , BG, BG, T , T ],
+  [ T , T , BG, BG, BG, BG, T , BG, BG, BG, BG, T ],
+  [ T , T , BG, PK, PK, BG, BG, BG, PK, PK, BG, T ],
+  [ T , T , BG, PK, PK, PK, PK, PK, PK, PK, BG, T ],
+  [ T , T , T , BG, CR, CR, CR, CR, CR, BG, T , T ],
+  [ T , T , BG, BG, CR, CR, CR, CR, CR, BG, BG, T ],
+  [ T , BG, BG, SK, CR, RD, CR, RD, CR, SK, BG, BG],
+  [ T , BG, SK, CR, CR, CR, CR, CR, CR, CR, SK, BG],
+  [ T , BG, SK, CR, PK, CR, CR, CR, PK, CR, SK, BG],
+  [ T , BG, SK, CR, CR, CR, CR, CR, CR, CR, SK, BG],
+  [ T , T , BG, SK, SK, SK, SK, SK, SK, SK, BG, T ],
+  [ T , T , BG, BG, SK, SK, SK, SK, SK, BG, BG, T ],
+  [ T , T , T , BG, SK, T , T , T , SK, BG, T , T ],
+  [ T , T , T , BG, BG, T , T , T , BG, BG, T , T ],
 ]
 
 const WID = R[0].length * P
