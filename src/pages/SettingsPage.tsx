@@ -4,7 +4,6 @@ import { PixelCard, PixelButton } from '../components/ui/PixelComponents'
 import { TASK_CONFIGS } from '../lib/gameData'
 import { updateUser } from '../lib/supabase'
 import type { User } from '../types'
-import { STARTER_PACK } from '../types'
 
 interface Props { showToast: (msg: string) => void }
 
@@ -27,7 +26,7 @@ export default function SettingsPage({ showToast }: Props) {
   }
 
   // 导入数据
-  const handleImport = async () => {
+  const handleImport = () => {
     const input = document.createElement('input')
     input.type = 'file'
     input.accept = '.json'
@@ -35,11 +34,11 @@ export default function SettingsPage({ showToast }: Props) {
       const file = (e.target as HTMLInputElement).files?.[0]
       if (!file) return
       const reader = new FileReader()
-      reader.onload = async (ev) => {
+      reader.onload = (ev) => {
         try {
           const data = JSON.parse(ev.target?.result as string) as User
           setUser({ ...data, id: user?.id || data.id })
-          try { await updateUser(user?.id || data.id, data as unknown as Record<string, unknown>) } catch {}
+          updateUser(user?.id || data.id, data as unknown as Record<string, unknown>).catch(() => {})
           showToast('✅ 数据恢复成功！')
         } catch {
           showToast('❌ 文件格式错误')
@@ -51,24 +50,6 @@ export default function SettingsPage({ showToast }: Props) {
   }
 
   // 激活新手礼包
-  const handleActivateStarter = async () => {
-    if (!user) return
-    const updated = {
-      ...user,
-      beans_small: user.beans_small + STARTER_PACK.beans_small,
-      spin_chances: user.spin_chances + STARTER_PACK.spin_chances,
-      cards: {
-        免早起卡: (user.cards?.['免早起卡'] || 0) + STARTER_PACK.cards.免早起卡,
-        休息卡: (user.cards?.['休息卡'] || 0) + STARTER_PACK.cards.休息卡,
-        免学休息日: user.cards?.['免学休息日'] || 0,
-        免学半日券: user.cards?.['免学半日券'] || 0,
-      },
-    }
-    setUser(updated)
-    try { await updateUser(user.id, updated as unknown as Record<string, unknown>) } catch {}
-    showToast('🎁 新手礼包已激活！')
-  }
-
   // 修改昵称
   const handleSaveNickname = async () => {
     if (!user || !nickname.trim()) return
@@ -128,17 +109,6 @@ export default function SettingsPage({ showToast }: Props) {
         <h3 style={{ fontSize: '13px', marginBottom: '8px' }}>🔊 音效</h3>
         <PixelButton size="sm" onClick={toggleSound}>
           {soundEnabled ? '🔊 已开启' : '🔇 已关闭'}
-        </PixelButton>
-      </PixelCard>
-
-      {/* 新手礼包 */}
-      <PixelCard gold>
-        <h3 style={{ fontSize: '13px', marginBottom: '8px', color: 'var(--gold)' }}>🎁 新手大礼包</h3>
-        <p style={{ fontSize: '11px', color: 'var(--text-dim)', marginBottom: '8px' }}>
-          +30小豆 · +2次转盘 · +1免早起卡 · +1休息卡
-        </p>
-        <PixelButton size="sm" variant="primary" onClick={handleActivateStarter}>
-          激活礼包
         </PixelButton>
       </PixelCard>
 

@@ -50,6 +50,7 @@ export default function ShopPage({ showToast }: Props) {
   const handleSpin = async () => {
     if (!user || spinning || user.spin_chances <= 0) { if (user?.spin_chances === 0) showToast('转盘次数不足！'); return }
     setSpinning(true); setResult(null); useSpinChance()
+    try { await updateUser(user.id, { spin_chances: user.spin_chances - 1 }) } catch {}
     const prizeIndex = Math.floor(Math.random() * SEGMENTS)
     const prize = SPIN_PRIZES[prizeIndex]
     const segmentAngle = (2 * Math.PI) / SEGMENTS
