@@ -78,9 +78,10 @@ export interface SpinPrize {
   id: number;
   label: string;
   icon: string;
-  type: 'bean_small' | 'bean_big' | 'card' | 'physical' | 'reroll';
+  type: 'bean_small' | 'bean_big' | 'card' | 'physical' | 'reroll' | 'none';
   value: number;
   color: string;
+  weight: number;
 }
 
 export interface SpinLog {

@@ -51,8 +51,12 @@ export default function ShopPage({ showToast }: Props) {
     if (!user || spinning || user.spin_chances <= 0) { if (user?.spin_chances === 0) showToast('转盘次数不足！'); return }
     setSpinning(true); setResult(null); useSpinChance()
     try { await updateUser(user.id, { spin_chances: user.spin_chances - 1 }) } catch {}
-    const prizeIndex = Math.floor(Math.random() * SEGMENTS)
-    const prize = SPIN_PRIZES[prizeIndex]
+    // 权重随机
+    const totalWeight = SPIN_PRIZES.reduce((s, p) => s + p.weight, 0)
+    let rand = Math.random() * totalWeight
+    let prize = SPIN_PRIZES[0]
+    for (const p of SPIN_PRIZES) { rand -= p.weight; if (rand <= 0) { prize = p; break } }
+    const prizeIndex = SPIN_PRIZES.indexOf(prize)
     const segmentAngle = (2 * Math.PI) / SEGMENTS
     const targetAngle = 2 * Math.PI - (prizeIndex * segmentAngle + segmentAngle / 2)
     const spins = 5 * 2 * Math.PI + targetAngle - (currentAngle % (2 * Math.PI))
@@ -73,13 +77,17 @@ export default function ShopPage({ showToast }: Props) {
     if (!user) return
     try {
       switch (prize.type) {
+        case 'bean_big':
+          await updateUser(user.id, { beans_big: user.beans_big + prize.value })
+          setUser({ ...user, beans_big: user.beans_big + prize.value })
+          showToast(`🎉 获得 ${prize.value} 大豆！`); break
         case 'bean_small':
           await updateUser(user.id, { beans_small: user.beans_small + prize.value })
           setUser({ ...user, beans_small: user.beans_small + prize.value })
           showToast(`🎉 获得 ${prize.value} 小豆！`); break
         case 'card':
-          if (prize.label.includes('半日')) {
-            const nc = { ...user.cards, 免学半日券: (user.cards?.['免学半日券'] || 0) + 1 }
+          if (prize.label.includes('早起')) {
+            const nc = { ...user.cards, 免早起卡: (user.cards?.['免早起卡'] || 0) + 1 }
             await updateUser(user.id, { cards: nc }); setUser({ ...user, cards: nc })
           }
           showToast(`🎉 获得 ${prize.label}！`); break
@@ -89,6 +97,8 @@ export default function ShopPage({ showToast }: Props) {
           await updateUser(user.id, { spin_chances: user.spin_chances + 1 })
           setUser({ ...user, spin_chances: user.spin_chances + 1 })
           showToast('🍀 再来一次！'); break
+        case 'none':
+          showToast('😅 谢谢惠顾~下次加油！'); break
       }
     } catch {}
   }

@@ -76,14 +76,14 @@ export const BIG_BEAN_SHOP = [
   { id: 'b5', name: '手写情书一封', price: 35, currency: 'big_bean' as const, icon: '💌', description: 'Boss亲笔书写', category: '精神补给' },
 ];
 
-// 转盘奖池
+// 转盘奖池（带权重）
 export const SPIN_PRIZES = [
-  { id: 1, label: '免学半日券', icon: '🎫', type: 'card' as const, value: 1, color: '#e74c3c' },
-  { id: 2, label: '+5小豆', icon: '🫘', type: 'bean_small' as const, value: 5, color: '#e2b04a' },
-  { id: 3, label: '+2小豆', icon: '🫘', type: 'bean_small' as const, value: 2, color: '#6fdc6f' },
-  { id: 4, label: '奶茶一杯', icon: '🧋', type: 'physical' as const, value: 0, color: '#e67e22' },
-  { id: 5, label: '夸夸语音', icon: '💝', type: 'card' as const, value: 0, color: '#e91e63' },
-  { id: 6, label: '再来一次', icon: '🍀', type: 'reroll' as const, value: 0, color: '#3498db' },
+  { id: 1, label: '3大豆', icon: '🌰', type: 'bean_big' as const, value: 3, color: '#e2b04a', weight: 15 },
+  { id: 2, label: '10大豆', icon: '🌰', type: 'bean_big' as const, value: 10, color: '#f0d078', weight: 5 },
+  { id: 3, label: '免早起券', icon: '🛡️', type: 'card' as const, value: 1, color: '#6fdc6f', weight: 25 },
+  { id: 4, label: '再来一次', icon: '🍀', type: 'reroll' as const, value: 0, color: '#3498db', weight: 25 },
+  { id: 5, label: '谢谢惠顾', icon: '😅', type: 'none' as const, value: 0, color: '#9a9ab0', weight: 25 },
+  { id: 6, label: '一顿大餐', icon: '🍽️', type: 'physical' as const, value: 0, color: '#e67e22', weight: 5 },
 ];
 
 // Boss 暗号
