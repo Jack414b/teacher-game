@@ -12,10 +12,6 @@ interface GameState {
   // UI 状态
   isBossMode: boolean;
   setBossMode: (v: boolean) => void;
-
-  // 音效
-  soundEnabled: boolean;
-  toggleSound: () => void;
 }
 
 export const useGameStore = create<GameState>((set) => ({
@@ -42,7 +38,4 @@ export const useGameStore = create<GameState>((set) => ({
 
   isBossMode: false,
   setBossMode: (v) => set({ isBossMode: v }),
-
-  soundEnabled: true,
-  toggleSound: () => set((s) => ({ soundEnabled: !s.soundEnabled })),
 }));

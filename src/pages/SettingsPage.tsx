@@ -8,7 +8,7 @@ import type { User } from '../types'
 interface Props { showToast: (msg: string) => void }
 
 export default function SettingsPage({ showToast }: Props) {
-  const { user, setUser, soundEnabled, toggleSound, isBossMode } = useGameStore()
+  const { user, setUser, isBossMode } = useGameStore()
   const [nickname, setNickname] = useState(user?.nickname || '哈基慧')
 
   // 导出数据
@@ -106,14 +106,6 @@ export default function SettingsPage({ showToast }: Props) {
             )
           })}
         </div>
-      </PixelCard>
-
-      {/* 音效 */}
-      <PixelCard>
-        <h3 style={{ fontSize: '13px', marginBottom: '8px' }}>🔊 音效</h3>
-        <PixelButton size="sm" onClick={toggleSound}>
-          {soundEnabled ? '🔊 已开启' : '🔇 已关闭'}
-        </PixelButton>
       </PixelCard>
 
       {/* 数据备份 */}
