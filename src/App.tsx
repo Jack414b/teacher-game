@@ -44,6 +44,7 @@ function App() {
         beans_small: STARTER_PACK.beans_small,
         beans_big: 0,
         spin_chances: STARTER_PACK.spin_chances,
+        xp: 0,
         cards: STARTER_PACK.cards as User['cards'],
         created_at: new Date().toISOString(),
       }

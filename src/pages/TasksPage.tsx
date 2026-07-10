@@ -57,8 +57,10 @@ export default function TasksPage({ showToast }: Props) {
       })
 
       // 更新用户货币
+      const xpGain = beans > 0 ? beans : 0
       const updatedUser = await updateUser(user.id, {
         beans_small: user.beans_small + beans,
+        xp: user.xp + xpGain,
         spin_chances: taskType === 'exercise' && status === 'completed'
           ? user.spin_chances + 1
           : user.spin_chances,

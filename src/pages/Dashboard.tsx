@@ -5,6 +5,7 @@ import { TASK_CONFIGS } from '../lib/gameData'
 import { getTodayTasks } from '../lib/supabase'
 import { useEffect, useState } from 'react'
 import type { DailyTask } from '../types'
+import { getLevel, getTitle } from '../types'
 
 interface Props { showToast: (msg: string) => void }
 
@@ -25,23 +26,29 @@ export default function Dashboard(_props: Props) {
 
   if (!user) return <div className="page-content"><p className="empty-state">加载中...</p></div>
 
+  const lv = getLevel(user.xp || 0)
+  const title = getTitle(user.xp || 0)
+  const xpInLevel = (user.xp || 0) % 20
+  const xpPct = Math.round((xpInLevel / 20) * 100)
+
   return (
     <div className="page-content">
       {/* 角色信息 */}
       <PixelCard gold>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
           <div style={{ fontSize: '48px' }}>🧑‍🏫</div>
-          <div>
+          <div style={{ flex: 1 }}>
             <h2 style={{ color: 'var(--gold)', fontSize: '18px', margin: '0 0 4px' }}>
               {user.nickname}
             </h2>
-            <p style={{ fontSize: '12px', color: 'var(--text-dim)' }}>
-              Lv.1 预备教师 · 考编之路
+            <p style={{ fontSize: '12px', color: 'var(--text-dim)', marginBottom: '4px' }}>
+              Lv.{lv} {title}
             </p>
-            <div style={{ display: 'flex', gap: '12px', marginTop: '6px', fontSize: '10px', color: 'var(--text-dim)' }}>
-              <span>🛡️ {user.cards?.['免早起卡'] || 0} 免早起</span>
-              <span>💤 {user.cards?.['休息卡'] || 0} 休息</span>
-              <span>🏖️ {user.cards?.['免学休息日'] || 0} 免学</span>
+            <RpgProgress value={xpPct} label={`EXP ${xpInLevel}/20`} variant="gold" />
+            <div style={{ display: 'flex', gap: '8px', marginTop: '8px', fontSize: '10px', color: 'var(--text-dim)' }}>
+              <span>🛡️ {user.cards?.['免早起卡'] || 0}</span>
+              <span>🏖️ {user.cards?.['免学休息日'] || 0}</span>
+              <span>🎫 {user.cards?.['免学半日券'] || 0}</span>
             </div>
           </div>
         </div>

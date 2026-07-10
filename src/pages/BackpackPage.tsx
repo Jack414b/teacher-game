@@ -15,7 +15,7 @@ export default function BackpackPage(_props: Props) {
     getRedemptions(user.id).then(setRedemptions).catch(() => {})
   }, [user])
 
-  const cards = user?.cards || { 免早起卡: 0, 休息卡: 0, 免学休息日: 0 }
+  const cards = user?.cards || { 免早起卡: 0, 免学休息日: 0, 免学半日券: 0 }
   const pendingItems = redemptions.filter(r => r.status !== 'delivered')
 
   return (
@@ -24,37 +24,26 @@ export default function BackpackPage(_props: Props) {
 
       {/* 特权卡 */}
       <h3 className="section-title">🃏 特权卡</h3>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+      <div style={{ display: 'flex', gap: '10px' }}>
         <PixelCard>
-          <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: '36px' }}>🛡️</div>
-            <h4 style={{ fontSize: '13px', margin: '4px 0' }}>免早起券</h4>
-            <p style={{ fontSize: '20px', color: 'var(--gold)', fontWeight: 'bold' }}>{cards['免早起卡'] || 0}</p>
-            <p style={{ fontSize: '10px', color: 'var(--text-dim)' }}>使用后当日早鸟打卡自动完成</p>
+          <div style={{ textAlign: 'center', flex: 1 }}>
+            <div style={{ fontSize: '32px' }}>🛡️</div>
+            <h4 style={{ fontSize: '11px', margin: '4px 0' }}>免早起</h4>
+            <p style={{ fontSize: '18px', color: 'var(--gold)', fontWeight: 'bold' }}>{cards['免早起卡'] || 0}</p>
           </div>
         </PixelCard>
         <PixelCard>
-          <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: '36px' }}>💤</div>
-            <h4 style={{ fontSize: '13px', margin: '4px 0' }}>休息卡</h4>
-            <p style={{ fontSize: '20px', color: 'var(--gold)', fontWeight: 'bold' }}>{cards['休息卡'] || 0}</p>
-            <p style={{ fontSize: '10px', color: 'var(--text-dim)' }}>休息日全天免打卡</p>
+          <div style={{ textAlign: 'center', flex: 1 }}>
+            <div style={{ fontSize: '32px' }}>🏖️</div>
+            <h4 style={{ fontSize: '11px', margin: '4px 0' }}>免学日</h4>
+            <p style={{ fontSize: '18px', color: 'var(--gold)', fontWeight: 'bold' }}>{cards['免学休息日'] || 0}</p>
           </div>
         </PixelCard>
         <PixelCard>
-          <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: '36px' }}>🏖️</div>
-            <h4 style={{ fontSize: '13px', margin: '4px 0' }}>免学休息日</h4>
-            <p style={{ fontSize: '20px', color: 'var(--gold)', fontWeight: 'bold' }}>{cards['免学休息日'] || 0}</p>
-            <p style={{ fontSize: '10px', color: 'var(--text-dim)' }}>转盘大奖，合法躺平一天</p>
-          </div>
-        </PixelCard>
-        <PixelCard>
-          <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: '36px' }}>🎫</div>
-            <h4 style={{ fontSize: '13px', margin: '4px 0' }}>免学半日券</h4>
-            <p style={{ fontSize: '20px', color: 'var(--gold)', fontWeight: 'bold' }}>{(cards as Record<string, number>)['免学半日券'] || 0}</p>
-            <p style={{ fontSize: '10px', color: 'var(--text-dim)' }}>转盘大奖，休息半天</p>
+          <div style={{ textAlign: 'center', flex: 1 }}>
+            <div style={{ fontSize: '32px' }}>🎫</div>
+            <h4 style={{ fontSize: '11px', margin: '4px 0' }}>半日券</h4>
+            <p style={{ fontSize: '18px', color: 'var(--gold)', fontWeight: 'bold' }}>{cards['免学半日券'] || 0}</p>
           </div>
         </PixelCard>
       </div>

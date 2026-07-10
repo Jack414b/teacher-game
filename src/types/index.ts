@@ -5,15 +5,33 @@ export interface User {
   beans_small: number;
   beans_big: number;
   spin_chances: number;
+  xp: number;
   cards: UserCards;
   created_at: string;
 }
 
 export interface UserCards {
   免早起卡: number;
-  休息卡: number;
   免学休息日: number;
   免学半日券: number;
+}
+
+// 等级系统
+export const LEVEL_TITLES = [
+  { min: 1, max: 19, title: '预备教师' },
+  { min: 20, max: 39, title: '初级教师' },
+  { min: 40, max: 59, title: '中级教师' },
+  { min: 60, max: 79, title: '高级教师' },
+  { min: 80, max: 100, title: '精英教师' },
+] as const
+
+export function getLevel(xp: number) {
+  return Math.min(100, Math.floor(xp / 20) + 1)
+}
+
+export function getTitle(xp: number) {
+  const lv = getLevel(xp)
+  return LEVEL_TITLES.find(t => lv >= t.min && lv <= t.max)?.title || '预备教师'
 }
 
 // ===== 每日任务 =====
@@ -128,5 +146,6 @@ export interface CustomShopItem {
 export const STARTER_PACK = {
   beans_small: 30,
   spin_chances: 2,
-  cards: { 免早起卡: 1, 休息卡: 1, 免学休息日: 0 },
+  xp: 0,
+  cards: { 免早起卡: 1, 免学休息日: 0, 免学半日券: 0 },
 } as const;
