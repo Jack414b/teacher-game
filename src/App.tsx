@@ -26,21 +26,20 @@ function App() {
     setTimeout(() => setToast(null), 2500)
   }, [])
 
-  // 初始化/加载用户
+  // 唯一玩家账号：所有设备共用同一个ID
+  const MAIN_USER_ID = 'teacher-game-main'
+
   useEffect(() => {
     const initUser = async () => {
-      let userId = localStorage.getItem('teacher_game_user_id')
+      // 先从 Supabase 加载
+      try {
+        const data = await getUser(MAIN_USER_ID)
+        if (data) { setUser(data as User); return }
+      } catch {}
 
-      if (userId) {
-        try {
-          const data = await getUser(userId)
-          if (data) { setUser(data as User); return }
-        } catch { /* 离线模式 */ }
-      }
-
-      // 创建新用户
-      const localUser: User = {
-        id: userId || crypto.randomUUID(),
+      // 云端不存在则创建
+      const newUser: User = {
+        id: MAIN_USER_ID,
         nickname: 'XX酱',
         beans_small: STARTER_PACK.beans_small,
         beans_big: 0,
@@ -48,11 +47,8 @@ function App() {
         cards: STARTER_PACK.cards as User['cards'],
         created_at: new Date().toISOString(),
       }
-      localStorage.setItem('teacher_game_user_id', localUser.id)
-      setUser(localUser)
-
-      // 尝试同步到 Supabase
-      try { await syncUser(localUser as unknown as Record<string, unknown>) } catch { /* 离线跳过 */ }
+      try { await syncUser(newUser as unknown as Record<string, unknown>) } catch {}
+      setUser(newUser)
     }
     initUser()
   }, [setUser])
