@@ -133,7 +133,10 @@ export default function AdminPage({ showToast }: Props) {
 
   const ensureItem = async (item: CustomShopItem): Promise<CustomShopItem> => {
     if (!item.user_id && user) {
-      // 默认商品，先创建覆盖记录
+      // 检查是否已有同名覆盖记录
+      const existing = shopItems.find(i => i.user_id !== '' && i.name === item.name)
+      if (existing) return existing
+      // 默认商品，创建覆盖记录
       const created = await upsertCustomShopItem(user.id, {
         name: item.name, price: item.price, currency: item.currency,
         icon: item.icon, category: item.category, description: item.description, active: item.active,
