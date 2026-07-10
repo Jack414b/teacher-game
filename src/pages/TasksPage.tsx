@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react'
 import { useGameStore } from '../stores/gameStore'
 import { PixelCard, RpgProgress } from '../components/ui/PixelComponents'
 import { TASK_CONFIGS } from '../lib/gameData'
-import { getTodayTasks, getTasksInRange, upsertTask, updateUser } from '../lib/supabase'
-import type { DailyTask, TaskType } from '../types'
+import { getTodayTasks, getTasksInRange, upsertTask, updateUser, getCustomRules } from '../lib/supabase'
+import type { DailyTask, TaskType, CustomRule } from '../types'
 
 interface Props { showToast: (msg: string) => void }
 
@@ -13,6 +13,7 @@ export default function TasksPage({ showToast }: Props) {
   const [loading, setLoading] = useState(false)
   const [showCalendar, setShowCalendar] = useState(false)
   const [monthTasks, setMonthTasks] = useState<DailyTask[]>([])
+  const [customRules, setCustomRules] = useState<CustomRule[]>([])
 
   const today = new Date().toISOString().slice(0, 10)
   const isSunday = new Date().getDay() === 0
@@ -20,6 +21,7 @@ export default function TasksPage({ showToast }: Props) {
   useEffect(() => {
     if (!user) return
     getTodayTasks(user.id, today).then(setTasks).catch(() => {})
+    getCustomRules(user.id).then(setCustomRules).catch(() => {})
   }, [user, today])
 
   useEffect(() => {
@@ -36,7 +38,10 @@ export default function TasksPage({ showToast }: Props) {
     setLoading(true)
 
     const config = TASK_CONFIGS.find(t => t.type === taskType)!
-    let beans = status === 'completed' ? config.reward : config.penalty
+    const customRule = customRules.find(r => r.task_type === taskType)
+    const reward = customRule?.reward ?? config.reward
+    const penalty = customRule?.penalty ?? config.penalty
+    let beans = status === 'completed' ? reward : penalty
 
     // 周末双倍
     if (isSunday && status === 'completed' && taskType !== 'weekly_review') {

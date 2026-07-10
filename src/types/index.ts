@@ -100,6 +100,28 @@ export interface WeeklyStats {
   beansLost: number;
 }
 
+// ===== 自定义规则 =====
+export interface CustomRule {
+  id?: string;
+  user_id?: string;
+  task_type: TaskType;
+  reward: number;
+  penalty: number;
+}
+
+// ===== 自定义商城商品 =====
+export interface CustomShopItem {
+  id?: string;
+  user_id?: string;
+  name: string;
+  price: number;
+  currency: ShopCurrency;
+  icon: string;
+  category: string;
+  description: string;
+  active: boolean;
+}
+
 // ===== 新手礼包 =====
 export const STARTER_PACK = {
   beans_small: 30,

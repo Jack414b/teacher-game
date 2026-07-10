@@ -36,6 +36,31 @@ CREATE TABLE IF NOT EXISTS redemptions (
   created_at TIMESTAMPTZ DEFAULT now()
 );
 
+-- 自定义任务规则表（Boss 可调整）
+CREATE TABLE IF NOT EXISTS custom_rules (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+  task_type TEXT NOT NULL,
+  reward INTEGER NOT NULL,
+  penalty INTEGER NOT NULL DEFAULT 0,
+  updated_at TIMESTAMPTZ DEFAULT now(),
+  UNIQUE(user_id, task_type)
+);
+
+-- 自定义商城商品表（Boss 可管理）
+CREATE TABLE IF NOT EXISTS custom_shop_items (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+  name TEXT NOT NULL,
+  price INTEGER NOT NULL,
+  currency TEXT NOT NULL DEFAULT 'small_bean',
+  icon TEXT NOT NULL DEFAULT '🎁',
+  category TEXT NOT NULL DEFAULT '自定义',
+  description TEXT DEFAULT '',
+  active BOOLEAN NOT NULL DEFAULT true,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
 -- 转盘记录表
 CREATE TABLE IF NOT EXISTS spin_logs (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -60,3 +85,5 @@ CREATE POLICY "Allow all on users" ON users FOR ALL USING (true) WITH CHECK (tru
 CREATE POLICY "Allow all on daily_tasks" ON daily_tasks FOR ALL USING (true) WITH CHECK (true);
 CREATE POLICY "Allow all on redemptions" ON redemptions FOR ALL USING (true) WITH CHECK (true);
 CREATE POLICY "Allow all on spin_logs" ON spin_logs FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Allow all on custom_rules" ON custom_rules FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Allow all on custom_shop_items" ON custom_shop_items FOR ALL USING (true) WITH CHECK (true);

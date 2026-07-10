@@ -103,3 +103,64 @@ export async function logSpin(userId: string, result: string) {
   if (error) throw error;
   return data;
 }
+
+// ===== 自定义规则 API =====
+export async function getCustomRules(userId: string) {
+  const c = getClient();
+  if (!c) return [];
+  const { data, error } = await c.from('custom_rules').select('*').eq('user_id', userId);
+  if (error) throw error;
+  return data || [];
+}
+
+export async function upsertCustomRule(userId: string, taskType: string, reward: number, penalty: number) {
+  const c = getClient();
+  if (!c) return { user_id: userId, task_type: taskType, reward, penalty };
+  const { data, error } = await c.from('custom_rules').upsert(
+    { user_id: userId, task_type: taskType, reward, penalty },
+    { onConflict: 'user_id,task_type' }
+  ).select().single();
+  if (error) throw error;
+  return data;
+}
+
+// ===== 自定义商城 API =====
+export async function getCustomShopItems(userId: string) {
+  const c = getClient();
+  if (!c) return [];
+  const { data, error } = await c.from('custom_shop_items').select('*').eq('user_id', userId).eq('active', true).order('created_at');
+  if (error) throw error;
+  return data || [];
+}
+
+export async function getAllCustomShopItems(userId: string) {
+  const c = getClient();
+  if (!c) return [];
+  const { data, error } = await c.from('custom_shop_items').select('*').eq('user_id', userId).order('created_at');
+  if (error) throw error;
+  return data || [];
+}
+
+export async function upsertCustomShopItem(userId: string, item: { name: string; price: number; currency: string; icon: string; category: string; description: string; active: boolean }) {
+  const c = getClient();
+  if (!c) return { id: crypto.randomUUID(), user_id: userId, ...item };
+  const { data, error } = await c.from('custom_shop_items').insert({ user_id: userId, ...item }).select().single();
+  if (error) throw error;
+  return data;
+}
+
+export async function updateCustomShopItem(id: string, updates: Record<string, unknown>) {
+  const c = getClient();
+  if (!c) return null;
+  const { data, error } = await c.from('custom_shop_items').update(updates).eq('id', id).select().single();
+  if (error) throw error;
+  return data;
+}
+
+export async function deleteCustomShopItem(id: string) {
+  const c = getClient();
+  if (!c) return null;
+  const { error } = await c.from('custom_shop_items').delete().eq('id', id);
+  if (error) throw error;
+  return true;
+}

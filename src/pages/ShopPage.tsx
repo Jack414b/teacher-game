@@ -1,9 +1,9 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useGameStore } from '../stores/gameStore'
 import { PixelModal } from '../components/ui/PixelComponents'
 import { SMALL_BEAN_SHOP, BIG_BEAN_SHOP } from '../lib/gameData'
-import { updateUser, createRedemption } from '../lib/supabase'
-import type { ShopItem } from '../types'
+import { updateUser, createRedemption, getCustomShopItems } from '../lib/supabase'
+import type { ShopItem, CustomShopItem } from '../types'
 
 interface Props { showToast: (msg: string) => void }
 
@@ -11,6 +11,27 @@ export default function ShopPage({ showToast }: Props) {
   const { user, setUser } = useGameStore()
   const [selectedItem, setSelectedItem] = useState<ShopItem | null>(null)
   const [confirming, setConfirming] = useState(false)
+  const [customItems, setCustomItems] = useState<CustomShopItem[]>([])
+
+  useEffect(() => {
+    if (!user) return
+    getCustomShopItems(user.id).then(setCustomItems).catch(() => {})
+  }, [user])
+
+  // 合并默认商品和自定义商品
+  const defaultSmallItems: ShopItem[] = SMALL_BEAN_SHOP
+  const defaultBigItems: ShopItem[] = BIG_BEAN_SHOP
+  const customShopItems: ShopItem[] = customItems
+    .filter(i => i.active)
+    .map(i => ({
+      id: i.id!,
+      name: i.name,
+      price: i.price,
+      currency: i.currency,
+      icon: i.icon,
+      description: i.description,
+      category: i.category,
+    }))
 
   const handleBuy = async (item: ShopItem) => {
     if (!user) return
@@ -75,12 +96,15 @@ export default function ShopPage({ showToast }: Props) {
       {/* 小豆兑换区 */}
       <h3 className="section-title">🫘 小豆兑换区（日常补给）</h3>
       <div className="shop-grid">
-        {SMALL_BEAN_SHOP.map(item => (
+        {[...defaultSmallItems, ...customShopItems.filter(i => i.currency === 'small_bean')].map(item => (
           <div key={item.id} className="shop-item pixel-border" onClick={() => handleBuy(item)}>
             <div className="item-icon">{item.icon}</div>
             <div className="item-name">{item.name}</div>
             <div className="item-price">🫘 {item.price}</div>
-            <div style={{ fontSize: '10px', color: 'var(--text-dim)', marginTop: '4px' }}>{item.category}</div>
+            <div style={{ fontSize: '10px', color: 'var(--text-dim)', marginTop: '4px' }}>
+              {item.category}
+              {item.id!.length > 10 && <span style={{ color: 'var(--gold)', marginLeft: '4px' }}>NEW</span>}
+            </div>
           </div>
         ))}
       </div>
@@ -88,12 +112,15 @@ export default function ShopPage({ showToast }: Props) {
       {/* 大豆兑换区 */}
       <h3 className="section-title">🌰 大豆兑换区（终极奖励）</h3>
       <div className="shop-grid">
-        {BIG_BEAN_SHOP.map(item => (
+        {[...defaultBigItems, ...customShopItems.filter(i => i.currency === 'big_bean')].map(item => (
           <div key={item.id} className="shop-item pixel-border" onClick={() => handleBuy(item)}>
             <div className="item-icon">{item.icon}</div>
             <div className="item-name">{item.name}</div>
             <div className="item-price">🌰 {item.price}</div>
-            <div style={{ fontSize: '10px', color: 'var(--text-dim)', marginTop: '4px' }}>{item.category}</div>
+            <div style={{ fontSize: '10px', color: 'var(--text-dim)', marginTop: '4px' }}>
+              {item.category}
+              {item.id!.length > 10 && <span style={{ color: 'var(--gold)', marginLeft: '4px' }}>NEW</span>}
+            </div>
           </div>
         ))}
       </div>
