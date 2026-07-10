@@ -62,7 +62,7 @@ export const SMALL_BEAN_SHOP = [
   { id: 's3', name: '小蛋糕一份', price: 45, currency: 'small_bean' as const, icon: '🍰', description: '甜蜜补给', category: '甜品' },
   { id: 's4', name: '情绪盒子', price: 5, currency: 'small_bean' as const, icon: '🎁', description: '安慰盲盒，随机惊喜', category: '精神补给' },
   { id: 's5', name: '零食大礼包', price: 68, currency: 'small_bean' as const, icon: '🍿', description: '备考能量站', category: '食品' },
-  { id: 's6', name: '手写情书一封', price: 35, currency: 'small_bean' as const, icon: '💌', description: 'Boss亲笔书写', category: '精神补给' },
+  { id: 's6', name: '电影之夜', price: 10, currency: 'small_bean' as const, icon: '🎬', description: '一起看电影', category: '娱乐' },
   { id: 's7', name: '纸质书/文具', price: 38, currency: 'small_bean' as const, icon: '📚', description: '备考装备补给了', category: '学习用品' },
 ];
 
@@ -72,8 +72,7 @@ export const BIG_BEAN_SHOP = [
   { id: 'b2', name: '惊喜礼物', price: 18, currency: 'big_bean' as const, icon: '🎀', description: 'Boss精心准备的惊喜', category: '终极奖励' },
   { id: 'b3', name: '免学休息日', price: 8, currency: 'big_bean' as const, icon: '🏖️', description: '合法躺平一天', category: '特权' },
   { id: 'b4', name: '一顿大餐', price: 15, currency: 'big_bean' as const, icon: '🍽️', description: '想吃啥吃啥', category: '终极奖励' },
-  { id: 'b5', name: 'Boss专属按摩', price: 12, currency: 'big_bean' as const, icon: '💆', description: '专业按摩服务', category: '服务' },
-  { id: 'b6', name: '电影之夜', price: 10, currency: 'big_bean' as const, icon: '🎬', description: '一起看电影', category: '终极奖励' },
+  { id: 'b5', name: '手写情书一封', price: 35, currency: 'big_bean' as const, icon: '💌', description: 'Boss亲笔书写', category: '精神补给' },
 ];
 
 // 转盘奖池
