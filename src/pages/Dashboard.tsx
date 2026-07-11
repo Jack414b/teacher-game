@@ -11,14 +11,14 @@ interface Props { showToast: (msg: string) => void }
 
 export default function Dashboard(_props: Props) {
   const navigate = useNavigate()
-  const { user } = useGameStore()
+  const { user, taskVersion } = useGameStore()
   const [todayTasks, setTodayTasks] = useState<DailyTask[]>([])
 
   useEffect(() => {
     if (!user) return
     const today = new Date().toISOString().slice(0, 10)
     getTodayTasks(user.id, today).then(setTodayTasks).catch(() => {})
-  }, [user])
+  }, [user, taskVersion])
 
   const completedCount = todayTasks.filter(t => t.status === 'completed').length
   const totalTasks = TASK_CONFIGS.filter(t => t.type !== 'weekly_review').length

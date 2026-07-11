@@ -12,6 +12,10 @@ interface GameState {
   // UI 状态
   isBossMode: boolean;
   setBossMode: (v: boolean) => void;
+
+  // 任务刷新触发器
+  taskVersion: number;
+  bumpTaskVersion: () => void;
 }
 
 export const useGameStore = create<GameState>((set) => ({
@@ -38,4 +42,7 @@ export const useGameStore = create<GameState>((set) => ({
 
   isBossMode: false,
   setBossMode: (v) => set({ isBossMode: v }),
+
+  taskVersion: 0,
+  bumpTaskVersion: () => set(s => ({ taskVersion: s.taskVersion + 1 })),
 }));

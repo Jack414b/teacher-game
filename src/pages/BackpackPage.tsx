@@ -7,7 +7,7 @@ import type { Redemption } from '../types'
 interface Props { showToast: (msg: string) => void }
 
 export default function BackpackPage({ showToast }: Props) {
-  const { user, setUser } = useGameStore()
+  const { user, setUser, bumpTaskVersion } = useGameStore()
   const [redemptions, setRedemptions] = useState<Redemption[]>([])
   const [confirmCard, setConfirmCard] = useState<{ key: string; label: string; icon: string; taskTypes: string[] } | null>(null)
   const [using, setUsing] = useState(false)
@@ -55,9 +55,9 @@ export default function BackpackPage({ showToast }: Props) {
       await updateUser(user.id, {
         cards: newCards,
         beans_small: user.beans_small + totalBeans,
-        xp: user.xp + totalBeans,
       })
-      setUser({ ...user, cards: newCards, beans_small: user.beans_small + totalBeans, xp: user.xp + totalBeans })
+      setUser({ ...user, cards: newCards, beans_small: user.beans_small + totalBeans })
+      bumpTaskVersion()
       showToast(`✅ 已使用${confirmCard.label}！+${totalBeans}小豆`)
     } catch {
       showToast('同步失败，请重试')

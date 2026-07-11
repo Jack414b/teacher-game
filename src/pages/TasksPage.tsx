@@ -8,7 +8,7 @@ import type { DailyTask, TaskType, CustomRule } from '../types'
 interface Props { showToast: (msg: string) => void }
 
 export default function TasksPage({ showToast }: Props) {
-  const { user, setUser } = useGameStore()
+  const { user, setUser, bumpTaskVersion } = useGameStore()
   const [tasks, setTasks] = useState<DailyTask[]>([])
   const [loading, setLoading] = useState(false)
   const [customRules, setCustomRules] = useState<CustomRule[]>([])
@@ -106,6 +106,7 @@ export default function TasksPage({ showToast }: Props) {
         spin_chances: user.spin_chances + spinDelta,
       })
       setUser(updatedUser)
+      bumpTaskVersion()
       showToast(status === 'completed' ? `✅ +${beans}小豆！` : `❌ ${beans}小豆`)
     } catch {
       showToast('操作失败，请重试')
