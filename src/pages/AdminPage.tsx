@@ -7,6 +7,7 @@ import {
   getCustomRules, upsertCustomRule, getAllCustomShopItems,
   upsertCustomShopItem, updateCustomShopItem, deleteCustomShopItem,
 } from '../lib/supabase'
+import { getLevel, getTitle } from '../types'
 import type { Redemption, DailyTask, CustomRule, CustomShopItem } from '../types'
 
 interface Props { showToast: (msg: string) => void }
@@ -244,6 +245,8 @@ export default function AdminPage({ showToast }: Props) {
             <div className="admin-stat-card"><div className="stat-value">{user?.beans_big || 0}</div><div className="stat-label">🌰 大豆余额</div></div>
             <div className="admin-stat-card"><div className="stat-value">{weekRate}%</div><div className="stat-label">📊 本周打卡率</div></div>
             <div className="admin-stat-card"><div className="stat-value">{weekStats.beans}</div><div className="stat-label">💰 本周小豆变动</div></div>
+            <div className="admin-stat-card"><div className="stat-value">{getLevel(user?.xp || 0)}</div><div className="stat-label">⭐ 等级</div></div>
+            <div className="admin-stat-card"><div className="stat-value">{user?.xp || 0}</div><div className="stat-label">📊 经验值</div></div>
           </div>
 
           <PixelCard>
@@ -258,6 +261,31 @@ export default function AdminPage({ showToast }: Props) {
               <PixelButton size="sm" variant="danger" onClick={() => handleAdjustBeans('small', -1)}>-🫘</PixelButton>
               <PixelButton size="sm" variant="success" onClick={() => handleAdjustBeans('big', 1)}>+🌰</PixelButton>
               <PixelButton size="sm" variant="danger" onClick={() => handleAdjustBeans('big', -1)}>-🌰</PixelButton>
+            </div>
+          </PixelCard>
+
+          {/* 经验值调整 */}
+          <PixelCard>
+            <h3 style={{ fontSize: '13px', marginBottom: '8px' }}>⭐ 调整经验值</h3>
+            <p style={{ fontSize: '11px', color: 'var(--text-dim)', marginBottom: '8px' }}>
+              当前：Lv.{getLevel(user?.xp||0)} {getTitle(user?.xp||0)} · {user?.xp||0} XP
+            </p>
+            <div className="admin-actions">
+              <PixelButton size="sm" variant="success" onClick={async () => {
+                if (!user) return
+                const n = parseInt(prompt('增加多少XP') || '0')
+                if (n > 0) { try { const u = await updateUser(user.id, { xp: (user.xp||0) + n }); setUser(u); showToast(`✅ +${n}XP`) } catch { showToast('操作失败') } }
+              }}>+XP</PixelButton>
+              <PixelButton size="sm" variant="danger" onClick={async () => {
+                if (!user) return
+                const n = parseInt(prompt('扣除多少XP') || '0')
+                if (n > 0) { try { const u = await updateUser(user.id, { xp: Math.max(0, (user.xp||0) - n) }); setUser(u); showToast(`✅ -${n}XP`) } catch { showToast('操作失败') } }
+              }}>-XP</PixelButton>
+              <PixelButton size="sm" onClick={async () => {
+                if (!user) return
+                const n = parseInt(prompt('直接设置XP值') || '0')
+                if (n >= 0) { try { const u = await updateUser(user.id, { xp: n }); setUser(u); showToast(`✅ 设为${n}XP`) } catch { showToast('操作失败') } }
+              }}>设置</PixelButton>
             </div>
           </PixelCard>
 

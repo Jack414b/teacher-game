@@ -31,12 +31,16 @@ export default function TasksPage({ showToast }: Props) {
       const pending = oldTasks.filter(t => t.status === 'pending')
       let totalPenalty = 0
 
-      // 计算昨日净增小豆（XP每日结算）
+      // 计算昨日净增小豆（XP每日结算，只结算一次）
       const yd = yesterday.toISOString().slice(0, 10)
-      const yt = oldTasks.filter(t => t.task_date === yd)
-      const netBeans = yt.reduce((sum, t) => sum + (t.beans_earned || 0), 0)
-      if (netBeans > 0) {
-        updateUser(user.id, { xp: user.xp + netBeans }).then(u => { if (u) setUser(u) }).catch(() => {})
+      const lastSettled = localStorage.getItem('teacher_game_xp_settled')
+      if (lastSettled !== yd) {
+        const yt = oldTasks.filter(t => t.task_date === yd)
+        const netBeans = yt.reduce((sum, t) => sum + (t.beans_earned || 0), 0)
+        if (netBeans >= 0) {
+          updateUser(user.id, { xp: user.xp + netBeans }).then(u => { if (u) setUser(u) }).catch(() => {})
+        }
+        localStorage.setItem('teacher_game_xp_settled', yd)
       }
 
       if (pending.length === 0) return
