@@ -1,9 +1,10 @@
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom'
 import { useEffect, useState, useCallback } from 'react'
 import { useGameStore } from './stores/gameStore'
-import { getUser, syncUser } from './lib/supabase'
+import { getUser, syncUser, getTasksInRange, upsertTask, updateUser } from './lib/supabase'
 import type { User } from './types'
 import { STARTER_PACK } from './types'
+import { TASK_CONFIGS } from './lib/gameData'
 import Dashboard from './pages/Dashboard'
 import TasksPage from './pages/TasksPage'
 import ShopPage from './pages/ShopPage'
@@ -54,6 +55,37 @@ function App() {
     }
     initUser()
   }, [setUser])
+
+  // 过期任务自动失败 + XP每日结算（每次进入App都执行）
+  useEffect(() => {
+    const uid = localStorage.getItem('teacher_game_user_id') || '00000000-0000-0000-0000-000000000001'
+    const yesterday = new Date(); yesterday.setDate(yesterday.getDate() - 1)
+    getTasksInRange(uid, '2026-01-01', yesterday.toISOString().slice(0,10)).then(tasks => {
+      const pending = tasks.filter(t => t.status === 'pending')
+      const yd = yesterday.toISOString().slice(0,10)
+      let totalPenalty = 0
+      // 自动失败过期任务
+      Promise.all(pending.map(async t => {
+        const cfg = TASK_CONFIGS.find(c => c.type === t.task_type)
+        const penalty = cfg?.penalty || 0
+        if (penalty < 0) { totalPenalty += penalty; await upsertTask(uid, t.task_date, t.task_type, 'failed', penalty) }
+      })).then(() => {
+        if (totalPenalty < 0) updateUser(uid, { beans_small: (useGameStore.getState().user?.beans_small||0) + totalPenalty }).catch(() => {})
+      }).catch(() => {})
+      // XP每日结算（只结算一次）
+      const lastSettled = localStorage.getItem('teacher_game_xp_settled')
+      if (lastSettled !== yd) {
+        const yt = tasks.filter(t => t.task_date === yd)
+        const netBeans = yt.reduce((sum, t) => sum + (t.beans_earned||0), 0)
+        if (netBeans >= 0) {
+          updateUser(uid, { xp: (useGameStore.getState().user?.xp||0) + netBeans }).then(u => {
+            if (u) useGameStore.getState().setUser(u)
+          }).catch(() => {})
+        }
+        localStorage.setItem('teacher_game_xp_settled', yd)
+      }
+    }).catch(() => {})
+  }, [])
 
   // Boss 入口：双击标题或点🔑按钮
   const handleTitleDoubleClick = () => {

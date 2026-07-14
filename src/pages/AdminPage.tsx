@@ -6,6 +6,7 @@ import {
   updateUser, getRedemptions, updateRedemptionStatus, getTasksInRange, getSpinLogs,
   getCustomRules, upsertCustomRule, getAllCustomShopItems,
   upsertCustomShopItem, updateCustomShopItem, deleteCustomShopItem,
+  upsertTask,
 } from '../lib/supabase'
 import { getLevel, getTitle } from '../types'
 import type { Redemption, DailyTask, CustomRule, CustomShopItem } from '../types'
@@ -309,6 +310,27 @@ export default function AdminPage({ showToast }: Props) {
                 const n = parseInt(prompt('设置转盘次数') || '0')
                 if (n >= 0) { try { const u = await updateUser(user.id, { spin_chances: n }); setUser(u); showToast(`✅ 设为${n}次`) } catch { showToast('操作失败') } }
               }}>自定义</PixelButton>
+            </div>
+          </PixelCard>
+
+          {/* 补打卡 */}
+          <PixelCard>
+            <h3 style={{ fontSize: '13px', marginBottom: '8px' }}>📝 补打卡</h3>
+            <p style={{ fontSize: '11px', color: 'var(--text-dim)', marginBottom: '8px' }}>帮玩家补标记某天遗漏的任务</p>
+            <div style={{display:'flex',gap:'4px',marginBottom:'8px',flexWrap:'wrap'}}>
+              {TASK_CONFIGS.map(cfg => (
+                <PixelButton key={cfg.type} size="sm" variant="success" onClick={async () => {
+                  if (!user) return
+                  const d = prompt('输入日期（如 2026-07-10）')
+                  if (!d) return
+                  try {
+                    await upsertTask(user.id, d, cfg.type, 'completed', cfg.reward)
+                    await updateUser(user.id, { beans_small: user.beans_small + cfg.reward })
+                    setUser({ ...user, beans_small: user.beans_small + cfg.reward })
+                    showToast(`✅ 已补 ${cfg.label}`)
+                  } catch { showToast('操作失败') }
+                }}>{cfg.icon} {cfg.label}</PixelButton>
+              ))}
             </div>
           </PixelCard>
 
