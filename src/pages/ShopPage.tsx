@@ -161,19 +161,30 @@ export default function ShopPage({ showToast }: Props) {
     setConfirming(true)
 
     try {
-      if (selectedItem.currency === 'small_bean') {
+      // 特殊商品：抽奖机会
+      if (selectedItem.name === '抽奖机会') {
+        const updated = await updateUser(user.id, {
+          beans_small: user.beans_small - selectedItem.price,
+          spin_chances: user.spin_chances + 1,
+        })
+        setUser(updated)
+        showToast('✅ 获得1次抽奖机会！')
+      } else if (selectedItem.currency === 'small_bean') {
         const updated = await updateUser(user.id, { beans_small: user.beans_small - selectedItem.price })
         setUser(updated)
+        await createRedemption(user.id, selectedItem.name, selectedItem.currency, selectedItem.price)
+        showToast(`✅ 兑换成功！${selectedItem.name}`)
       } else {
         const updated = await updateUser(user.id, { beans_big: user.beans_big - selectedItem.price })
         setUser(updated)
+        await createRedemption(user.id, selectedItem.name, selectedItem.currency, selectedItem.price)
+        showToast(`✅ 兑换成功！${selectedItem.name}`)
       }
-
-      await createRedemption(user.id, selectedItem.name, selectedItem.currency, selectedItem.price)
-      showToast(`✅ 兑换成功！${selectedItem.name}`)
     } catch {
-      // 离线模式：直接更新本地
-      if (selectedItem.currency === 'small_bean') {
+      // 离线模式
+      if (selectedItem.name === '抽奖机会') {
+        setUser({ ...user, beans_small: user.beans_small - selectedItem.price, spin_chances: user.spin_chances + 1 })
+      } else if (selectedItem.currency === 'small_bean') {
         setUser({ ...user, beans_small: user.beans_small - selectedItem.price })
       } else {
         setUser({ ...user, beans_big: user.beans_big - selectedItem.price })

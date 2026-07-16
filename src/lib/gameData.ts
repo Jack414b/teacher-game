@@ -65,6 +65,7 @@ export const SMALL_BEAN_SHOP = [
   { id: 's6', name: '电影之夜', price: 10, currency: 'small_bean' as const, icon: '🎬', description: '一起看电影', category: '娱乐' },
   { id: 's7', name: '纸质书/文具', price: 38, currency: 'small_bean' as const, icon: '📚', description: '备考装备补给了', category: '学习用品' },
   { id: 's8', name: '免早起券', price: 20, currency: 'small_bean' as const, icon: '🛡️', description: '使用后当日早鸟打卡自动完成', category: '特权' },
+  { id: 's9', name: '抽奖机会', price: 88, currency: 'small_bean' as const, icon: '🎰', description: '获得1次转盘抽奖机会', category: '特权' },
 ];
 
 // 大豆兑换区
