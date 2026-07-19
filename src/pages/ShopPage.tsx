@@ -162,12 +162,13 @@ export default function ShopPage({ showToast }: Props) {
 
     try {
       // 特殊商品：抽奖机会
-      if (selectedItem.name === '抽奖机会') {
+      if (selectedItem.name.includes('抽奖机会')) {
         const updated = await updateUser(user.id, {
           beans_small: user.beans_small - selectedItem.price,
           spin_chances: user.spin_chances + 1,
         })
-        setUser(updated)
+        if (updated) setUser(updated)
+        else setUser({ ...user, beans_small: user.beans_small - selectedItem.price, spin_chances: user.spin_chances + 1 })
         showToast('✅ 获得1次抽奖机会！')
       } else if (selectedItem.currency === 'small_bean') {
         const updated = await updateUser(user.id, { beans_small: user.beans_small - selectedItem.price })
@@ -182,7 +183,7 @@ export default function ShopPage({ showToast }: Props) {
       }
     } catch {
       // 离线模式
-      if (selectedItem.name === '抽奖机会') {
+      if (selectedItem.name.includes('抽奖机会')) {
         setUser({ ...user, beans_small: user.beans_small - selectedItem.price, spin_chances: user.spin_chances + 1 })
       } else if (selectedItem.currency === 'small_bean') {
         setUser({ ...user, beans_small: user.beans_small - selectedItem.price })
