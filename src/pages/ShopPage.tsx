@@ -48,9 +48,10 @@ export default function ShopPage({ showToast }: Props) {
   }
 
   const handleSpin = async () => {
-    if (!user || spinning || user.spin_chances <= 0) { if (user?.spin_chances === 0) showToast('转盘次数不足！'); return }
+    const cur = useGameStore.getState().user
+    if (!cur || spinning || cur.spin_chances <= 0) { showToast('转盘次数不足！'); return }
     setSpinning(true); setResult(null); useSpinChance()
-    try { await updateUser(user.id, { spin_chances: user.spin_chances - 1 }) } catch {}
+    try { await updateUser(cur.id, { spin_chances: cur.spin_chances - 1 }) } catch {}
     // 权重随机
     const totalWeight = SPIN_PRIZES.reduce((s, p) => s + p.weight, 0)
     let rand = Math.random() * totalWeight
@@ -70,33 +71,34 @@ export default function ShopPage({ showToast }: Props) {
       else { setCurrentAngle(finalAngle); setResult(prize); setSpinning(false); handlePrize(prize) }
     }
     requestAnimationFrame(animate)
-    try { await logSpin(user.id, prize.label) } catch {}
+    try { await logSpin(cur.id, prize.label) } catch {}
   }
 
   const handlePrize = async (prize: SpinPrize) => {
-    if (!user) return
+    const cur = useGameStore.getState().user
+    if (!cur) return
     try {
       switch (prize.type) {
         case 'bean_big':
-          await updateUser(user.id, { beans_big: user.beans_big + prize.value })
-          setUser({ ...user, beans_big: user.beans_big + prize.value })
+          await updateUser(cur.id, { beans_big: cur.beans_big + prize.value })
+          setUser({ ...cur, beans_big: cur.beans_big + prize.value })
           showToast(`🎉 获得 ${prize.value} 大豆！`); break
         case 'bean_small':
-          await updateUser(user.id, { beans_small: user.beans_small + prize.value })
-          setUser({ ...user, beans_small: user.beans_small + prize.value })
+          await updateUser(cur.id, { beans_small: cur.beans_small + prize.value })
+          setUser({ ...cur, beans_small: cur.beans_small + prize.value })
           showToast(`🎉 获得 ${prize.value} 小豆！`); break
         case 'card':
           if (prize.label.includes('早起')) {
-            const nc = { ...user.cards, 免早起卡: (user.cards?.['免早起卡'] || 0) + 1 }
-            await updateUser(user.id, { cards: nc }); setUser({ ...user, cards: nc })
+            const nc = { ...cur.cards, 免早起卡: (cur.cards?.['免早起卡'] || 0) + 1 }
+            await updateUser(cur.id, { cards: nc }); setUser({ ...cur, cards: nc })
           }
           showToast(`🎉 获得 ${prize.label}！`); break
         case 'physical':
-          try { await createRedemption(user.id, prize.label, 'big_bean', 0) } catch {}
+          try { await createRedemption(cur.id, prize.label, 'big_bean', 0) } catch {}
           showToast(`🎉 ${prize.label}！已加入背包待兑现~`); break
         case 'reroll':
-          await updateUser(user.id, { spin_chances: user.spin_chances })
-          setUser({ ...user, spin_chances: user.spin_chances })
+          await updateUser(cur.id, { spin_chances: cur.spin_chances })
+          setUser({ ...cur, spin_chances: cur.spin_chances })
           showToast('🍀 再来一次！'); break
         case 'none':
           showToast('😅 谢谢惠顾~下次加油！'); break
@@ -157,38 +159,38 @@ export default function ShopPage({ showToast }: Props) {
   }
 
   const confirmBuy = async () => {
-    if (!user || !selectedItem) return
+    const cur = useGameStore.getState().user
+    if (!cur || !selectedItem) return
     setConfirming(true)
 
     try {
       // 特殊商品：抽奖机会
       if (selectedItem.name.includes('抽奖机会')) {
-        const updated = await updateUser(user.id, {
-          beans_small: user.beans_small - selectedItem.price,
-          spin_chances: user.spin_chances + 1,
+        const updated = await updateUser(cur.id, {
+          beans_small: cur.beans_small - selectedItem.price,
+          spin_chances: cur.spin_chances + 1,
         })
         if (updated) setUser(updated)
-        else setUser({ ...user, beans_small: user.beans_small - selectedItem.price, spin_chances: user.spin_chances + 1 })
+        else setUser({ ...cur, beans_small: cur.beans_small - selectedItem.price, spin_chances: cur.spin_chances + 1 })
         showToast('✅ 获得1次抽奖机会！')
       } else if (selectedItem.currency === 'small_bean') {
-        const updated = await updateUser(user.id, { beans_small: user.beans_small - selectedItem.price })
-        setUser(updated)
-        await createRedemption(user.id, selectedItem.name, selectedItem.currency, selectedItem.price)
+        const updated = await updateUser(cur.id, { beans_small: cur.beans_small - selectedItem.price })
+        if (updated) setUser(updated)
+        await createRedemption(cur.id, selectedItem.name, selectedItem.currency, selectedItem.price)
         showToast(`✅ 兑换成功！${selectedItem.name}`)
       } else {
-        const updated = await updateUser(user.id, { beans_big: user.beans_big - selectedItem.price })
-        setUser(updated)
-        await createRedemption(user.id, selectedItem.name, selectedItem.currency, selectedItem.price)
+        const updated = await updateUser(cur.id, { beans_big: cur.beans_big - selectedItem.price })
+        if (updated) setUser(updated)
+        await createRedemption(cur.id, selectedItem.name, selectedItem.currency, selectedItem.price)
         showToast(`✅ 兑换成功！${selectedItem.name}`)
       }
     } catch {
-      // 离线模式
       if (selectedItem.name.includes('抽奖机会')) {
-        setUser({ ...user, beans_small: user.beans_small - selectedItem.price, spin_chances: user.spin_chances + 1 })
+        setUser({ ...cur, beans_small: cur.beans_small - selectedItem.price, spin_chances: cur.spin_chances + 1 })
       } else if (selectedItem.currency === 'small_bean') {
-        setUser({ ...user, beans_small: user.beans_small - selectedItem.price })
+        setUser({ ...cur, beans_small: cur.beans_small - selectedItem.price })
       } else {
-        setUser({ ...user, beans_big: user.beans_big - selectedItem.price })
+        setUser({ ...cur, beans_big: cur.beans_big - selectedItem.price })
       }
       showToast(`✅ 兑换成功！${selectedItem.name}`)
     }
