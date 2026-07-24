@@ -47,6 +47,15 @@ CREATE TABLE IF NOT EXISTS custom_rules (
   UNIQUE(user_id, task_type)
 );
 
+-- Boss 操作日志表
+CREATE TABLE IF NOT EXISTS boss_logs (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+  action TEXT NOT NULL,
+  detail TEXT DEFAULT '',
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
 -- 自定义商城商品表（Boss 可管理）
 CREATE TABLE IF NOT EXISTS custom_shop_items (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),

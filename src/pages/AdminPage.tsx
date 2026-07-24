@@ -6,7 +6,7 @@ import {
   updateUser, getRedemptions, updateRedemptionStatus, getTasksInRange, getSpinLogs,
   getCustomRules, upsertCustomRule, getAllCustomShopItems,
   upsertCustomShopItem, updateCustomShopItem, deleteCustomShopItem,
-  upsertTask,
+  upsertTask, getBossLogs,
 } from '../lib/supabase'
 import { getLevel, getTitle } from '../types'
 import type { Redemption, DailyTask, CustomRule, CustomShopItem } from '../types'
@@ -74,9 +74,11 @@ export default function AdminPage({ showToast }: Props) {
       reds.forEach(r => logs.push({time:r.created_at.slice(0,10),text:`🛒 ${r.item_name} -${r.price}${r.item_type==='small_bean'?'🫘':'🌰'} ${r.status==='delivered'?'✅已兑现':r.status==='pending'?'⏳待兑现':''}`,'type':'spend'}))
       const spins = await getSpinLogs(user.id)
       spins.forEach((s: {result:string,created_at:string}) => logs.push({time:s.created_at.slice(0,10),text:`🎰 ${s.result}`,'type':s.result.includes('大豆')||s.result.includes('小豆')?'earn':'spend'}))
+      const bossLogs = await getBossLogs(user.id)
+      bossLogs.forEach((l: {action:string,detail:string,created_at:string}) => logs.push({time:l.created_at.slice(0,16).replace('T',' '),text:`👑 ${l.action} ${l.detail}`,'type':'boss'}))
     } catch {}
     logs.sort((a,b) => b.time.localeCompare(a.time))
-    setActivityLog(logs.slice(0, 100))
+    setActivityLog(logs.slice(0, 150))
   }
 
   const handleAdjustCards = async (card: string, delta: number) => {

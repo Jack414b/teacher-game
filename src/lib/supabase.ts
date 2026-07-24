@@ -165,6 +165,23 @@ export async function updateCustomShopItem(id: string, updates: Record<string, u
   return data;
 }
 
+// ===== Boss 操作日志 API =====
+export async function addBossLog(userId: string, action: string, detail: string = '') {
+  const c = getClient();
+  if (!c) return null;
+  const { data, error } = await c.from('boss_logs').insert({ user_id: userId, action, detail }).select().single();
+  if (error) throw error;
+  return data;
+}
+
+export async function getBossLogs(userId: string) {
+  const c = getClient();
+  if (!c) return [];
+  const { data, error } = await c.from('boss_logs').select('*').eq('user_id', userId).order('created_at', { ascending: false }).limit(100);
+  if (error) throw error;
+  return data || [];
+}
+
 export async function deleteCustomShopItem(id: string) {
   const c = getClient();
   if (!c) return null;
