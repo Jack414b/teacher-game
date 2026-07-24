@@ -97,8 +97,8 @@ export default function ShopPage({ showToast }: Props) {
           try { await createRedemption(cur.id, prize.label, 'big_bean', 0) } catch {}
           showToast(`🎉 ${prize.label}！已加入背包待兑现~`); break
         case 'reroll':
-          await updateUser(cur.id, { spin_chances: cur.spin_chances })
-          setUser({ ...cur, spin_chances: cur.spin_chances })
+          await updateUser(cur.id, { spin_chances: cur.spin_chances + 1 })
+          setUser({ ...cur, spin_chances: cur.spin_chances + 1 })
           showToast('🍀 再来一次！'); break
         case 'none':
           showToast('😅 谢谢惠顾~下次加油！'); break
