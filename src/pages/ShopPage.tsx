@@ -164,7 +164,7 @@ export default function ShopPage({ showToast }: Props) {
     setConfirming(true)
 
     try {
-      // 特殊商品：抽奖机会
+      // 特殊商品：抽奖机会 / 免学半日券
       if (selectedItem.name.includes('抽奖机会')) {
         const updated = await updateUser(cur.id, {
           beans_small: cur.beans_small - selectedItem.price,
@@ -173,6 +173,15 @@ export default function ShopPage({ showToast }: Props) {
         if (updated) setUser(updated)
         else setUser({ ...cur, beans_small: cur.beans_small - selectedItem.price, spin_chances: cur.spin_chances + 1 })
         showToast('✅ 获得1次抽奖机会！')
+      } else if (selectedItem.name === '免学半日券') {
+        const nc = { ...cur.cards, 免学半日券: (cur.cards?.['免学半日券'] || 0) + 1 }
+        const updated = await updateUser(cur.id, {
+          beans_small: cur.beans_small - selectedItem.price,
+          cards: nc,
+        })
+        if (updated) setUser(updated)
+        else setUser({ ...cur, beans_small: cur.beans_small - selectedItem.price, cards: nc })
+        showToast('✅ 获得免学半日券！')
       } else if (selectedItem.currency === 'small_bean') {
         const updated = await updateUser(cur.id, { beans_small: cur.beans_small - selectedItem.price })
         if (updated) setUser(updated)
@@ -187,6 +196,9 @@ export default function ShopPage({ showToast }: Props) {
     } catch {
       if (selectedItem.name.includes('抽奖机会')) {
         setUser({ ...cur, beans_small: cur.beans_small - selectedItem.price, spin_chances: cur.spin_chances + 1 })
+      } else if (selectedItem.name === '免学半日券') {
+        const nc = { ...cur.cards, 免学半日券: (cur.cards?.['免学半日券'] || 0) + 1 }
+        setUser({ ...cur, beans_small: cur.beans_small - selectedItem.price, cards: nc })
       } else if (selectedItem.currency === 'small_bean') {
         setUser({ ...cur, beans_small: cur.beans_small - selectedItem.price })
       } else {
