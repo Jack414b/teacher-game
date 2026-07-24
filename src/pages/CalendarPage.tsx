@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useGameStore } from '../stores/gameStore'
 import { getTasksInRange } from '../lib/supabase'
 import { TASK_CONFIGS } from '../lib/gameData'
+import { getGameDay } from '../types'
 import type { DailyTask } from '../types'
 
 interface Props { showToast: (msg: string) => void }
@@ -23,7 +24,7 @@ export default function CalendarPage(_props: Props) {
   const month = viewDate.getMonth()
   const firstDay = new Date(year, month, 1)
   const lastDay = new Date(year, month + 1, 0)
-  const today = localDate(new Date())
+  const today = getGameDay()
 
   // 计算加载范围
   const loadStart = new Date(year, month, 1)

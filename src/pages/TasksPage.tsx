@@ -3,6 +3,7 @@ import { useGameStore } from '../stores/gameStore'
 import { PixelCard, RpgProgress } from '../components/ui/PixelComponents'
 import { TASK_CONFIGS } from '../lib/gameData'
 import { getTodayTasks, getTasksInRange, upsertTask, updateUser, getCustomRules } from '../lib/supabase'
+import { getGameDay } from '../types'
 import type { DailyTask, TaskType, CustomRule } from '../types'
 
 interface Props { showToast: (msg: string) => void }
@@ -15,8 +16,7 @@ export default function TasksPage({ showToast }: Props) {
   const [studyHours, setStudyHours] = useState(6)
   const [editingStudy, setEditingStudy] = useState(false)
 
-  const d = new Date()
-  const today = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`
+  const today = getGameDay()
   const restDay = parseInt(localStorage.getItem('teacher_game_rest_day') || '0') // 默认周日
   const isRestDay = new Date().getDay() === restDay
 

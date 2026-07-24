@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useGameStore } from '../stores/gameStore'
 import { PixelCard, PixelModal } from '../components/ui/PixelComponents'
 import { getRedemptions, upsertTask, updateUser } from '../lib/supabase'
+import { getGameDay } from '../types'
 import type { Redemption } from '../types'
 
 interface Props { showToast: (msg: string) => void }
@@ -32,8 +33,7 @@ export default function BackpackPage({ showToast }: Props) {
     const count = cards[confirmCard.key] || 0
     if (count <= 0) { showToast('数量不足！'); setUsing(false); setConfirmCard(null); return }
 
-    const today = new Date()
-    const dateStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`
+    const dateStr = getGameDay()
 
     let totalBeans = 0
     for (const taskType of confirmCard.taskTypes) {
@@ -46,8 +46,9 @@ export default function BackpackPage({ showToast }: Props) {
     const rewardMap: Record<string, number> = { early_bird: 2, study_hours: 6, module_check: 5, healthy_sleep: 2, exercise: 5 }
     for (const tt of confirmCard.taskTypes) totalBeans += rewardMap[tt] || 0
 
-    // 周日双倍
-    if (today.getDay() === parseInt(localStorage.getItem('teacher_game_rest_day') || '0')) totalBeans *= 2
+    // 休息日双倍
+    const d = new Date(dateStr)
+    if (d.getDay() === parseInt(localStorage.getItem('teacher_game_rest_day') || '0')) totalBeans *= 2
 
     const newCards = { ...user.cards, [confirmCard.key]: count - 1 } as typeof user.cards
 

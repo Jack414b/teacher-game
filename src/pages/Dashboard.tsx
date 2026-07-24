@@ -5,7 +5,7 @@ import { TASK_CONFIGS } from '../lib/gameData'
 import { getTodayTasks } from '../lib/supabase'
 import { useEffect, useState } from 'react'
 import type { DailyTask } from '../types'
-import { getLevel, getTitle } from '../types'
+import { getLevel, getTitle, getGameDay } from '../types'
 
 interface Props { showToast: (msg: string) => void }
 
@@ -16,7 +16,7 @@ export default function Dashboard(_props: Props) {
 
   useEffect(() => {
     if (!user) return
-    const today = new Date().toISOString().slice(0, 10)
+    const today = getGameDay()
     getTodayTasks(user.id, today).then(setTodayTasks).catch(() => {})
   }, [user, taskVersion])
 

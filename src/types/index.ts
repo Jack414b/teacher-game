@@ -16,6 +16,13 @@ export interface UserCards {
   免学半日券: number;
 }
 
+// 游戏日：凌晨2点前算前一天
+export function getGameDay(): string {
+  const now = new Date()
+  if (now.getHours() < 2) now.setDate(now.getDate() - 1)
+  return `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`
+}
+
 // 等级系统
 export const LEVEL_TITLES = [
   { min: 1, max: 19, title: '预备教师' },
