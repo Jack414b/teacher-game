@@ -41,12 +41,13 @@ export default function BackpackPage({ showToast }: Props) {
     load()
   }, [user])
 
-  const cards = (user?.cards || { 免早起卡: 0, 免学休息日: 0, 免学半日券: 0 }) as unknown as Record<string, number>
+  const cards = (user?.cards || { 免早起卡: 0, 免学休息日: 0, 免学半日券: 0, 明日双倍卡: 0 }) as unknown as Record<string, number>
 
   const cardDefs = [
     { key: '免早起卡', label: '免早起', icon: '🛡️', desc: '自动完成今日早鸟打卡', taskTypes: ['early_bird'] },
     { key: '免学休息日', label: '免学日', icon: '🏖️', desc: '自动完成今日全部打卡任务', taskTypes: ['early_bird', 'study_hours', 'module_check', 'healthy_sleep', 'exercise'] },
     { key: '免学半日券', label: '半日券', icon: '🎫', desc: '自动完成学习和模块两项打卡', taskTypes: ['study_hours', 'module_check'] },
+    { key: '明日双倍卡', label: '双倍', icon: '🔥', desc: '今日完成任务奖励翻倍', taskTypes: [] },
   ]
 
   const handleUseCard = async () => {

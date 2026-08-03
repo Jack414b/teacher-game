@@ -100,6 +100,14 @@ export default function ShopPage({ showToast }: Props) {
           await updateUser(cur.id, { spin_chances: cur.spin_chances + 1 })
           setUser({ ...cur, spin_chances: cur.spin_chances + 1 })
           showToast('🍀 再来一次！'); break
+        case 'reroll2':
+          await updateUser(cur.id, { spin_chances: cur.spin_chances + 2 })
+          setUser({ ...cur, spin_chances: cur.spin_chances + 2 })
+          showToast('🍀🍀 再来两次！'); break
+        case 'double_card':
+          const dc = { ...cur.cards, 明日双倍卡: (cur.cards?.['明日双倍卡'] || 0) + 1 }
+          await updateUser(cur.id, { cards: dc }); setUser({ ...cur, cards: dc })
+          showToast('🔥 获得明日双倍卡！'); break
         case 'none':
           showToast('😅 谢谢惠顾~下次加油！'); break
       }

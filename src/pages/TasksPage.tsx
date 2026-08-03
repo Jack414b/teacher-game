@@ -19,6 +19,7 @@ export default function TasksPage({ showToast }: Props) {
   const today = getGameDay()
   const restDay = parseInt(localStorage.getItem('teacher_game_rest_day') || '0') // 默认周日
   const isRestDay = new Date().getDay() === restDay
+  const hasDoubleCard = (user?.cards?.['明日双倍卡'] || 0) > 0
 
   useEffect(() => {
     if (!user) return
@@ -82,6 +83,7 @@ export default function TasksPage({ showToast }: Props) {
       else if (h >= 3) beans = 2
       else beans = -8
       if (isRestDay) beans *= 2
+      if (hasDoubleCard) beans *= 2
     } else if (status === 'failed' && taskType === 'study_hours') {
       beans = -8
     } else if (status !== 'pending') {
@@ -91,6 +93,7 @@ export default function TasksPage({ showToast }: Props) {
       const penalty = customRule?.penalty ?? config.penalty
       beans = status === 'completed' ? reward : penalty
       if (isRestDay && status === 'completed' && taskType !== 'weekly_review') beans *= 2
+      if (hasDoubleCard && status === 'completed') beans *= 2
     }
 
     try {
@@ -111,6 +114,11 @@ export default function TasksPage({ showToast }: Props) {
       })
       setUser(updatedUser)
       bumpTaskVersion()
+      // 双倍卡使用后消耗
+      if (hasDoubleCard && status === 'completed') {
+        const nc = { ...user.cards, 明日双倍卡: (user.cards?.['明日双倍卡'] || 1) - 1 }
+        updateUser(user.id, { cards: nc }).then(u => { if (u) setUser(u) }).catch(() => {})
+      }
       showToast(status === 'completed' ? `✅ +${beans}小豆！` : `❌ ${beans}小豆`)
     } catch {
       showToast('操作失败，请重试')

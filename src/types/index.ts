@@ -14,6 +14,7 @@ export interface UserCards {
   免早起卡: number;
   免学休息日: number;
   免学半日券: number;
+  明日双倍卡: number;
 }
 
 // 游戏日：凌晨2点前算前一天
@@ -103,7 +104,7 @@ export interface SpinPrize {
   id: number;
   label: string;
   icon: string;
-  type: 'bean_small' | 'bean_big' | 'card' | 'physical' | 'reroll' | 'none';
+  type: 'bean_small' | 'bean_big' | 'card' | 'physical' | 'reroll' | 'reroll2' | 'double_card' | 'none';
   value: number;
   color: string;
   weight: number;
