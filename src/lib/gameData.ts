@@ -84,7 +84,7 @@ export const SPIN_PRIZES = [
   { id: 2, label: '10大豆', icon: '🌰', type: 'bean_big' as const, value: 10, color: '#f0d078', weight: 5 },
   { id: 3, label: '免早起券', icon: '🛡️', type: 'card' as const, value: 1, color: '#6fdc6f', weight: 25 },
   { id: 4, label: '再来一次', icon: '🍀', type: 'reroll' as const, value: 0, color: '#3498db', weight: 25 },
-  { id: 5, label: '谢谢惠顾', icon: '😅', type: 'none' as const, value: 0, color: '#9a9ab0', weight: 25 },
+  { id: 5, label: '+1 小豆', icon: '🫘', type: 'bean_small' as const, value: 1, color: '#9a9ab0', weight: 25 },
   { id: 6, label: '一顿大餐', icon: '🍽️', type: 'physical' as const, value: 0, color: '#e67e22', weight: 5 },
 ];
 
