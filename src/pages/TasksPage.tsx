@@ -3,7 +3,7 @@ import { useGameStore } from '../stores/gameStore'
 import { PixelCard, RpgProgress } from '../components/ui/PixelComponents'
 import { TASK_CONFIGS } from '../lib/gameData'
 import { getTodayTasks, getTasksInRange, upsertTask, updateUser, getCustomRules } from '../lib/supabase'
-import { getGameDay } from '../types'
+import { getGameDay, getLevel } from '../types'
 import type { DailyTask, TaskType, CustomRule } from '../types'
 
 interface Props { showToast: (msg: string) => void }
@@ -39,7 +39,21 @@ export default function TasksPage({ showToast }: Props) {
         const yt = oldTasks.filter(t => t.task_date === yd)
         const netBeans = yt.reduce((sum, t) => sum + (t.beans_earned || 0), 0)
         if (netBeans >= 0) {
-          updateUser(user.id, { xp: user.xp + netBeans }).then(u => { if (u) setUser(u) }).catch(() => {})
+          const oldLevel = getLevel(user.xp)
+          const newXp = user.xp + netBeans
+          const newLevel = getLevel(newXp)
+          updateUser(user.id, { xp: newXp }).then(u => { if (u) setUser(u) }).catch(() => {})
+          // 升级奖励
+          const milestones = { 20: 5, 40: 5, 60: 10, 80: 10, 100: 10 }
+          const claimed = JSON.parse(localStorage.getItem('teacher_game_claimed_levels') || '[]')
+          for (const [mlvl, reward] of Object.entries(milestones)) {
+            if (newLevel >= parseInt(mlvl) && oldLevel < parseInt(mlvl) && !claimed.includes(mlvl)) {
+              updateUser(user.id, { beans_big: user.beans_big + reward }).catch(() => {})
+              claimed.push(mlvl)
+              showToast(`🎉 升到Lv.${mlvl}！奖励 ${reward} 大豆！`)
+            }
+          }
+          localStorage.setItem('teacher_game_claimed_levels', JSON.stringify(claimed))
         }
         localStorage.setItem('teacher_game_xp_settled', yd)
       }
