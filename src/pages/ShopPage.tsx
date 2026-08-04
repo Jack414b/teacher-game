@@ -5,8 +5,7 @@ import { SMALL_BEAN_SHOP, BIG_BEAN_SHOP, SPIN_PRIZES } from '../lib/gameData'
 import { updateUser, createRedemption, getCustomShopItems, logSpin } from '../lib/supabase'
 import type { ShopItem, CustomShopItem, SpinPrize } from '../types'
 
-const SEGMENTS = SPIN_PRIZES.length
-const COLORS = ['#e74c3c', '#e2b04a', '#6fdc6f', '#e67e22', '#e91e63', '#3498db']
+const COLORS = ['#6fdc6f', '#3498db', '#2980b9', '#e74c3c', '#e2b04a', '#f0d078', '#e67e22']
 
 interface Props { showToast: (msg: string) => void }
 
@@ -29,11 +28,14 @@ export default function ShopPage({ showToast }: Props) {
     const ctx = canvas.getContext('2d')!
     const size = canvas.width, cx = size / 2, cy = size / 2, radius = size / 2 - 10
     ctx.clearRect(0, 0, size, size)
-    const arcAngle = (2 * Math.PI) / SEGMENTS
-    for (let i = 0; i < SEGMENTS; i++) {
-      const sa = currentAngle + i * arcAngle, ea = sa + arcAngle
+    const totalW = SPIN_PRIZES.reduce((s, p) => s + p.weight, 0)
+    let startAngle = currentAngle
+    for (let i = 0; i < SPIN_PRIZES.length; i++) {
+      const arcAngle = (SPIN_PRIZES[i].weight / totalW) * 2 * Math.PI
+      const sa = startAngle, ea = sa + arcAngle
+      startAngle = ea
       ctx.beginPath(); ctx.moveTo(cx, cy); ctx.arc(cx, cy, radius, sa, ea); ctx.closePath()
-      ctx.fillStyle = COLORS[i]; ctx.fill(); ctx.strokeStyle = '#1a1a2e'; ctx.lineWidth = 2; ctx.stroke()
+      ctx.fillStyle = COLORS[i % COLORS.length]; ctx.fill(); ctx.strokeStyle = '#1a1a2e'; ctx.lineWidth = 2; ctx.stroke()
       ctx.save(); ctx.translate(cx, cy); ctx.rotate(sa + arcAngle / 2)
       ctx.textAlign = 'center'; ctx.fillStyle = '#fff'; ctx.font = '24px sans-serif'
       ctx.fillText(SPIN_PRIZES[i].icon, radius * 0.65, 8)
@@ -58,8 +60,12 @@ export default function ShopPage({ showToast }: Props) {
     let prize = SPIN_PRIZES[0]
     for (const p of SPIN_PRIZES) { rand -= p.weight; if (rand <= 0) { prize = p; break } }
     const prizeIndex = SPIN_PRIZES.indexOf(prize)
-    const segmentAngle = (2 * Math.PI) / SEGMENTS
-    const targetAngle = 2 * Math.PI - (prizeIndex * segmentAngle + segmentAngle / 2)
+    const totalW = SPIN_PRIZES.reduce((s, p) => s + p.weight, 0)
+    // 计算奖品在转盘上的中心角度
+    let angleBefore = 0
+    for (let i = 0; i < prizeIndex; i++) angleBefore += (SPIN_PRIZES[i].weight / totalW) * 2 * Math.PI
+    const prizeAngle = (prize.weight / totalW) * 2 * Math.PI
+    const targetAngle = 2 * Math.PI - (angleBefore + prizeAngle / 2)
     const spins = 5 * 2 * Math.PI + targetAngle - (currentAngle % (2 * Math.PI))
     const finalAngle = currentAngle + spins
     const startTime = Date.now(), startAngle = currentAngle
