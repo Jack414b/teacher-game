@@ -85,8 +85,8 @@ export const SPIN_PRIZES = [
   { id: 3, label: '再来两次', icon: '🍀🍀', type: 'reroll2' as const, value: 0, color: '#2980b9', weight: 10 },
   { id: 4, label: '明日双倍卡', icon: '🔥', type: 'double_card' as const, value: 1, color: '#e74c3c', weight: 10 },
   { id: 5, label: '3大豆', icon: '🌰', type: 'bean_big' as const, value: 3, color: '#e2b04a', weight: 15 },
-  { id: 6, label: '10大豆', icon: '🌰', type: 'bean_big' as const, value: 10, color: '#f0d078', weight: 5 },
-  { id: 7, label: '一顿大餐', icon: '🍽️', type: 'physical' as const, value: 0, color: '#e67e22', weight: 5 },
+  { id: 6, label: '10大豆', icon: '🌰', type: 'bean_big' as const, value: 10, color: '#f0d078', weight: 10 },
+  { id: 7, label: '一顿大餐', icon: '🍽️', type: 'physical' as const, value: 0, color: '#e67e22', weight: 10 },
 ];
 
 // Boss 暗号
