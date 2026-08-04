@@ -37,10 +37,8 @@ export default function ShopPage({ showToast }: Props) {
       ctx.beginPath(); ctx.moveTo(cx, cy); ctx.arc(cx, cy, radius, sa, ea); ctx.closePath()
       ctx.fillStyle = COLORS[i % COLORS.length]; ctx.fill(); ctx.strokeStyle = '#1a1a2e'; ctx.lineWidth = 2; ctx.stroke()
       ctx.save(); ctx.translate(cx, cy); ctx.rotate(sa + arcAngle / 2)
-      ctx.textAlign = 'center'; ctx.fillStyle = '#fff'; ctx.font = '24px sans-serif'
-      ctx.fillText(SPIN_PRIZES[i].icon, radius * 0.65, 8)
-      ctx.font = 'bold 9px sans-serif'; ctx.fillStyle = '#000'
-      ctx.fillText(SPIN_PRIZES[i].label, radius * 0.65, 24)
+      ctx.textAlign = 'center'; ctx.fillStyle = '#fff'; ctx.font = 'bold 12px sans-serif'
+      ctx.fillText(SPIN_PRIZES[i].label, radius * 0.65, 5)
       ctx.restore()
     }
     ctx.beginPath(); ctx.arc(cx, cy, 24, 0, 2 * Math.PI); ctx.fillStyle = '#1a1a2e'; ctx.fill()
