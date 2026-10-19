@@ -64,7 +64,7 @@ export const SMALL_BEAN_SHOP = [
   { id: 's5', name: '零食大礼包', price: 68, currency: 'small_bean' as const, icon: '🍿', description: '备考能量站', category: '食品' },
   { id: 's6', name: '电影之夜', price: 10, currency: 'small_bean' as const, icon: '🎬', description: '一起看电影', category: '娱乐' },
   { id: 's7', name: '纸质书/文具', price: 38, currency: 'small_bean' as const, icon: '📚', description: '备考装备补给了', category: '学习用品' },
-  { id: 's8', name: '免早起券', price: 66, currency: 'small_bean' as const, icon: '🛡️', description: '使用后当日早鸟打卡自动完成', category: '特权' },
+  { id: 's8', name: '免早起券', price: 20, currency: 'small_bean' as const, icon: '🛡️', description: '使用后当日早鸟打卡自动完成', category: '特权' },
   { id: 's9', name: '🎰 抽奖机会 ×1', price: 88, currency: 'small_bean' as const, icon: '🎰', description: '88小豆兑换1次转盘抽奖机会', category: '特权' },
   { id: 's10', name: '免学半日券', price: 66, currency: 'small_bean' as const, icon: '🎫', description: '使用后自动完成学习和模块两项打卡', category: '特权' },
 ];
@@ -76,15 +76,14 @@ export const BIG_BEAN_SHOP = [
   { id: 'b3', name: '免学休息日', price: 8, currency: 'big_bean' as const, icon: '🏖️', description: '合法躺平一天', category: '特权' },
   { id: 'b4', name: '一顿大餐', price: 15, currency: 'big_bean' as const, icon: '🍽️', description: '想吃啥吃啥', category: '终极奖励' },
   { id: 'b5', name: '手写情书一封', price: 35, currency: 'big_bean' as const, icon: '💌', description: 'Boss亲笔书写', category: '精神补给' },
-  { id: 'b6', name: '明日双倍卡', price: 8, currency: 'big_bean' as const, icon: '🔥', description: '今日完成任务奖励翻倍', category: '特权' },
 ];
 
 // 转盘奖池（带权重）
 export const SPIN_PRIZES = [
-  { id: 1, label: '免早起券', icon: '🛡️', type: 'card' as const, value: 1, color: '#6fdc6f', weight: 25 },
+  { id: 1, label: '66小豆', icon: '🫘', type: 'bean_small' as const, value: 66, color: '#6fdc6f', weight: 25 },
   { id: 2, label: '再来一次', icon: '🍀', type: 'reroll' as const, value: 0, color: '#3498db', weight: 25 },
   { id: 3, label: '再来两次', icon: '🍀🍀', type: 'reroll2' as const, value: 0, color: '#2980b9', weight: 12 },
-  { id: 4, label: '明日双倍卡', icon: '🔥', type: 'double_card' as const, value: 1, color: '#e74c3c', weight: 12 },
+  { id: 4, label: '8大豆', icon: '🌰', type: 'bean_big' as const, value: 8, color: '#e74c3c', weight: 12 },
   { id: 5, label: '3大豆', icon: '🌰', type: 'bean_big' as const, value: 3, color: '#e2b04a', weight: 15 },
   { id: 6, label: '10大豆', icon: '🌰', type: 'bean_big' as const, value: 10, color: '#f0d078', weight: 6 },
   { id: 7, label: '一顿大餐', icon: '🍽️', type: 'physical' as const, value: 0, color: '#e67e22', weight: 5 },
