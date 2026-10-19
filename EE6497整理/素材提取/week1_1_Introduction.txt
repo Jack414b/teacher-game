@@ -1,0 +1,1325 @@
+=== PDF第1页 ===
+IE4497/EE6497 Pattern Recognition and Deep Learning
+Tay Wee Peng
+Nanyang Technological University
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 0 / 57
+=== PDF第2页 ===
+1. Introduction
+1 Course Admin
+2 Overview
+3 Probability Review
+4 Some Practice Problems
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 1 / 57
+=== PDF第3页 ===
+Course Admin
+Outline
+1 Course Admin
+2 Overview
+3 Probability Review
+4 Some Practice Problems
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 2 / 57
+=== PDF第4页 ===
+Course Admin
+Learning Outcomes
+1. Explain basic pattern recognition and machine learning concepts.
+2. Describe Bayesian inference.
+3. Explain mixture models and EM algorithm.
+4. Describe Markov models and hidden Markov models.
+5. Explain sampling and Markov chain Monte Carlo (MCMC) techniques.
+6. Differentiate various algorithms and architectures of neural networks and deep
+learning.
+7. Describe training deep network techniques.
+8. Describe generative models and self-supervised learning.
+9. Describe some applications of pattern recognition and machine learning.
+Teaching team:
+Tay Wee Peng (wptay@ntu.edu.sg): Weeks 1 – 7
+Wang Lipo (elpwang@ntu.edu.sg): Weeks 8 – 13
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 3 / 57
+=== PDF第5页 ===
+Course Admin
+Pre-requisites
+Related courses: IE4483/EE6483, IE4414, EE6406, EE6407.
+This course: concepts and underlying theories.
+▶ Mathematically interpretable: probabilistic approach.
+▶ Reasoning behind selected models.
+Math requirements:
+▶ Elementary calculus: taking derivatives, solving equations, finding max/min.
+▶ Basic probability theory: pmf, pdf, expectations, their interpretations.
+Both theory and practice are important. Key: get involved mentally and your
+hands dirty implementing Python codes.
+Practice problems are available at end of each week’s lecture slides. Attempt
+the questions without looking at the solutions first!
+Welcome timely feedback: how can I help you learn better?
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 4 / 57
+=== PDF第6页 ===
+Course Admin
+Grading for UG students taking IE4497
+Component Weighting
+Final Examination 60%
+Quiz 1 10%
+Quiz 2 10%
+Homework 1 5%
+Homework 2 5%
+Class Participation 10%
+No late submission of homeworks.
+Quiz 1, Quiz 2, Final Exam: you can bring ONE double-sided A4-size reference
+sheet with texts handwritten or typed on the A4 paper (no sticky notes/post-it
+notes on the reference sheet). Zero mark applies if no valid LOA/MC.
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 5 / 57
+=== PDF第7页 ===
+Course Admin
+Grading for PG students taking EE6497
+Component Weighting
+Final Examination 60%
+Quiz 1 10%
+Quiz 2 10%
+Homework 1 5%
+Homework 2 5%
+Class Participation 5%
+Survey Report 5%
+Additional homework questions and survey report mandatory for PG students.
+No late submission of homeworks.
+Quiz 1, Quiz 2, Final Exam: you can bring ONE double-sided A4-size reference
+sheet with texts handwritten or typed on the A4 paper (no sticky notes/post-it
+notes on the reference sheet). Zero mark applies if no valid LOA/MC.
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 6 / 57
+=== PDF第8页 ===
+Course Admin
+Course Content
+Week Topic CA (due in week)
+1 Introduction, Probability Review
+2 Bayesian Inference
+3 Mixture Models and the EM Algorithm
+4 Markov Models and Hidden Markov Models
+5 Sampling Homework 1
+6 Markov Chain Monte Carlo (MCMC)
+7 Summary Quiz 1 - Weeks 1 to 4
+Recess
+8 Neural Networks
+9 Deep Learning (CNN)
+10 Training Deep Networks
+11 Training Deep Networks Homework 2
+12 Deep Network Architectures Quiz 2 - Weeks 8 to 11
+13 Applications Survey report (for PG only)
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 7 / 57
+=== PDF第9页 ===
+Course Admin
+Class Participation: Wooclap
+Short questions to test your understanding during lecture.
+You will earn the full Class Participation marks if you attend and attempt the
+Wooclap questions in9 out of 13lectures. [Have to be captured via
+NTULearn.]
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 8 / 57
+=== PDF第10页 ===
+Course Admin
+Acknowledgements
+Textbook References
+[B07] Christopher Bishop, Pattern Recognition and Machine Learning,
+Springer, 2007.
+[M12] Kevin P. Murphy, Machine Learning: A Probabilistic Perspective, The
+MIT Press, 2012.
+[HTF09] T. Hastie, R. Tibshirani, and J. Friedman, The Elements of Statistical
+Learning, Springer, 2009.
+Material is taken liberally from [B07] and [M12].
+Some Python codes are from [M12]
+(https://github.com/probml/pyprobml), with slight modifications.
+Some data taken from [HFT09].
+Note: Supplementary materials are provided for reference only. It is good to
+understand them but you will not be tested on them.
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 9 / 57
+=== PDF第11页 ===
+Overview
+Outline
+1 Course Admin
+2 Overview
+3 Probability Review
+4 Some Practice Problems
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 10 / 57
+=== PDF第12页 ===
+Overview
+Wooclap
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 11 / 57
+=== PDF第13页 ===
+Overview
+Using Gemini Agent
+What is the best PyTorch architecture for pattern recognition in financial time
+series to maximize the Sharpe ratio? Implement the model for optimizing
+a portfolio of tech stocks using intraday data from Yahoo Finance. Use
+out-of-sample backtesting to evaluate the performance of the model.
+01_portfolio_optimization.ipynb
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 12 / 57
+=== PDF第14页 ===
+Overview
+Machine Learning
+Supervised learning: learn a map Y = f ( X )to relate an input X to an output
+Yfrom a training set of input-output pairsD={(X i ,Y i ) :i= 1,...,n}.
+▶ Classification
+▶ Object detection and recognition
+▶ Regression
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 13 / 57
+=== PDF第15页 ===
+Overview
+Machine Learning
+Unsupervised learning: given only dataD={X i :i= 1,...,n}, want to
+discover structures or knowledge from the data.
+▶ Clustering
+▶ Dimensionality reduction using latent factors
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 14 / 57
+=== PDF第16页 ===
+Overview
+Machine Learning
+Unsupervised learning: given only dataD={X i :i= 1,...,n}, want to
+discover structures or knowledge from the data.
+▶ Correlation and structure learning
+In the first half, we will learn how to rigorously perform pattern
+recognition/learning in a framework that is explainable most of the time.
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 15 / 57
+=== PDF第17页 ===
+Overview
+Motivation: My Research
+Graph neural networks: representation learning for unstructured graph-like data.
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 16 / 57
+=== PDF第18页 ===
+Overview
+Motivation: My Research
+S. H. Lee, F. Ji, K. Xia, and W. P. Tay, “Graph neural networks with a distribution of parametrized graphs,” in Proc. International Conference on Machine
+Learning (ICML), Vienna, Austria, Jul. 2024
+https://moleculenet.org/datasets-1
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 17 / 57
+=== PDF第19页 ===
+Overview
+Motivation: My Research
+Project with Continental Automotive: AV localization using camera - detection of
+landmarks, matching, Kullback-Leibler divergence.
+Image patch
+matching model
+with graph-
+based learning
+Landmark patches
+Landmark patches
+Matched 
+pairs of 
+landmarks
+Applications:
+• Vehicle  self-
+localization using 
+landmark  maps
+• Place recognition
+• Depth estimation
+• Odometry 
+estimation 
+• 3D reconstruction
+• SLAM…
+Extract roadside semantic 
+object patches
+Extract roadside semantic 
+object patches
+Semantic objects’ spatial 
+information/relative 
+locations
+Semantic objects’ spatial 
+information/relative 
+locations
+R. She, Q. Kang, S. Wang, W. P. Tay, Y. L. Guan, D. N. Navarro, and A. Hartmannsgruber, “Image patch-matching with graph-based learning in street
+scenes,” IEEE Transactions on Image Processing, vol. 32, pp. 3465 – 3480, 2023
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 18 / 57
+=== PDF第20页 ===
+Probability Review
+Outline
+1 Course Admin
+2 Overview
+3 Probability Review
+4 Some Practice Problems
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 19 / 57
+=== PDF第21页 ===
+Probability Review
+Probabilistic Perspective
+What is a random variableX?
+▶ X gives random values with certain probabilities. p X ( x )is the “chance” or our
+“belief” thatX=x.
+▶ Depending on whetherXis discrete or continuous,p X (x)is called the
+probability mass function (pmf) or probability density function (pdf).
+▶ In this course, we always assume either discrete random variable (pmf) or
+continuous random variable (pdf). In our discussion, we will just talk about pdf.
+Supervised learning: outputYmay depend on factors other than givenX.
+Treat the other factors as “random” effects. Model input and output as a pair
+of random elements(X,Y)with joint pdfp X,Y (x,y).
+Unsupervised learning: dataXis generated by a “random” process. Model
+data as a random elementXwith pdfp X (x).
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 20 / 57
+=== PDF第22页 ===
+Probability Review
+Examples of Famous Pdfs
+X∼Bern (θ)has pmfp X (1) =θ, p X (0) = 1−θ.
+Instead of the generic notationp X (x), we also write its pmf as
+Bern (x|θ) =
+{︄
+θifx= 1,
+1−θifx= 0,
+=θ
+x
+(1−θ)
+1−x
+=θ
+1{x=1}
+(1−θ)
+1{x=0}
+,
+where1{A}= 1ifAis true and1{A}= 0ifAis false.
+E.g.:
+Bern (0|0.4) = 0.6 = 0.4
+0
+·0.6
+1
+Bern (1|0.4) = 0.4 = 0.4
+1
+·0.6
+0
+.
+0
+1
+1 − θ
+θ
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 21 / 57
+=== PDF第23页 ===
+Probability Review
+Examples of Famous Pdfs
+X∼Unif (a,b)has pdf
+Unif (x|a,b) =
+⎧
+⎨
+⎩
+1
+b−a
+ifa≤x≤b,
+0otherwise.
+E.g.:Unif (x|0,1) =
+1
+1−0
+= 1for0≤x≤1and0otherwise.
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 22 / 57
+=== PDF第24页 ===
+Probability Review
+Examples of Famous Pdfs
+X∼Exp (λ)has pdf
+Exp (x|λ) =
+⎧
+⎨
+⎩
+λe
+−λx
+ifx≥0,
+0otherwise.
+E.g.:Exp (x|0.1) = 0.1e
+−0.1x
+forx≥0and0otherwise.
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 23 / 57
+=== PDF第25页 ===
+Probability Review
+Probability Basics
+Notation: we are lazy and often just write p ( x )for p X ( x )and p ( x, y )for p X,Y ( x, y ). I.e., in most
+situations, we think ofxas the realization of a random variableX.
+Joint pdf:P((X,Y)∈A) =
+∫︁
+A
+p(x,y) dxdy
+Marginal pdf:p(x) =
+∫︁∞
+−∞
+p(x,y) dy
+Conditional pdf:p(y|x) =
+p(x,y)
+p(x)
+p(x,y) =p(x)p(y|x)
+Bayes’ rule:p(x|y) =
+p(x,y)
+p(y)
+=
+p(y|x)p(x)
+p(y)
+IfXandYare independent, thenp(x,y) =p(x)p(y).
+DatasetD={x 1 ,...,x n }independent and identically distributed (i.i.d.).
+Joint probability or likelihood:p(D) =
+∏︁n
+i=1
+p(x i )
+Log likelihood:logp(D) =
+∑︁n
+i=1
+logp(x i )
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 24 / 57
+=== PDF第26页 ===
+Probability Review
+Probability Basics
+Expectation
+E[X] =
+∫︂∞
+−∞
+xp(x) dx,E[g(X)] =
+∫︂∞
+−∞
+g(x)p(x) dx
+E.g.,p(x) =
+∫︂
+p(x|y)p(y) dy=E Y [p(x|Y)]
+E[X+Y] =E[X] +E[Y]
+E[cX] =cE[X]
+IfXandYare independent,E[XY] =E[X]E[Y]
+E[X|Y=y] =
+∫︂∞
+−∞
+xp(x|y) dx
+E[f(X)g(Y)|Y=y] =E[f(X)|Y=y]g(y)
+Exercise: find the expectation ofBern (θ),Unif (a,b), andExp (λ).
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 25 / 57
+=== PDF第27页 ===
+Probability Review
+Probability Basics
+var(X) =E
+[︁
+(X−E[X])
+2
+]︁
+=E
+[︁
+X
+2
+]︁
+−E[X]
+2
+cov(X,Y) =E[(X−EX)(Y−EY)] =E[XY]−E[X]E[Y]
+Uncorrelated: cov ( X,Y ) = 0. Note: independence= ⇒ uncorrelated, but not vice
+versa.
+var(X+Y) = var(X) + var(Y) + 2 cov(X,Y)
+Exercise: find the variance ofBern (θ),Unif (a,b), andExp (λ).
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 26 / 57
+=== PDF第28页 ===
+Probability Review
+Vector Variables
+x=
+⎡
+⎣
+x 1
+x 2
+.
+.
+.
+x n
+⎤
+⎦,E[x] =
+⎡
+⎢
+⎣
+E[x 1 ]
+E[x 2 ]
+.
+.
+.
+E[x n ]
+⎤
+⎥
+⎦
+IfAis a deterministic matrix,E[Ax] =AE[x].
+Covariance:cov(x) =Σ xx =E[(x−Ex)(x−Ex)
+⊺
+],
+cov(Ax) =Acov(x)A
+⊺
+Cross-covariance:cov(x,y) =Σ xy =E[(x−Ex)(y−Ey)
+⊺
+]
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 28 / 57
+=== PDF第29页 ===
+Probability Review
+Vector Variables
+∂(a
+⊺
+x)
+∂x
+=a,
+∂(x
+⊺
+Ax)
+∂x
+= (A+A
+⊺
+)x
+∂a
+⊺
+Xb
+∂X
+=ab
+⊺
+∂det(X)
+∂X
+= det(X)(X
+−1
+)
+⊺
+(Note:det(X)is sometimes also written as|X|.)
+∂a
+⊺
+X
+−1
+b
+∂X
+=−(X
+−1
+)
+⊺
+ab
+⊺
+(X
+−1
+)
+⊺
+Matrix Cookbook
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 29 / 57
+=== PDF第30页 ===
+Probability Review
+Parametric vs Non-parametric Models
+Parametric model: p ( x,y ) = p ( x,y|θ )or p ( x ) = p ( x|θ )has a fixed number
+of parameters, usually belongs to a fixed family of distributions.
+▶ Faster to train (find “optimal”θ).
+▶ Stronger assumptions about the data distribution
+Non-parametric model: number of parameters grow with the amount of
+training data.
+▶ More flexible
+▶ Can be computationally intractable for large datasets
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 30 / 57
+=== PDF第31页 ===
+Probability Review
+Parametric Models
+Consider the following AV data (image, sound, Lidar, radar, etc.) as an
+example in the next few slides:
+We also consider cases where the raw data has been pre-processed and we
+have access only to features. Eg: data X is output from a detector for obstacle
+avoidance.
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 31 / 57
+=== PDF第32页 ===
+Probability Review
+Parametric Models
+Training a parametric model: we assume a datumxis generated by a
+distribution p (·|θ), where θ is a parameter. We want to learn or infer θ from
+observed datax:
+p(θ|x)
+⏞ ⏟⏟ ⏞
+posterior
+=
+p(x,θ)
+p(x)
+=
+p(x|θ)p(θ)
+p(x)
+∝p(x|θ)
+⏞ ⏟⏟ ⏞
+likelihood
+·p(θ)
+⏞⏟⏟⏞
+prior
+WLOG, can ignore the constantp(x)as it does not depend onθ.
+▶ If you knowp(x|θ)p(θ), you can easily recoverp(x) =
+∫︁
+p(x|θ)p(θ) dθ.
+Remark: If you knowp(x)∝f(x)wheref(·)is any non-negative function or
+functional form, then the pdfp(x) =cf(x)is fixed and known with
+c=
+(︁∫︁
+f(x) dx
+)︁−1
+.
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 32 / 57
+=== PDF第33页 ===
+Probability Review
+Conjugate Distributions
+p(θ|x)
+⏞ ⏟⏟⏞
+posterior
+∝p(x|θ)
+⏞ ⏟⏟⏞
+likelihood
+·p(θ)
+⏞⏟⏟⏞
+prior
+logp(θ|x) = logp(x|θ)
+⏞ ⏟⏟ ⏞
+log likelihood
++ logp(θ) + const
+If p ( θ)and p ( θ|x )have the same form (belongs to same distribution family),
+we say that they areconjugate distributions, andp(θ)is aconjugate priorfor
+the likelihoodp(x|θ).
+Why: Conjugate distributions allow for analytical closed form solutions, simple
+to implement, and
+Easy to interpret: the posterior is an “updated” version of the prior.
+Con: may not be flexible enough to capture complex data. MCMC methods
+are used in such cases.
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 33 / 57
+=== PDF第34页 ===
+Probability Review
+Example: Bernoulli Distribution
+Bern (x|θ),θ≥0:x∈{0,1}withBern (1|θ) =θ.
+Bern (x|θ) =θ
+x
+(1−θ)
+1−x
+▶ AV: x indicates if an obstacle is detected. As the detection is imperfect, we can
+only sayX= 1with a certain probabilityθ.
+▶ θdepends on the sensor, the environment, etc., and is unknowna priori.
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 34 / 57
+=== PDF第35页 ===
+Probability Review
+Beta
+Prior model:Beta (θ|a,b),a,b>0,θ∈[0,1]:
+Beta (θ|a,b) =
+Γ(a+b)
+Γ(a)Γ(b)
+θ
+a−1
+(1−θ)
+b−1
+,
+whereΓ(z) =
+∫︁∞
+0
+u
+z−1
+e
+−u
+du. The factor
+Γ(a+b)
+Γ(a)Γ(b)
+simply ensures that
+∫︁
+R
+p(θ) dθ= 1.
+a = 0.5, b = 0.5
+a = 5, b = 1
+a = 1, b = 3
+a = 2, b = 2
+a = 2, b = 5
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 35 / 57
+=== PDF第36页 ===
+Probability Review
+Beta as Conjugate Prior
+Conjugate prior toBern (·|θ):
+posterior
+⏟ ⏞⏞⏟
+p(θ|x)∝
+likelihood
+⏟ ⏞⏞⏟
+p(x|θ)
+prior
+⏟⏞⏞⏟
+p(θ)
+∝
+likelihood
+⏟ ⏞⏞ ⏟
+Bern (x|θ)
+prior
+⏟ ⏞⏞ ⏟
+Beta (θ|a,b)
+∝θ
+x
+(1−θ)
+1−x
+θ
+a−1
+(1−θ)
+b−1
+∝θ
+x+a−1
+(1−θ)
+1−x+b−1
+.
+∴p(θ|x) = Beta (θ|x+a,1−x+b)
+Posterior is also a Beta distribution with updated parameters. I.e., the Beta
+distribution is a conjugate prior for the Bernoulli distribution.
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 36 / 57
+=== PDF第37页 ===
+Probability Review
+I.I.D. Dataset
+Given datasetD={x 1 ,...,x n }i.i.d.∼Bern (·|θ).
+p(θ|D)∝p(D|θ)p(θ)
+=
+n
+∏︂
+i=1
+p(x i |θ)·p(θ)
+∝
+n
+∏︂
+i=1
+θ
+x i
+(1−θ)
+1−x i
+·θ
+a−1
+(1−θ)
+b−1
+∝θ
+∑︁
+n
+i=1
+x i +a−1
+(1−θ)
+n−
+∑︁
+n
+i=1
+x i +b−1
+.
+∴p(θ|D) = Beta (θ|
+∑︁n
+i=1
+x i +a,n−
+∑︁n
+i=1
+x i +b).
+Log likelihood:
+logp(D|θ) = log
+n
+∏︂
+i=1
+p(x i |θ) =
+n
+∑︂
+i=1
+logp(x i |θ)
+=
+n
+∑︂
+i=1
+(x i logθ+ (1−x i ) log(1−θ)).
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 37 / 57
+=== PDF第38页 ===
+Probability Review
+Example: Categorical Distribution
+Cat (·|θ 1 ,...,θ K ),θ k ≥0,
+∑︁K
+k=1
+θk = 1:Cat (x|θ 1 ,...,θ K ) =θ x .
+▶ AV:Xis detection of {pedestrian, bicycle, car, truck, lamp-post}.
+SupposeX i ∼Cat (·|θ 1 ,...,θ K )i.i.d.,i= 1,2,...,n. Let
+D={X 1 ,...,X n }. Joint pdf ofX 1 ,...,X n is
+p(D) =
+n
+∏︂
+i=1
+Cat (x i |θ1 ,...,θ K ) =
+n
+∏︂
+i=1
+K
+∏︂
+k=1
+θ
+1{x i =k}
+k
+=
+K
+∏︂
+k=1
+θ
+N k
+k
+,
+whereN k =
+∑︁n
+i=1
+1{x i =k}.
+▶ AV:X i is detection of {pedestrian, bicycle, car, truck, lamp-post} in boxi,n
+bounding boxes in total.
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 38 / 57
+=== PDF第39页 ===
+Probability Review
+Example: Dirichlet (Supplementary)
+Forθ= (θ 1 ,...,θ K )such thatθ k ∈[0,1],∀k, and
+∑︁K
+k=1
+θk = 1,
+Dir (θ|α 1 ,...,α K ) =
+Γ(
+∑︁K
+k=1
+αk )
+Γ(α 1 )···Γ(αK )
+K
+∏︂
+k=1
+θ
+αk −1
+k
+,
+The space
+{︂
+θ:θ k ∈[0,1],
+∑︁K
+k=1
+θk = 1
+}︂
+is the space ofallcategorical
+distributions overKcategories.
+Dir (θ|α 1 ,...,α K ) is adistribution over the space of categorical distributions
+(withKcategories). Beta distribution isK= 2.
+Conjugate prior toCat (·|θ):
+posterior
+⏟ ⏞⏞⏟
+p(θ|s) =
+likelihood
+⏟ ⏞⏞ ⏟
+Cat (x|θ)
+prior
+⏟ ⏞⏞ ⏟
+Dir (θ|α)∝
+K
+∏︂
+k=1
+θ
+1{x=k}
+k
+K
+∏︂
+k=1
+θ
+αk −1
+k
+∝
+K
+∏︂
+k=1
+θ
+1{x=k}+α k −1
+k
+∴p(θ|s) = Dir (θ|s+α),
+wheres= (1{x= 1},...,1{x=K}),α= (α 1 ,...,α K ).
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 39 / 57
+=== PDF第40页 ===
+Probability Review
+Example: Gaussian or Normal Distribution
+Gaussian or normal distribution:x∈R
+N
+(︁
+x
+⃓
+⃓µ,σ
+2
+)︁
+=
+1
+√
+2πσ
+2
+e
+−
+1
+2σ 2
+(x−µ)
+2
+▶ N(x|0,1) =
+1
+√
+2π
+e
+−
+1
+2
+x
+2
+is called the standard normal distribution.
+▶ AV:Xis a radar range measurement from an obstacle at a distanceµ.
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 41 / 57
+=== PDF第41页 ===
+Probability Review
+Example: Gaussian or Normal Distribution
+Some useful properties:
+IfX∼N
+(︁
+µ,σ
+2
+)︁
+, then
+▶ aX∼N
+(︁
+aµ,a
+2
+σ
+2
+)︁
+for any constanta∈R
+▶ X+c∼N
+(︁
+µ+c,σ
+2
+)︁
+▶ LetZ∼N(0,1)(standard normal). ThenX=σZ+µ∼N
+(︁
+µ,σ
+2
+)︁
+.
+IfX∼N
+(︁
+µ,σ
+2
+)︁
+andY∼N
+(︁
+ξ,ν
+2
+)︁
+are independent, then
+X+Y∼N
+(︁
+µ+ξ,σ
+2
++ν
+2
+)︁
+.
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 42 / 57
+=== PDF第42页 ===
+Probability Review
+Jointly Gaussian Distribution
+Definition:X= [X 1 ,...,X n ]
+⊺
+is jointly Gaussian or multivariate Gaussian if
+for anya= [a 1 ,...,a n ]
+⊺
+∈R
+n
+, the random variable
+a
+⊺
+X=
+n
+∑︂
+i=1
+a i X i
+is Gaussian.
+Any linear combination of the components ofXis Gaussian.
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 43 / 57
+=== PDF第43页 ===
+Probability Review
+Jointly Gaussian Distribution
+LetZ 1 ,...,Z K ∼N(·|0,1)i.i.d. They are jointly Gaussian. Why?
+Let
+X=
+⎡
+⎢
+⎢
+⎢
+⎣
+X 1
+.
+.
+.
+X n
+⎤
+⎥
+⎥
+⎥
+⎦
+=AZ+µ,Z=
+⎡
+⎢
+⎢
+⎢
+⎣
+Z 1
+.
+.
+.
+Z K
+⎤
+⎥
+⎥
+⎥
+⎦
+,µ=
+⎡
+⎢
+⎢
+⎢
+⎣
+µ1
+.
+.
+.
+µn
+⎤
+⎥
+⎥
+⎥
+⎦
+,
+whereA= [a ij ]
+n,K
+i=1,j=1
+is a given array of real numbers andµis a vector of
+real numbers.
+Then,Xis jointly Gaussian with mean and covariance given by
+E[X] =E[AZ+µ] =AEZ+µ=µ
+cov(X) =E[(X−µ)(X−µ)
+⊺
+] =E
+[︁
+AZZ
+⊺
+A
+⊺
+]︁
+=AE
+[︁
+ZZ
+⊺
+]︁
+A
+⊺
+=AA
+⊺
+.
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 44 / 57
+=== PDF第44页 ===
+Probability Review
+Jointly Gaussian Distribution
+N(x|µ,Σ) =
+1
+(2π)
+K/2
+(detΣ)
+1/2
+exp
+(︃
+−
+1
+2
+(x−µ)
+⊺
+Σ
+−1
+(x−µ)
+)︃
+.(1.1)
+AV: SupposeXconsists of 2D LiDAR information.
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 45 / 57
+=== PDF第45页 ===
+Probability Review
+Joint Gaussian Distribution Examples
+Two-dimensional jointly GaussianX=
+⎡
+⎣
+X
+Y
+⎤
+⎦ with
+µ=
+⎡
+⎣
+µX
+µY
+⎤
+⎦,Σ=
+⎡
+⎣
+σ
+2
+X
+cov(X,Y)
+cov(X,Y)σ
+2
+Y
+⎤
+⎦
+Correlation coefficient:
+ρX,Y =
+cov(X,Y)
+σX σY
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 46 / 57
+=== PDF第46页 ===
+Probability Review
+Joint Gaussian Distribution Examples
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 47 / 57
+=== PDF第47页 ===
+Probability Review
+Summary
+Some basic probability theory.
+▶ Pdfs and their properties
+▶ Expectation and variance
+▶ Vector variables
+▶ Conjugate distributions
+Some standard distributions.
+▶ Unif, Exp
+▶ Bern, Beta
+▶ Cat, Dir (Supplementary)
+▶ Normal/Gaussian
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 49 / 57
+=== PDF第48页 ===
+Probability Review
+The Path Ahead
+Probabilistic (parametric) models
+• Standard distributions (e.g., Bern, Exp,
+Normal) [Weeks 1, 2]
+•Mixture models (e.g., GMM) [Week 3]
+• Markov models, Hidden Markov models
+[Week 4]
+Loss models [Weeks 8-13]
+•MLP, DNN
+•CNN
+•RNN, LSTM
+ModelsM
+•Parameters of modelM:θ
+•ProbabilisticMis given byp(· |θ)
+•Examples:
+–Bern (· |θ),N(· |µ,Σ)[Weeks 1, 2]
+–p(x|θ) = PK
+k=1 π[k]p(x|η k)[Week 3]
+–p (x0, . . . , xt |π, T) = π(x0)T(x0, x1)T(x1, x2) · · ·T(xt−1, xt)[Week 4]
+–HMM:π,T,ϕ[Week 4]
+–DNN: network weightsθ[Weeks 8-13]
+Choose model M∈ M according to applica-
+tion or criteria.
+Infer model parametersθfrom training set.
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 50 / 57
+=== PDF第49页 ===
+Probability Review
+The Path Ahead
+Infer model parametersθfrom training set.
+Apply trained modelp(· |θ ∗)in inference time.
+•Goodness of fit [Week 2]
+•Test accuracy, Precision, Recall, F1, AUC, etc. [Week 10]
+•RMSE, MAE, etc. [Week 10]
+Utilize the trained model.
+Findθ ∗ = “optimal” model parameterθ.
+•MLE [Week 2]
+•MAP [Week 2]
+•EM algorithm [Week 3]
+•Baum-Welch algorithm [Week 4]
+•Sampling, MCMC [Weeks 5, 6]
+•Minimize loss or risk: stochastic gradient descent [Weeks 10, 11]
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 51 / 57
+=== PDF第50页 ===
+Some Practice Problems
+Outline
+1 Course Admin
+2 Overview
+3 Probability Review
+4 Some Practice Problems
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 52 / 57
+=== PDF第51页 ===
+Some Practice Problems
+Some Practice Problems
+1. LetX∼Bin (·|θ,n)be distributed according to the binomial distribution,
+then X =
+∑︁n
+i=1
+Y i where Y i ∼Bern (·|θ) i.i.d. Find the mean and variance of
+X.
+Solution:
+EX=
+n
+∑︂
+i=1
+EY i =nθ,
+varX=
+n
+∑︂
+i=1
+varY i =
+n
+∑︂
+i=1
+(θ(1−θ)
+2
++ (1−θ)θ
+2
+) =nθ(1−θ).
+2. Determine if the following statements are True or False.
+(a) Iflogp(x) =−2x
+3
+−4x
+2
++x+ const, thenp(x)is a Gaussian distribution.
+(b) IfXandYare i.i.d.N(5,2)random variables, thenZ=
+[︄
+X
+Y
+]︄
+is jointly
+Gaussian.
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 53 / 57
+=== PDF第52页 ===
+Some Practice Problems
+Some Practice Problems (cont.)
+Solution:
+(a) False: Not quadratic inxin its exponent.
+(b) True: Any linear combination ofXandYis Gaussian.
+3. The datasetD={x 1 = 0.3,x 2 = 0.6,x 3 = 0.8}is generated i.i.d. from
+Exp (·|λ) . Write down the joint probability or likelihood of D . Write down the
+log likelihood.
+Solution:
+p(D|λ) =
+3
+∏︂
+i=1
+p(x i |λ)
+=
+3
+∏︂
+i=1
+λe
+−λx i
+=λ
+3
+e
+−λ(0.3+0.6+0.8)
+=λ
+3
+e
+−1.7λ
+.
+logp(D|λ) = 3 logλ−1.7λ.
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 54 / 57
+=== PDF第53页 ===
+Some Practice Problems
+Some Practice Problems (cont.)
+4. You are given the training setD={x 1 ,...,x n }, wherex i ∼Bern (·|θ)i.i.d.
+for alli. Write down the log likelihoodlogp(D|θ).
+Solution:
+p(D|θ) =
+n
+∏︂
+i=1
+p(x i |θ)
+=
+n
+∏︂
+i=1
+θ
+x i
+(1−θ)
+1−x i
+=θ
+∑︁
+n
+i=1
+x i
+(1−θ)
+n−
+∑︁
+n
+i=1
+x i
+logp(D|θ) =
+(︄
+n
+∑︂
+i=1
+x i
+)︄
+logθ+
+(︄
+n−
+n
+∑︂
+i=1
+x i
+)︄
+log(1−θ).
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 55 / 57
+=== PDF第54页 ===
+Some Practice Problems
+Some Practice Problems (cont.)
+5. You are given the training set D = {x1 ,...,x n }, where x i ∼N
+(︁
+·
+⃓
+⃓µ,σ
+2
+)︁
+i.i.d.
+for alli. Write down the log likelihoodlogp(D|µ,σ
+2
+).
+Solution:
+logp(D|µ,σ
+2
+) =
+n
+∑︂
+i=1
+logN
+(︁
+x i
+⃓
+⃓µ,σ
+2
+)︁
+=
+n
+∑︂
+i=1
+(︃
+−
+1
+2
+log(2πσ
+2
+)−
+1
+2σ
+2
+(x i −µ)
+2
+)︃
+=−
+n
+2
+log(2πσ
+2
+)−
+1
+2σ
+2
+n
+∑︂
+i=1
+(x i −µ)
+2
+.
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 56 / 57
+=== PDF第55页 ===
+Some Practice Problems
+Some Practice Problems (cont.)
+6. LetXbe a random vector. Show thatcov(X) =E
+[︁
+XX
+⊺
+]︁
+−E[X]E[X]
+⊺
+.
+Solution:
+cov(X) =E[(X−EX)(X−EX)
+⊺
+]
+=E
+[︁
+XX
+⊺
+]︁
+−EXEX
+⊺
+−EXEX
+⊺
++EXEX
+⊺
+=E
+[︁
+XX
+⊺
+]︁
+−E[X]E[X]
+⊺
+.
+Tay W.P. IE4497/EE6497 Pattern Recognition and Deep Learning 57 / 57

@@ -1,0 +1,197 @@
+EE6497 – Homework 1
+Name: LIU JIALE Student ID: G2601566F
+Question 1
+(a)
+Taking the exponential of both sides gives
+p(x) = eax+b = ebeax, x ≥ 0.
+Since p(x) is a probability density,
+1 =
+∫∞
+0
+eax+b dx = − eb
+a .
+Thus eb = −a. With λ = −a > 0, this becomes
+p(x) = λe− λx = Exp(x |λ), λ = −a.
+It is an exponential distribution with rate −a, and b = log(−a).
+(b)
+Yes. The variable z selects one of three exponential distributions. Summing over its possible
+values,
+p(x) =
+3∑
+k=1
+p(z = k)p(x |z = k)
+= 0. 5 Exp(x |7. 8) + 0. 4 Exp(x |0. 6) + 0. 1 Exp(x |4. 5).
+The weights are nonnegative and sum to one, so this is a valid mixture model.
+(c)
+Let SSE =∑
+i(yi − ˆyi)2 and SST =∑
+i(yi − ¯y)2. Assuming SST > 0,
+R2 = 1 − SSE
+SST < 0 ⇐ ⇒ SSE > SST.
+Thus R2 can be negative when the predictions have a larger squared error than simply predicting
+the mean ¯y for every observation.
+For example, take y = (1 , 3) and ˆy = (0 , 0). Then ¯y = 2 , SST = 2 and SSE = 10 , giving
+R2 = 1 − 10/ 2 = −4.
+For ordinary least squares with an intercept, ﬁtted optimally and evaluated on the same training
+data, R2 cannot be negative: the constant mean predictor is already an available choice. This
+restriction does not hold for arbitrary predictions or evaluation on a diﬀerent dataset. If SST = 0 ,
+the stated formula is undeﬁned.
+1
+Question 2
+(a)(i)
+For a given state pair, the joint probability factors as
+p(z[1], z [2], o 2, o 1) = π(z[1])p(o2 |z[1])T (z[1], z [2])p(o1 |z[2]).
+Using the initial probability 1/ 2 for either state gives:
+z[1] z[2] Joint probability
+s1 s1 1
+2 (1 − p)ap
+s1 s2 1
+2 (1 − p)(1 − a)q
+s2 s1 1
+2 (1 − q)(1 − b)p
+s2 s2 1
+2 (1 − q)bq
+(a)(ii)
+When the states are hidden, all four state paths can produce the observed sequence. Therefore
+their joint probabilities must be added:
+L(a, b ) = p(o2, o 1)
+= 1
+2
+[
+(1 − p)ap + (1 − p)(1 − a)q
++ (1 − q)(1 − b)p + (1 − q)bq
+]
+= 1
+2
+[
+(1 − p){ap + (1 − a)q}+ (1 − q){(1 − b)p + bq}
+]
+.
+(b)(i)
+The observed transition counts are
+N11 = 1, N 12 = 1, N 21 = 0, N 22 = 2.
+Assuming 0 < p, q < 1, independence of the four sequences gives
+L(a, b ) = C a(1 − a)b2, C = 1
+16 (1 − p)2p q3(1 − q)2 > 0.
+The constant C does not depend on a or b. Since
+a(1 − a) = 1
+4 −
+(
+a − 1
+2
+) 2
+,
+it is maximized at a = 1/ 2. Also, b2 is maximized at b = 1 on [0, 1]. Hence
+ˆaMLE = 1
+2 , ˆbMLE = 1.
+These are also the observed proportions of self-transitions from each state. If p or q equals 0 or
+1, some of the given records are impossible under the model, and the full likelihood is zero for
+every (a, b ); the above unique estimate then does not apply.
+2
+(b)(ii)
+Here only one emission sequence is observed. Expanding the result in (a)(ii),
+L(a, b ) = C0 + Aa + Bb,
+where
+C0 = 1
+2
+[
+(1 − p)q + (1 − q)p
+]
+,
+A = 1
+2 (1 − p)(p − q), B = 1
+2 (1 − q)(q − p).
+For 0 < p, q < 1, the signs of these coeﬃcients determine the maximum over 0 ≤ a, b ≤ 1:
+• If p > q , then A > 0 and B < 0. Increasing a and decreasing b increases the likelihood, so
+(ˆa, ˆb) = (1 , 0).
+• If p < q , then A < 0 and B > 0. The likelihood is maximized at (ˆa, ˆb) = (0 , 1).
+Thus
+(ˆaMLE, ˆbMLE) =
+{
+(1, 0), p > q,
+(0, 1), p < q.
+Intuitively, the optimal transition sends the second state to whichever state is more likely to emit
+o1.
+At the emission boundaries, these displayed choices remain maximizers but may not be unique.
+If p = 1 > q , then ˆb = 0 and any a ∈ [0, 1] is optimal. If q = 1 > p, then ˆa = 0 and any b ∈ [0, 1]
+is optimal.
+(c)
+I would use the Baum–W elch algorithm, which applies EM to an HMM. The states are
+unobserved, so their transition counts cannot be read directly from the data. Each length-20
+sequence has 220 possible state paths, whereas forward–backward computes the required posterior
+probabilities eﬃciently.
+Starting from an initial choice of a, b , each iteration has two steps:
+1. E-step: Run forward–backward on each of the ﬁve sequences using the current parameters.
+Compute the posterior expected transition counts and add them across sequences.
+2. M-step: Update the self-transition probabilities by
+anew = E[N11]
+E[N11] + E[N12] , b new = E[N22]
+E[N21] + E[N22] .
+The expectations are conditional on the observed sequences and current parameters. There are
+5(20 − 1) = 95 transitions in total; no transition is counted between diﬀerent sequences. The
+known p, q and initial probabilities remain ﬁxed.
+Repeat until the log likelihood changes negligibly. Exact EM updates do not decrease the
+observed-data likelihood, but a global maximum is not guaranteed. Diﬀerent initial values can
+be tried, retaining the result with the highest likelihood.
+3
+Question 3
+(a)
+Since the devices are independent and ∑r+1
+k=1 nk = n, the likelihood is
+L(θ) =
+r∏
+k=1
+[
+θk− 1(1 − θ)
+] nk
+(θr)nr+1 .
+The ﬁnal category contributes no factor of 1 − θ. Deﬁne
+S =
+r∑
+k=1
+(k − 1)nk + rnr+1 =
+r+1∑
+k=1
+knk − n, F = n − nr+1.
+Then L(θ) = θS(1 − θ)F , and for 0 < θ < 1,
+ℓ(θ) =
+(r+1∑
+k=1
+knk − n
+)
+log θ + (n − nr+1) log(1 − θ).
+Boundary values are interpreted directly from the likelihood or by limits.
+(b)
+First suppose S > 0 and F > 0. Diﬀerentiating and setting the derivative to zero gives
+ℓ′(θ) = S
+θ − F
+1 − θ = 0 = ⇒ S(1 − θ) = F θ =⇒ ˆθ = S
+S + F .
+Also,
+ℓ′′(θ) = − S
+θ2 − F
+(1 − θ)2 < 0,
+so this is the unique maximum. Since
+S + F =
+r+1∑
+k=1
+knk − n + n − nr+1 =
+r+1∑
+k=1
+knk − nr+1,
+we obtain
+ˆθMLE =
+r+1∑
+k=1
+knk − n
+r+1∑
+k=1
+knk − nr+1
+.
+For completeness, the boundary cases are as follows (assuming n ≥ 1):
+• If all observations equal r + 1, then F = 0, S = rn, and L(θ) = θrn. Its maximum is at the
+allowed endpoint ˆθ = 1, consistent with the formula.
+• If all observations equal 1, then S = 0 and L(θ) = (1 − θ)n. The formula gives 0, but
+the parameter space excludes 0. The likelihood approaches its supremum of 1 as θ → 0+,
+without attaining it. Thus an MLE does not exist for this sample under 0 < θ ≤ 1.
+4

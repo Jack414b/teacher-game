@@ -1,0 +1,119 @@
+{
+  "weeks": [
+    {
+      "week": 1,
+      "words": 20869,
+      "segments": 258,
+      "knowledge_points": 18,
+      "first": "00:00:21",
+      "last": "03:09:19",
+      "english_exact_match": true,
+      "chinese_all_segments": true
+    },
+    {
+      "week": 2,
+      "words": 15249,
+      "segments": 219,
+      "knowledge_points": 15,
+      "first": "00:00:37",
+      "last": "02:43:18",
+      "english_exact_match": true,
+      "chinese_all_segments": true
+    },
+    {
+      "week": 3,
+      "words": 14642,
+      "segments": 198,
+      "knowledge_points": 15,
+      "first": "00:00:23",
+      "last": "02:29:32",
+      "english_exact_match": true,
+      "chinese_all_segments": true
+    },
+    {
+      "week": 4,
+      "words": 13957,
+      "segments": 206,
+      "knowledge_points": 16,
+      "first": "00:00:54",
+      "last": "02:49:39",
+      "english_exact_match": true,
+      "chinese_all_segments": true
+    }
+  ],
+  "total_words": 64717,
+  "total_segments": 881,
+  "total_knowledge_points": 64,
+  "all_local_html_links_valid": true,
+  "source_copies_sha256": [
+    {
+      "week": 1,
+      "file": "1_Introduction.pdf",
+      "sha256": "bdaedc939f12faf875ce9f6a7fe74095fbed70578c41f893b44598f27aaf68ec"
+    },
+    {
+      "week": 1,
+      "file": "55824 - 0_aac7x3xe - PID 117.json",
+      "sha256": "a9c58a9b4cb23cba4978be4ce824bac5df6ed06d28490c31629d75981a827eb4"
+    },
+    {
+      "week": 1,
+      "file": "Week 1.pdf",
+      "sha256": "04e9cad8d24da85d822f5797bdcb6665f834cc7ab7fcf340d0d99686f20d4083"
+    },
+    {
+      "week": 2,
+      "file": "2_Bayesian_Inference.pdf",
+      "sha256": "f5068c85717c85789b94926e22d579609c8fdb51e9621be254ccfb6d10506814"
+    },
+    {
+      "week": 2,
+      "file": "56787 - 0_hw0vrjzj - PID 117.json",
+      "sha256": "452911c7b37e25c9e68d17a934bd0390c9f32e010f9fc634d6eb940b7296786a"
+    },
+    {
+      "week": 2,
+      "file": "Week 2.pdf",
+      "sha256": "d9a225291ba057dc0b4adbf482a4e1a7cff9a42c9333db2e9508bf21a3b855b9"
+    },
+    {
+      "week": 3,
+      "file": "3_Mixture_Models_and_EM.pdf",
+      "sha256": "df55917696b5a519f845218233f0287dec3d8c51004431837ef768a45aca227f"
+    },
+    {
+      "week": 3,
+      "file": "58113 - 0_wkwlm9b9 - PID 117.json",
+      "sha256": "a79cab5360a57080f6976374243854bc9f5d4d2f4391cfd329591de5a830f480"
+    },
+    {
+      "week": 3,
+      "file": "Week 3.pdf",
+      "sha256": "652e39ff43abcace067c8b96e7184f1a131b8e41694aacced439a644bddee153"
+    },
+    {
+      "week": 4,
+      "file": "4_Markov_Models_and_HMM.pdf",
+      "sha256": "0b1cefafcaed834371e9adce8ba7f49825cfea4d47f9649a7905d1dcf3b0d06e"
+    },
+    {
+      "week": 4,
+      "file": "59234 - 0_9ngmahkf - PID 117.json",
+      "sha256": "2b5cef7cb8ee10a130d07d405077946d793f0767997362c39abdf43cd76481db"
+    },
+    {
+      "week": 4,
+      "file": "Week 4.pdf",
+      "sha256": "00a3cc72ab3661ddc49149c060c49796a3f050b566e40d3516073aa664185998"
+    }
+  ],
+  "browser_checks": {
+    "knowledge_jump": true,
+    "subtitle_jump": true,
+    "backlink": true,
+    "search_results": 11,
+    "week_switches": 4,
+    "mobile_no_overflow": true,
+    "javascript_errors": []
+  }
+}

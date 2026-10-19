@@ -1,0 +1,21 @@
+const {chromium}=require('C:/Users/Lenovo/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const fs=require('fs');
+const root='G:/AAADocument/test/EE6497整理/HW1讲解';
+(async()=>{const browser=await chromium.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true,args:['--no-sandbox','--disable-gpu','--disable-software-rasterizer','--disable-extensions','--allow-file-access-from-files']});try{
+ const page=await browser.newPage({viewport:{width:1440,height:1080}});const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.goto('file:///'+root+'/HW1_逐题讲解.html');await page.screenshot({path:root+'/素材/讲解首页.png'});
+ await page.locator('a[href="#section-6"]').click();await page.waitForTimeout(1200);await page.screenshot({path:root+'/素材/概率公式.png'});
+ await page.locator('#hmm-lab').scrollIntoViewIfNeeded();await page.waitForTimeout(1000);if(!(await page.locator('#h-total').textContent()).includes('0.2380'))throw Error('HMM initial');await page.screenshot({path:root+'/素材/HMM演示.png'});
+ await page.locator('#h-opt').click();if(await page.locator('#h-a').inputValue()!=='1'||await page.locator('#h-b').inputValue()!=='0')throw Error('HMM optimum');if(!(await page.locator('#h-total').textContent()).includes('0.4000'))throw Error('HMM max');
+ await page.locator('#h-p').fill('0.2');await page.locator('#h-p').dispatchEvent('input');await page.locator('#h-q').fill('0.8');await page.locator('#h-q').dispatchEvent('input');await page.locator('#h-opt').click();if(await page.locator('#h-a').inputValue()!=='0'||await page.locator('#h-b').inputValue()!=='1')throw Error('HMM reversed');
+ await page.locator('a[href="#section-13"]').click();await page.waitForTimeout(1200);await page.screenshot({path:root+'/素材/MLE推导.png'});
+ await page.locator('#life-lab').scrollIntoViewIfNeeded();await page.waitForTimeout(1000);if(!(await page.locator('#life-result').textContent()).includes('0.6923'))throw Error('Lifetime normal');await page.screenshot({path:root+'/素材/寿命演示.png'});
+ await page.locator('#life-first').click();if(!(await page.locator('#life-result').textContent()).includes('MLE不存在'))throw Error('Lifetime first');
+ await page.locator('#life-last').click();if(!(await page.locator('#life-result').textContent()).includes('1.0000'))throw Error('Lifetime last');
+ await page.locator('#life-normal').click();
+ await page.setViewportSize({width:390,height:844});await page.goto('file:///'+root+'/HW1_逐题讲解.html');await page.waitForTimeout(500);
+ const over=await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+2);if(over)throw Error('Mobile overflow '+await page.evaluate(()=>document.documentElement.scrollWidth));
+ await page.screenshot({path:root+'/素材/手机首页.png'});
+ if(errors.length)throw Error(errors.join('\n'));
+ fs.writeFileSync(root+'/素材/页面核对.json',JSON.stringify({hmm_likelihood_and_optimization:true,lifetime_normal_and_boundaries:true,mobile_no_overflow:true,javascript_errors:errors},null,2));console.log('All browser checks passed');
+ }finally{await browser.close()}})().catch(e=>{console.error(e);process.exitCode=1});

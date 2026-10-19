@@ -1,0 +1,1387 @@
+=== PDF第1页 ===
+4. Markov Models and HMM
+1 Markov Chains
+2 Hidden Markov Models
+3 Some Practice Problems
+4 MLE Derivation (Supplementary)
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 1 / 51
+=== PDF第2页 ===
+Motivation
+Speech recognition: what is the last word spoken, given part of a sentence?
+Text generation: what is the most likely next character or word?
+Predict the next “state” based on the current “state”: this is a Markov chain!
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 2 / 51
+=== PDF第3页 ===
+Markov Chains
+Outline
+1 Markov Chains
+2 Hidden Markov Models
+3 Some Practice Problems
+4 MLE Derivation (Supplementary)
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 3 / 51
+=== PDF第4页 ===
+Markov Chains
+Markov Chains
+We consider discrete time sequence of random variablesx[0], x[1], . . .. E.g.,
+natural language processing, time series modeling, etc.
+Eachx[t]∈state space{1,2, . . . , M}.
+Satisfies the Markov property:
+p(x[t]|x[1], . . . , x[t−1]) =p(x[t]|x[t−1])
+“The future is independent of the past, given the present.”
+T(i, j) =p x[t]|x[t−1] (j|i) =P(x[t] =j|x[t−1] =i)is called the transition
+probability. We consider onlyhomogeneousMC here - transition probability
+does not depend on time indext.
+T= [T(i, j)]
+M
+i,j=1
+is called the transition matrix.
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 4 / 51
+=== PDF第5页 ===
+Markov Chains
+Transition Matrix
+Each row ofTsums to one:
+M
+∑︂
+j=1
+T(i, j) =
+M
+∑︂
+j=1
+P(x[t] =j|x[t−1] =i) = 1.
+Tis said to be a (row) stochastic matrix.
+Can use transition diagrams to represent a Markov chain:
+T=
+⎡
+⎣
+1−α α
+β1−β
+⎤
+⎦
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 5 / 51
+=== PDF第6页 ===
+Markov Chains
+Transition Matrix
+Supposex[0]has pdfp 0 =
+[︂
+p 0 (1), p 0 (2), . . . , p 0 (M)
+]︂
+. Pdf ofx[1]is given by
+p 1 (i) =
+M
+∑︂
+j=1
+p(x[1] =i, x[0] =j)
+=
+M
+∑︂
+j=1
+p(x[1] =i|x[0] =j)p 0 (j)
+=
+M
+∑︂
+j=1
+T(j, i)p 0 (j)
+= (p 0 T)(i),
+orp 1 =p 0 T.
+Letp t to denote the row vector[p t (1), . . . , p t (M)]. Similarly,
+p t =p t−1 T=p t−2 T
+2
+=· · ·=p 0 T
+t
+.
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 6 / 51
+=== PDF第7页 ===
+Markov Chains
+Example
+T =
+0.2 0 .8
+0.7 0 .3
+
+1
+2
+1
+2
+1
+2
+0.2
+0.8
+0.3
+0.7
+0.2
+0.8
+0.3
+0.7
+p0 =
+0.5 0 .5
+. . .
+p 1 =p 0 T=
+[︂
+0.5 0.5
+]︂
+⎡
+⎣
+0.2 0.8
+0.7 0.3
+⎤
+⎦ =
+[︂
+0.45 0.55
+]︂
+p 2 =p 1 T=
+[︂
+0.45 0.55
+]︂
+⎡
+⎣
+0.2 0.8
+0.7 0.3
+⎤
+⎦ =
+[︂
+0.475 0.525
+]︂
+What is the probability of the sequencex[0] = 1, x[1] = 2, x[2] = 1?
+p(x[0] = 1, x[1] = 2, x[2] = 1) =p 0 (1)T(1,2)T(2,1) = 0.5×0.8×0.7.
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 7 / 51
+=== PDF第8页 ===
+Markov Chains
+Application: Language Modeling
+Statistical language model: learn probability distribution of word sequences.
+Applications:
+▶ Sentence completion: predict the next word given the previous words in a
+sentence.
+▶ Data compression: use shorter codewords to represent more frequently used
+strings to store the data.
+▶ Text classification: classify the topic or meaning of a document.
+State space: all words in a language, e.g., English.
+Unigram model:p(x[t] =x)- marginal probability that a word isx.
+Bigram model:p(x[t]|x[t−1])- probability that a word isx[t]depends on
+immediate previous wordx[t−1].
+n-gram model:p(x[t]|x[t−1], x[t−2], . . . , x[t−n+ 1])-x[t]depends on
+n−1immediate previous words
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 8 / 51
+=== PDF第9页 ===
+Markov Chains
+Application: Language Modeling
+[M12]: Unigram and bigram counts for letters {a, . . . , z,−} ( − stands for space) in
+Darwin’s “On The Origin of Species”. The 2D picture on the right is a Hinton
+diagram of the joint distribution. The size of the white squares is proportional to
+the value of the entry in the corresponding vector/matrix.
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 9 / 51
+=== PDF第10页 ===
+Markov Chains
+Application: PageRank
+A website is scored to be more authoritative if it is linked to by other
+authoritative websites.
+π i : authoritative score of websitei.
+T( j, i ): probability that a user follows a link from website j to website i (if j
+does not link toi, we naturally haveT(j, i) = 0.)
+π i =
+∑︂
+j
+T(j, i)π j
+User visits form a Markov chain.
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 10 / 51
+=== PDF第11页 ===
+Markov Chains
+MLE
+Estimate priorπand transition matrixTfrom training data:
+p(x[0], . . . , x[t]|π,T) =π(x[0])T(x[0], x[1])T(x[1], x[2])· · ·T(x[t−1], x[t]).
+Suppose we observensequences:
+D={x 1 [0 :t 1 ], . . . ,x n [0 :t n ]},
+andx i [0 :t i ] = (x i [0], x i [1], . . . , x i [t i ])is a sequence of lengtht i + 1.
+Note we can have sequences of different lengths, but we assume every data
+point follows same transition matrixT.
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 12 / 51
+=== PDF第12页 ===
+Markov Chains
+MLE
+logp(D |π,T) =
+n
+∑︂
+i=1
+logπ(x i [0]) +
+n
+∑︂
+i=1
+t i
+∑︂
+t=1
+logT(x i [t−1], x i [t])
+=
+M
+∑︂
+x=1
+N x logπ(x) +
+M
+∑︂
+x=1
+M
+∑︂
+y=1
+N xy logT(x, y),
+where
+N x =
+n
+∑︂
+i=1
+1{x i [0] =x},
+N xy =
+n
+∑︂
+i=1
+t i
+∑︂
+t=1
+1{x i [t−1] =x, x i [t] =y}.
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 13 / 51
+=== PDF第13页 ===
+Markov Chains
+MLE
+Taking partial derivatives of the log likelihood and finding the roots, we obtain
+the MLE: forx= 1, . . . , Mandy= 1, . . . , M,
+ˆπ(x) =
+N x
+n
+,
+ˆ︁T(x, y) =
+N xy
+M∑︁
+z=1
+N xz
+.
+Problem: model may predict certain strings are impossible if data have zero
+count of certain states (this is a form of overfitting).
+▶ E.g., if we have50 , 000words in our vocabulary, a bigram model has2 . 5billion
+parameters. Likely to have certain word pairs not appearing in our training data.
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 14 / 51
+=== PDF第14页 ===
+Markov Chains
+Numerical Example
+State space={1,2},D={x 1 [0 : 2],x 2 [0 : 1],x 3 [0 : 3]}
+x 1 [0 : 2] = (1,2,1),x 2 [0 : 1] = (2,2),x 3 [0 : 3] = (1,1,2,1)
+logp(D |π,T) = logπ(1) + logπ(2) + logπ(1)
++ logT(1,2) + logT(2,1)
++ logT(2,2)
++ logT(1,1) + logT(1,2) + logT(2,1)
+= 2 logπ(1) + logπ(2)
++ logT(1,1) + 2 logT(1,2) + 2 logT(2,1) + logT(2,2)
+ˆπ(1) = 2/3, ˆπ(2) = 1/3
+ˆ︁T=
+⎡
+⎣
+1/3 2/3
+2/3 1/3
+⎤
+⎦
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 15 / 51
+=== PDF第15页 ===
+Hidden Markov Models
+Outline
+1 Markov Chains
+2 Hidden Markov Models
+3 Some Practice Problems
+4 MLE Derivation (Supplementary)
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 16 / 51
+=== PDF第16页 ===
+Hidden Markov Models
+HMM
+A hidden Markov model (HMM) consists of:
+▶ A discrete state Markov chain with hidden states or latent variables
+z[t]∈ {1, . . . , M},t= 0,1, . . . ,with initial pdfπand transition matrixT.
+▶ An observation model given by emission probabilities
+p(x[t]|z[t]) =p(x[t]|ϕ
+z[t]
+). Letϕ= (ϕ
+1
+, . . . ,ϕ
+M
+).
+z[0]
+z[1]
+z[2]
+z[t + 1]
+z[t]
+x[0]
+x[1]
+x[2]
+x[t]
+x[t + 1]
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 17 / 51
+=== PDF第17页 ===
+Hidden Markov Models
+Applications
+Do not assume Markov property for the observationsx[0],x[1], . . .. Allows
+long-range dependencies between observations captured through the latent
+variablesz[0], z[1], . . .
+Speech recognition:x[ t ]is the feature vector extracted from a speech signal
+andz t is the word being spoken. The transition modelp(z[t]|z[t−1])
+represents the language model, whilep(x[t]|z[t])represents the acoustic
+model.
+Activity recognition:x[t]is the feature vector extracted from an image or
+video frame andz[t]is the type of activity a person is performing.
+Gene finding:x[t]represents the DNA nucleotides (A, C, G, T) andz[t]
+represents whether we are inside a gene-coding region or not.
+Emission probabilities example: Ifz[t] =k, the observation
+x[t]∼p(x[t]|ϕ k ) =N(x[t]|µ k ,Σ k ).
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 18 / 51
+=== PDF第18页 ===
+Hidden Markov Models
+Toy Example
+Imagine you are playing dice. You suspect that one of the players is cheating.
+Most of the time, they use a standard die in which all six faces are equally probable, but
+every so often they secretly switch to a weighted die that comes up 6 half the time.
+To avoid getting caught, they don’t switch dice very often: once they switch, they tend to
+keep using the same die for a while.
+If the player is rolling the fair die, they continue to do so with high probability, but they
+switch to the loaded die with a small probability. Similarly when rolling the loaded die.
+T(1, 1)
+T(2, 2)
+T(2, 1)
+T(1, 2)
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 19 / 51
+=== PDF第19页 ===
+Hidden Markov Models
+Toy Example
+We use a HMM to model this:
+Discrete latent states z [ t ] ∈ { 1 , 2 } to specify which of the two dice is used on
+thet-th roll. 1: fair die, 2: loaded die.
+You observe the outcomes or emissionsx[t]∈ {1, . . . ,6}.
+Latent state initial pdfπ. What’s the probability of starting with the fair or
+loaded die?
+Latent state transition matrixT. What’s the probability of switching from the
+fair to the loaded die, or vice versa?
+Emission probabilities(ϕ 1 ,ϕ 2 ). What’s the probability of rolling a number
+given the fair or loaded die?
+▶ ϕ
+1
+= (1/6,1/6,1/6,1/6,1/6,1/6)
+▶ ϕ
+2
+= (1/10,1/10,1/10,1/10,1/10,5/10)
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 20 / 51
+=== PDF第20页 ===
+Hidden Markov Models
+EM for HMM: Baum-Welch Algorithm
+Suppose our training dataD={x 1 [0 :t 1 ], . . . ,x n [0 :t n ]}, where each
+x i [0 :t i ] = (x i [0],x i [1], . . . ,x i [t i ])is a sequence of observations. Sequences
+are i.i.d. from each other. Note eachx i [t]can be a feature vector.
+If we observe the hidden statesz i = (z i [0], z i [1], . . . , z i [t i ]), we can just use
+vanilla MLE to estimateθ= (π,T,ϕ)from the likelihood below. (Exercise)
+logp(D |θ) =
+n
+∑︂
+i=1
+logπ(z i [0]) +
+n
+∑︂
+i=1
+t i
+∑︂
+t=1
+logT(z i [t−1], z i [t])
++
+n
+∑︂
+i=1
+t i
+∑︂
+t=0
+logp(x i [t]|ϕ z i [t] )
+But nowz i [t]is unknown. EM algorithm to the rescue!
+Also known as the Baum-Welch algorithm.
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 21 / 51
+=== PDF第21页 ===
+Hidden Markov Models
+Baum-Welch: E step (Supplementary)
+Q(θ|θ
+(m)
+) =
+n
+∑︂
+i=1
+E
+θ
+(m)
+[︂
+logp(x i [0 :t i ],z i )
+⃓
+⃓
+⃓x i [0 :t i ],θ
+(m)
+]︂
+=
+n
+∑︂
+i=1
+E
+θ
+(m)
+[︂
+logπ(z i [0])
+⃓
+⃓
+⃓x i [0 :t i ],θ
+(m)
+]︂
++
+n
+∑︂
+i=1
+t i
+∑︂
+t=1
+E
+θ
+(m)
+[︂
+logT(z i [t−1], z i [t])
+⃓
+⃓
+⃓x i [0 :t i ],θ
+(m)
+]︂
++
+n
+∑︂
+i=1
+t i
+∑︂
+t=0
+E
+θ
+(m)
+[︂
+logp(x i [t]|ϕ z i [t] )
+⃓
+⃓
+⃓x i [0 :t i ],θ
+(m)
+]︂
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 22 / 51
+=== PDF第22页 ===
+Hidden Markov Models
+Baum-Welch: E step (Supplementary)
+=
+n
+∑︂
+i=1
+M
+∑︂
+z=1
+p(z i [0] =z|x i [0 :t i ],θ
+(m)
+)
+⏞ ⏟⏟ ⏞
+γ i,0 (z)
+logπ(z)
++
+n
+∑︂
+i=1
+t i
+∑︂
+t=1
+M
+∑︂
+z,z
+′
+=1
+p(z i [t−1] =z, z i [t] =z
+′
+|x i [0 :t i ],θ
+(m)
+)
+⏞ ⏟⏟ ⏞
+ξ i,t (z, z
+′
+)
+logT(z, z
+′
+)
++
+n
+∑︂
+i=1
+t i
+∑︂
+t=0
+M
+∑︂
+z=1
+p(z i [t] =z|x i [0 :t i ],θ
+(m)
+)
+⏞ ⏟⏟ ⏞
+γ i,t (z)
+logp(x i [t]|ϕ z )
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 23 / 51
+=== PDF第23页 ===
+Hidden Markov Models
+Baum-Welch: E step (Supplementary)
+We need to compute the following quantities efficiently:
+▶ γ i,t (z) =p(z i [t] =z|x i [0 :t i ],θ
+(m)
+)
+▶ ξ i,t (z, z
+′
+) =p(z i [t−1] =z, z i [t] =z
+′
+|x i [0 :t i ],θ
+(m)
+)
+This is done by the forward-backward algorithm (details are provided as a
+supplementary).
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 24 / 51
+=== PDF第24页 ===
+Hidden Markov Models
+Baum-Welch: M step (Supplementary)
+Assuming that the E step has been completed using the forward-backward
+algorithm to computeQ(θ|θ
+(m)
+). To maximize this, we proceed as usual by
+taking partial derivatives and solving for the root:
+ˆπ(z) =
+∑︁ n
+i=1
+γ i,0 (z)
+n
+,(4.1)
+ˆ︁T(z, z
+′
+) =
+∑︁ n
+i=1
+∑︁ t i
+t=1
+ξ i,t (z, z
+′
+)
+∑︁ M
+u=1
+∑︁ n
+i=1
+∑︁ t i
+t=1
+ξ i,t (z, u)
+.(4.2)
+To maximize w.r.t.ϕ, parameters of the emission probabilitiesp(x|ϕ z ),
+depends on the specific model. E.g., Gaussian: p (x |ϕ z ) = N(x|µ z ,Σ z ) and
+the estimates are
+ˆ︁µ z =
+∑︁ n
+i=1
+∑︁ t i
+t=0
+γ i,t (z)x i [t]
+∑︁ n
+i=1
+∑︁ t i
+t=0
+γ i,t (z)
+,(4.3)
+Σ z =
+∑︁ n
+i=1
+∑︁ t i
+t=0
+γ i,t (z)(x i [t]− ˆ︁µ z )(x i [t]− ˆ︁µ z )
+⊺
+∑︁ n
+i=1
+∑︁ t i
+t=0
+γ i,t (z)
+.(4.4)
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 25 / 51
+=== PDF第25页 ===
+Hidden Markov Models
+Forward-Backward Algorithm (Supplementary)
+We want to compute γ i,t ( z ) = p ( z i [ t ] = z| x i [0 : t i ] ,θ
+(m)
+). [Let’s drop θ
+(m)
+.]
+Basic idea: At timet, break the dependence onx i [0 :t i ]into the “past”
+x i [0 :t]and the “future”x i [t+ 1 :t i ]:
+γ i,t (z) =p(z i [t] =z|x i [0 :t i ])
+∝p(z i [t] =z,x i [t+ 1 :t i ]|x i [0 :t])
+=p(z i [t] =z|x i [0 :t])p(x i [t+ 1 :t i ]|z i [t] =z,x i [0 :t])
+=p(z i [t] =z|x i [0 :t])p(x i [t+ 1 :t i ]|z i [t] =z),(4.5)
+due to the Markov property.
+Let
+Forwardα i (z) =p(z i [t] =z|x i [0 :t]),(4.6)
+Backwardβ i (z) =p(x i [t+ 1 :t i ]|z i [t] =z),(4.7)
+Forward-Backwardγ i,t (z) =
+α i (z)β i (z)
+∑︁
+z
+′ α i (z
+′
+)β i (z
+′
+)
+∝α i (z)β i (z).
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 26 / 51
+=== PDF第26页 ===
+Hidden Markov Models
+Forward-Backward Algorithm: Forward (Supplementary)
+Consists of two recursive steps:
+1. Predict:
+p(z i [t] =z|x i [0 :t−1])
+=
+∑︂
+z ′
+p(z i [t] =z|z i [t−1] =z
+′
+)
+⏞ ⏟⏟ ⏞
+T(z
+′
+, z)fromθ
+(m)
+p(z i [t−1] =z
+′
+|x i [0 :t−1])
+⏞ ⏟⏟ ⏞
+α t−1 (z
+′
+)
+,
+2. Update:
+α t (z) =p(z i [t] =z|x i [0 :t])
+=p(z i [t] =z|x i [t],x i [0 :t−1])
+=
+1
+Z i
+p(x i [t]|z i [t] =z)
+⏞ ⏟⏟ ⏞
+emission prob.
+fromθ
+(m)
+p(z i [t] =z|x i [0 :t−1]),
+where
+Z i =p(x i [t]|x i [0 :t−1]) =
+∑︂
+z
+p(x i [t]|z i [t] =z)p(z i [t] =z|x i [0 :t−1]).
+Initialize:α 0 (z) =
+1
+Z 0
+p(x i [0]|z i [0] =z)π(z),Z 0 =
+∑︁
+z
+p(x i [0]|z i [0] =z)π(z).
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 27 / 51
+=== PDF第27页 ===
+Hidden Markov Models
+Forward-Backward Algorithm: Backward (Supplementary)
+Recursively backwards fromβ t+1 (·):
+β t (z) =p(x i [t+ 1 :t i ]|z i [t] =z)
+=
+∑︂
+z ′
+p(z i [t+ 1] =z
+′
+,x i [t+ 1],x i [t+ 2 :t i ]|z i [t] =z)
+=
+∑︂
+z ′
+p(z i [t+ 1] =z
+′
+|z i [t] =z)
+⏞ ⏟⏟ ⏞
+T(z, z
+′
+)
+p(x i [t+ 1]|z i [t+ 1] =z)
+⏞ ⏟⏟ ⏞
+emission prob.
+p(x i [t+ 2 :t i ]|z i [t+ 1] =z
+′
+)
+⏞ ⏟⏟ ⏞
+β t+1 (z
+′
+)
+.
+Initializeβ t i
+(z) = 1. (Why? See (4.5).)
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 28 / 51
+=== PDF第28页 ===
+Hidden Markov Models
+Conditional State Transition Probabilities (Supplementary)
+To computeξ i,t (z, z
+′
+) =p(z i [t−1] =z, z i [t] =z
+′
+|x i [0 :t i ],θ
+(m)
+):
+ξ i,t (z, z
+′
+)
+∝p(x i [0 :t i ]|z i [t−1] =z, z i [t] =z
+′
+)p(z i [t−1] =z, z i [t] =z
+′
+)
+=p(x i [0 :t−1]|z i [t−1] =z)p(x i [t]|z i [t] =z
+′
+)p(x i [t+ 1 :t i ]|z i [t] =z
+′
+)
+·p(z i [t] =z
+′
+|z i [t−1] =z)p(z i [t−1] =z)
+∝p(z i [t−1] =z|x i [0 :t−1])p(x i [t]|z i [t] =z
+′
+)p(x i [t+ 1 :t i ]|z i [t] =z
+′
+)
+·p(z i [t] =z
+′
+|z i [t−1] =z)
+=α t−1 (z)p(x i [t]|z i [t] =z
+′
+)
+⏞ ⏟⏟ ⏞
+emission prob.
+β t (z
+′
+)p(z i [t] =z
+′
+|z i [t−1] =z)
+⏞ ⏟⏟ ⏞
+T(z, z
+′
+)
+.
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 29 / 51
+=== PDF第29页 ===
+Hidden Markov Models
+Summary: Training Using Baum-Welch Algorithm
+1. Initializeθ
+(0)
+.
+2.E step: At iterationm, use Forward-Backward Algorithm to compute:
+Forwardα i (z) =p(z i [t] =z|x i [0 :t]),
+Backwardβ i (z) =p(x i [t+ 1 :t i ]|z i [t] =z),
+Forward-Backwardγ i,t (z) =p(z i [t] =z|x i [0 :t i ],θ
+(m)
+)∝α j (z)β j (z)
+ξ i,t (z, z
+′
+) =p(z i [t−1] =z, z i [t] =z
+′
+|x i [0 :t i ],θ
+(m)
+)
+∝α t−1 (z)p(x i [t]|z i [t] =z
+′
+)β t (z
+′
+)p(z i [t] =z
+′
+|z i [t−1] =z).
+3.M step: Find(m+ 1)th guess ofθas
+ˆ︁π(z) =
+∑︁ n
+i=1
+γ i,0 (z)
+n
+,
+ˆ︁T(z, z
+′
+) =
+∑︁ n
+i=1
+∑︁ t i
+t=1
+ξ i,t (z, z
+′
+)
+∑︁
+u
+∑︁ n
+i=1
+∑︁ t i
+t=1
+ξ i,t (z, u)
+,
+ˆ︁ϕ z =emission prob. model parameters
+4. Repeat E and M steps.
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 30 / 51
+=== PDF第30页 ===
+Hidden Markov Models
+Inference in HMMs
+Filtering: infer the latent state by computing p ( z [ t ] | x[0 : t ]), i.e., make use of
+all observationsx[0 :t]up to current timet- Forward algorithm.
+Smoothing: offline inference of latent state by computing p ( z [ t ] | x[0 : T ]), i.e.,
+make use of both past and future observations - Forward-Backward algorithm.
+Fixed lag smoothing: online inference by computingp(z[t−l]|x[0 :t]), i.e.,
+wait for a laglbefore inferring latent statez[t−l]- Forward-Backward
+algorithm.
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 32 / 51
+=== PDF第31页 ===
+Hidden Markov Models
+Inference in HMMs
+Prediction: predict the future latent state by computing
+p(z[t+h]|x[0 :t]) =
+∑︂
+z[t],...,z[t+h−1]
+p(z[t], z[t+ 1], . . . , z[t+h−1], z[t+h]|x[0 :t])
+=
+∑︂
+z[t],...,z[t+h−1]
+transition
+⏟ ⏞⏞ ⏟
+p(z[t+h]|z[t+h−1])p(z[t+h−1]|z[t+h−2])· · ·p(z[t+ 1]|z[t])
+·p(z[t]|x[0 :t])
+⏞ ⏟⏟ ⏞
+filtering
+,
+whereh >0is the prediction horizon. Can also use
+p(x[t+h]|x[0 :t]) =
+∑︂
+z[t+h]
+p(x[t+h]|z[t+h])p(z[t+h]|x[0 :t])
+to infer the future observationx[t+h](time series forecasting).
+MAP sequence: most probable sequencez
+∗
+[0 :T] = arg max z[0:T] p(z[0 :T]|x[0 :T])-
+Viterbi algorithm.
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 33 / 51
+=== PDF第32页 ===
+Hidden Markov Models
+Viterbi Algorithm (Supplementary)
+MAP estimatez[0 :T]
+∗
+= arg max z[0:T] p(z[0 :T]|x[0 :T]), most probable
+sequence of latent states given the observationsx[0 :T]. Find sequence or
+pathz[0], z[1], . . . , z[T]to maximize
+logp(z[0 :T]|x[0 :T])
+= logp(z[0 :T],x[0 :T]) + const
+= logπ(z[0]) + logp(x[0]|z[0]) +
+T
+∑︂
+t=1
+(logT(z[t−1], z[t]) + logp(x[t]|z[t])).
+t−1
+t
+t + 1
+z = 1
+z = 2
+z = 3
+log T(z[t−1] = 2 , z[t] = 1)
++ log p(x[t]|z[t] = 1)
+log T(z[t] = 1 , z[t + 1] = 3)
++ log p(x[t + 1]|z[t + 1] = 3)
+log T(z[t−1] = 3 , z[t] = 3)
++ log p(x[t]|z[t] = 3)
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 34 / 51
+=== PDF第33页 ===
+Hidden Markov Models
+Viterbi Algorithm (Supplementary)
+At timet, let
+δ t (z) = max
+z[0:t−1]
+logp(z[0 :t−1], z[t] =z,x[0 :t]),
+the log probability of the most likely path to end up at state z [ t ] = z at time t .
+Suppose this most likely path is(z[0], z[1], . . . , z[t−1] =z
+′
+, z[t] =z).
+Then(z[0], z[1], . . . , z[t−1] =z
+′
+)must be a most likely path to reach state
+z[t−1] =z
+′
+.
+Because otherwise, we can choose a most likely path
+(˜z[0],˜z[1], . . . ,˜z[t−1] =z
+′
+)to reachz
+′
+and then transition toz[t] =z.
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 35 / 51
+=== PDF第34页 ===
+Hidden Markov Models
+Viterbi Algorithm (Supplementary)
+δ t (z) = max
+z[0:t−1]
+logp(z[0 :t−1], z[t] =z,x[0 :t])
+= max
+z[0:t−1]
+{logp(z[0 :t−1],x[0 :t−1]) + logp(z[t] =z|z[0 :t−1]) + logp(x[t]|z[t] =z)}
+= max
+z[0:t−2],z[t−1]=z ′
+{logp(z[0 :t−1],x[0 :t−1]) + logp(z[t] =z|z[t−1] =z
+′
+)
++ logp(x[t]|z[t] =z)}
+= max
+z ′
+{︁
+δ t−1 (z
+′
+) + logT(z
+′
+, z)
+}︁
++ logp(x[t]|z[t] =z)
+Initializeδ 0 (z) = logπ(z) + logp(x[0]|z[0] =z).
+For each t = 1 , . . . , T , for each z = 1 , . . . , M , previous state on most likely path to z [ t ] = z
+is
+a t (z) = arg max
+z ′
+{︁
+δ t−1 (z
+′
+) + logT(z
+′
+, z)
+}︁
+.
+Computeδ t (z) =δ t−1 (a t (z)) + logT(a t (z), z) + logp(x[t]|z[t] =z).
+Terminate: final state on most probable path isz
+∗
+[T] = arg max z δ T (z).
+Traceback: fort=T−1, . . . ,1,0,z
+∗
+[t] =a t+1 (z
+∗
+[t+ 1]).
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 36 / 51
+=== PDF第35页 ===
+Hidden Markov Models
+Viterbi Algorithm Example (Supplementary)
+z t ∈ {S1,S2,S3},x t ∈ {C1,C2, . . . ,C7}. Figure shows the emission
+probabilities. Supposeπ(z) = 1/3for allz.
+Suppose we observex[0 : 3] = (C1,C3,C4,C6).
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 37 / 51
+=== PDF第36页 ===
+Hidden Markov Models
+Viterbi Algorithm Example (Supplementary)
+S1
+S2
+S3
+δ0(S1)
+=−log 3
++ log 0.5
+δ0(S2)
+=−∞
+δ0(S3)
+=−∞
+δ1(S1)
+=−log 3
++ log 0.045
+δ1(S2)
+=−log 3
++ log 0.07
+δ2(S2)
+=−log 3
++ log 0.0441
+δ2(S3)
+=−log 3
++ log 0.0007
+δ3(S3)
+=−log 3
++ log 0.0022
+0.3,0.3
+Edge label:T(z ′, z),p(xt|zt =z)
+0.3,0
+0.7,0.2
+0.7,0.7
+0.9,0.7
+0.1,0.1
+0.1,0.5
+0.9,0
+0.4,0.5
+C1
+C3
+C4
+C6
+δ2(S1)
+=−∞
+δ3(S2)
+=−∞
+Observed
+xt
+δ 0 ( S 1) = −log 3 + log 0 . 5, δ 0 ( z ) = −∞ for z = S2,S3 because p (x[0] = C1|z 0 = z ) = 0.
+S1transitions toS1with probabilityT(S1,S1) = 0.3andp(x[1] = C3|z 1 = S1) = 0.3.
+δ 1 (S1) =δ 0 (S1) + log 0.3 + log 0.3 =−log 3 + log 0.045.
+S1transitions toS2with probabilityT(S1,S2) = 0.7andp(x[1] = C3|z 1 = S2) = 0.2.
+δ 1 (S2) =δ 0 (S1) + log 0.7 + log 0.2 =−log 3 + log 0.07.
+Exercise: check the rest!
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 38 / 51
+=== PDF第37页 ===
+Hidden Markov Models
+A Real Application in Finance
+04_finance_hmm.ipynb
+Modeling the price of a stock as a HMM with three states (regimes).
+Observations are the daily log returns and volatility of a stock ticker.
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 39 / 51
+=== PDF第38页 ===
+Hidden Markov Models
+Summary
+Properties of Markov chains.
+MLE for Markov model.
+Baum-Welch algorithm for HMM.
+▶ E step: forward-backward algorithm.
+▶ M step: maximize forθ.
+Inference in HMM: Viterbi algorithm to find the most likely state path.
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 40 / 51
+=== PDF第39页 ===
+Some Practice Problems
+Outline
+1 Markov Chains
+2 Hidden Markov Models
+3 Some Practice Problems
+4 MLE Derivation (Supplementary)
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 41 / 51
+=== PDF第40页 ===
+Some Practice Problems
+Some Practice Problems
+A wearable ring sensor as shown in the following figure can be used to track the
+movement of a finger. The sensor can be in one of three states: still ( S ), moving
+up ( U ), and moving down ( D ). An inertial measurement unit (IMU) embedded in
+the ring measures the acceleration of the finger movement in three dimensional
+space. The IMU data is transmitted wirelessly to a computer for processing.
+a) The IMU measurement is a three dimensional vectorx= (x 1 , x 2 , x 3 ), where
+x 1 , x 2 , x 3 are the accelerations in three fixed directions, respectively. Suppose
+the IMU data is modeled as a Gaussian mixture model (GMM) with three
+components corresponding the the sensor state z∈ {S, U, D} . Write down the
+GMM.
+b) Should a Markov chain or a hidden Markov model (HMM) be used at the
+processing computer to model the sensor state? Explain your answer.
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 42 / 51
+=== PDF第41页 ===
+Some Practice Problems
+Some Practice Problems (cont.)
+c) Suppose you decide to use a HMM. The sensor can be in theSstate for a
+long time but not in the other states. The sensor can transition from S to U or
+D, but it can only transition fromUtoDor fromDtoU. Draw the
+transition diagram of the HMM.
+d) The Baum-Welch algorithm is used to estimate the parameters of the HMM.
+What are the parameters to be estimated?
+e) Given a sequence of IMU measurementsx 1 , x 2 , . . . , x n , what algorithm would
+you use to find the most likely sequence of sensor statesz 1 , z 2 , . . . , z n ?
+Solution:
+a)
+p(x) =
+∑︂
+z∈{S,U,D}
+π(z)p(x|z)
+=
+∑︂
+z∈{S,U,D}
+π(z)N(x|µ z ,Σ z ),
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 43 / 51
+=== PDF第42页 ===
+Some Practice Problems
+Some Practice Problems (cont.)
+whereπ(z)is the prior probability of the sensor statezandµ z ,Σ z are the
+mean and covariance matrix of the IMU measurementxin statez.
+b) A HMM should be used because the sensor state is not directly observable at
+the processing computer.
+c)
+S
+U
+D
+T (U, D) = 1
+T (D, U ) = 1
+T (S, U)
+T (S, S)
+T (S, D)
+d) The parameters to be estimated are the prior probabilities π ( z ), the transition
+probabilities p ( z
+′
+|z ), and the mean µ z and covariance matrix Σ z of the IMU
+measurementxin each statez.
+e) The Viterbi algorithm is the optimal algorithm to find the most likely sequence
+of sensor statesz 1 , z 2 , . . . , z n .
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 44 / 51
+=== PDF第43页 ===
+MLE Derivation (Supplementary)
+Outline
+1 Markov Chains
+2 Hidden Markov Models
+3 Some Practice Problems
+4 MLE Derivation (Supplementary)
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 45 / 51
+=== PDF第44页 ===
+MLE Derivation (Supplementary)
+MLE Derivation (Supplementary)
+1. Derive the MLE ofθ= (π,T,ϕ)for a HMM when the training data
+D={(x 1 [0 :t 1 ],z 1 [0, t 1 ]), . . . ,(x n [0 :t n ],z n [0, t n ])}(i.e., the latent states
+are observed). Assume that the emission probabilities are Gaussian
+distributions.
+Solution:
+logp(D |θ) =
+n
+∑︂
+i=1
+logπ(z i [0]) +
+n
+∑︂
+i=1
+t i
+∑︂
+t=1
+logT(z i [t−1], z i [t])
++
+n
+∑︂
+i=1
+t i
+∑︂
+t=0
+p(x i [t]|ϕ z i [t] )
+Maximizing the Lagrangian
+∑︁ n
+i=1
+logπ ( z i [0]) −λ (
+∑︁
+z
+′ π ( z
+′
+) − 1)w.r.t. π ( z ),
+we obtain
+ˆ︁π(z) =
+N
+0
+z
+n
+, N
+0
+z =
+n
+∑︂
+i=1
+1{z i [0] =z}.(4.8)
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 46 / 51
+=== PDF第45页 ===
+MLE Derivation (Supplementary)
+MLE Derivation (Supplementary) (cont.)
+Maximizing the Lagrangian
+∑︁ n
+i=1
+∑︁ t i
+t=1
+logT(z i [t−1]z i [t])−λ(
+∑︁ M
+u=1
+T(z, u)−1)w.r.t.T(z, z
+′
+)and
+finding the root, we obtain
+ˆ︁T(z, z
+′
+) =
+N zz
+′
+∑︁ M
+u=1
+N zu
+, N zu =
+n
+∑︂
+i=1
+t i
+∑︂
+t=1
+1{z i [t−1] =z, z i [t] =u}.(4.9)
+For Gaussian emission probabilities, we havep(x|ϕ z ) =N(x|µ z ,Σ z ). We
+thus have
+n
+∑︂
+i=1
+t i
+∑︂
+t=0
+logp(x i [t]|ϕ z i [t] )
+=−
+1
+2
+n
+∑︂
+i=1
+t i
+∑︂
+t=0
+M
+∑︂
+z=1
+1{z i [t] =z}log|Σ z |
+−
+1
+2
+n
+∑︂
+i=1
+t i
+∑︂
+t=0
+M
+∑︂
+z=1
+1{z i [t] =z}(x i [t]−µ z )
+⊺
+Σ
+−1
+z (x i [t]−µ z ).
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 47 / 51
+=== PDF第46页 ===
+MLE Derivation (Supplementary)
+MLE Derivation (Supplementary) (cont.)
+Maximizing w.r.t.µ z , we have
+n
+∑︂
+i=1
+t i
+∑︂
+t=0
+1{z i [t] =z}Σ
+−1
+z (x i [t]−µ z ) = 0
+ˆ︁µ z =
+x z
+N z
+, x z =
+n
+∑︂
+i=1
+t i
+∑︂
+t=0
+1{z i [t] =z}x i [t], N z =
+n
+∑︂
+i=1
+t i
+∑︂
+t=0
+1{z i [t] =z}.
+(4.10)
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 48 / 51
+=== PDF第47页 ===
+MLE Derivation (Supplementary)
+MLE Derivation (Supplementary) (cont.)
+Maximizing w.r.t.Σ z together with the constraint thatΣ≻0,
+n
+∑︂
+i=1
+t i
+∑︂
+t=0
+1{z i [t] =z}Σ
+−1
+z
++
+n
+∑︂
+i=1
+t i
+∑︂
+t=0
+1{z i [t] =z}Σ
+−1
+z (x i [t]−µ z )(x i [t]−µ z )
+⊺
+Σ
+−1
+z = 0
+ˆ︁Σ z =
+1
+N z
+n
+∑︂
+i=1
+t i
+∑︂
+t=0
+1{z i [t] =z}(x i [t]−µ z )(x i [t]−µ z )
+⊺
+.(4.11)
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 49 / 51
+=== PDF第48页 ===
+MLE Derivation (Supplementary)
+MLE Derivation (Supplementary) (cont.)
+2. Carefully verify (4.1) - (4.4).
+Solution:
+Q(θ|θ
+(m)
+) =
+n
+∑︂
+i=1
+M
+∑︂
+z=1
+γ i,0 (z) logπ(z) +
+n
+∑︂
+i=1
+t i
+∑︂
+t=1
+M
+∑︂
+z,z
+′
+=1
+ξ i [t](z, z
+′
+) logT(z, z
+′
+)
++
+n
+∑︂
+i=1
+t i
+∑︂
+t=0
+M
+∑︂
+z=1
+γ i [t](z) logp(x i [t]|ϕ z ).
+Maximizing w.r.t.π(z)with the constraint
+∑︁
+z
+π(z) = 1, we obtain (replace
+1{z i,0 =z}in (4.8) withγ i,0 (z))
+ˆ︁π(z) =
+∑︁ n
+i=1
+γ i,0 (z)
+n
+.
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 50 / 51
+=== PDF第49页 ===
+MLE Derivation (Supplementary)
+MLE Derivation (Supplementary) (cont.)
+Maximizing w.r.t.T(z, z
+′
+), we obtain (replace1{z i [t−1] =z, z i [t] =u}in
+(4.9) withξ i [t](z, u))
+ˆ︁T(z, z
+′
+) =
+∑︁ n
+i=1
+∑︁ t i
+t=1
+ξ i [t](z, z
+′
+)
+∑︁ M
+u=1
+∑︁ n
+i=1
+∑︁ t i
+t=1
+ξ i [t](z, u)
+.
+Equations (4.3) and (4.4) are obtained in the same way.
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 51 / 51

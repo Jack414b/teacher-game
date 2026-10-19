@@ -1,0 +1,31 @@
+{
+  "source": "G:/AAADocument/NTU/6497/HW1.pdf",
+  "source_pages_visually_checked": 3,
+  "subquestions_covered": [
+    "1(a)",
+    "1(b)",
+    "1(c)",
+    "2(a)(i)",
+    "2(a)(ii)",
+    "2(b)(i)",
+    "2(b)(ii)",
+    "2(c)",
+    "3(a)",
+    "3(b)"
+  ],
+  "math_checks": {
+    "numeric_random_checks": 700,
+    "path_sum_and_affine_form": true,
+    "complete_data_likelihood": true,
+    "truncated_pmf_normalization": true,
+    "theta_mle_interior_and_algebra": true,
+    "mathml_xml_valid": 434,
+    "local_links_valid": true
+  },
+  "browser_checks": {
+    "hmm_likelihood_and_optimization": true,
+    "lifetime_normal_and_boundaries": true,
+    "mobile_no_overflow": true,
+    "javascript_errors": []
+  }
+}

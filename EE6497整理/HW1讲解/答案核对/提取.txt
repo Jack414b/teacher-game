@@ -1,0 +1,224 @@
+=== PAGE 1 ===
+IE4497/EE6497 Pattern Recognition and Deep Learning Homework 1 Solutions
+IE4497/EE6497 Pattern Recognition and Deep Learning
+Homework 1 — Complete Solutions
+Submission deadline: 11 September 2026, 23:59
+1. Short answers [10 marks]
+(a)
+For x ≥ 0,
+p(x) = exp(ax + b) = ebeax, a < 0.
+Because a probability density must integrate to one,
+1 =
+Z ∞
+0
+ebeax dx = eb
+
+−1
+a
+
+,
+so eb = −a. Letting λ = −a > 0 gives b = log λ and
+p(x) = λe−λx, x ≥ 0.
+Thus p(x) is the exponential distribution with rate λ = −a.
+(b)
+Yes. The categorical latent variable selects one of three exponential components. Marginalizing out z
+gives
+p(x) = 0.5 Exp(x | 7.8) + 0.4 Exp(x | 0.6) + 0.1 Exp(x | 4.5).
+Hence p(x) is a finite mixture model. Equivalently, for x ≥ 0,
+p(x) = 0.5(7.8)e−7.8x + 0.4(0.6)e−0.6x + 0.1(4.5)e−4.5x.
+(c)
+Yes. Write
+SSE =
+nX
+i=1
+(yi − ˆyi)2, SST =
+nX
+i=1
+(yi − ¯y)2.
+Then R2 = 1 − SSE/SST. Therefore,
+R2 < 0 ⇐ ⇒ SSE > SST.
+This means that the model predicts the responses worse, in squared-error terms, than the constant
+baseline ˆyi = ¯y. It can occur, for example, with a poorly fitted model, a model fitted without an intercept,
+or evaluation on data different from the fitting data. (Ordinary least squares fitted and evaluated on the
+same data with an intercept cannot have negative R2.)
+1
+
+=== PAGE 2 ===
+IE4497/EE6497 Pattern Recognition and Deep Learning Homework 1 Solutions
+2. Hidden Markov model [25 marks]
+For a two-step sequence, the HMM factorization is
+p(z[1], z[2], x[1], x[2]) = π(z[1]) p(x[1] | z[1]) Tz[1],z[2], p(x[2] | z[2]).
+(a)(i) Joint probabilities when states are observed
+For x[1] = o2 and x[2] = o1, the four possible latent-state paths have the following joint probabilities:
+z[1] z[2] p(z[1], z[2], x[1] = o2, x[2] = o1)
+s1 s1
+1
+2(1 − p) a p
+s1 s2
+1
+2(1 − p)(1 − a) q
+s2 s1
+1
+2(1 − q)(1 − b) p
+s2 s2
+1
+2(1 − q) b q
+(a)(ii) Likelihood when states are hidden
+The likelihood is obtained by summing the four joint probabilities over all possible state paths:
+p(o2, o1) =
+X
+z[1],z[2]
+p(z[1], z[2], o2, o1)
+= 1
+2
+h
+(1 − p)ap + (1 − p)(1 − a)q
++ (1 − q)(1 − b)p + (1 − q)bq
+i
+.
+Thus
+p(o2, o1) = 1
+2 [(1 − p){ap + (1 − a)q} + (1 − q){(1 − b)p + bq}] .
+(b)(i) MLE when states are observed
+Across the four independent sequences, the transition counts are
+N11 = 1, N 12 = 1, N 21 = 0, N 22 = 2.
+The factors involving the known emission probabilities p and q, and the fixed initial probabilities, do not
+affect optimization over a, b. The relevant likelihood is therefore
+L(a, b) ∝ aN11(1 − a)N12(1 − b)N21bN22 = a(1 − a)b2.
+Equivalently, each transition probability is estimated by its observed relative frequency:
+ˆa = N11
+N11 + N12
+= 1
+2 , ˆb = N22
+N21 + N22
+= 1.
+Hence
+ˆaMLE = 1
+2 , ˆbMLE = 1.
+2
+
+=== PAGE 3 ===
+IE4497/EE6497 Pattern Recognition and Deep Learning Homework 1 Solutions
+(b)(ii) MLE when only one emission sequence is observed
+Let ∆ = p − q ̸= 0. From part (a)(ii),
+L(a, b) = 1
+2
+h
+(1 − p){q + a(p − q)} + (1 − q){p + b(q − p)}
+i
+= 1
+2
+h
+(1 − p)(q + a∆) + (1 − q)(p − b∆)
+i
+.
+This likelihood is affine in both a and b, so its maximum over 0 ≤ a, b ≤ 1 occurs at a boundary.
+ If p > q , then ∆ > 0. The coefficient of a is positive and the coefficient of b is negative. Therefore
+ˆaMLE = 1, ˆbMLE = 0.
+ If p < q , then ∆ < 0. The coefficient of a is negative and the coefficient of b is positive. Therefore
+ˆaMLE = 0, ˆbMLE = 1.
+These maximizers are unique under the usual nondegenerate assumption 0 < p, q < 1. At an emission-
+probability boundary, one parameter may be unidentified: if p = 1 > q, the likelihood is independent of
+a; if p < q = 1, it is independent of b.
+(c) Five hidden-state sequences of length 20
+Use the Baum–W elch algorithm, which is the expectation-maximization (EM) algorithm specialized
+to HMMs. The latent state paths are unobserved, and enumerating all 2 20 paths for each sequence is
+unnecessary.
+For each EM iteration:
+1. E-step: run the forward–backward algorithm separately on each sequence to compute the posterior
+expected numbers of transitions s1 → s1, s1 → s2, s2 → s1, and s2 → s2. Sum these expected counts
+over all five sequences.
+2. M-step: normalize the expected transition counts:
+anew = E[N11]
+E[N11 + N12] , b new = E[N22]
+E[N21 + N22] .
+Repeat until the data log likelihood converges. Forward–backward evaluates the required posterior
+quantities in time linear in sequence length (for a fixed two-state model), and each EM iteration does
+not decrease the observed data likelihood. Because EM can converge to a local optimum, several initial
+values for (a, b) may be tried and the solution with the largest likelihood retained.
+3. Device time to failure [15 marks]
+This question is mandatory for EE6497 and bonus for IE4497.
+Let nk be the number of observations equal to k. Then
+r+1X
+k=1
+nk = n.
+3
+
+=== PAGE 4 ===
+IE4497/EE6497 Pattern Recognition and Deep Learning Homework 1 Solutions
+(a) Log likelihood
+Independence gives
+L(θ) =
+rY
+k=1
+h
+θk−1(1 − θ)
+ink
+(θr)nr+1
+= θ
+Pr
+k=1(k−1)nk+rnr+1(1 − θ)
+Pr
+k=1 nk .
+Therefore the log likelihood is
+ℓ(θ) =
+" rX
+k=1
+(k − 1)nk + rnr+1
+#
+log θ +
+ rX
+k=1
+nk
+!
+log(1 − θ).
+UsingPr+1
+k=1 nk = n, this can be written more compactly as
+ℓ(θ) =
+ r+1X
+k=1
+knk − n
+!
+log θ + (n − nr+1) log(1 − θ).
+(b) MLE of θ
+Define
+A =
+r+1X
+k=1
+knk − n, B = n − nr+1.
+For an interior solution,
+dℓ
+dθ = A
+θ − B
+1 − θ = 0.
+Thus
+A(1 − θ) = Bθ =⇒ θ = A
+A + B .
+Moreover,
+d2ℓ
+dθ2 = − A
+θ2 − B
+(1 − θ)2 < 0
+whenever A, B > 0, so this stationary point is the unique maximum. Finally,
+A + B =
+ r+1X
+k=1
+knk − n
+!
++ (n − nr+1)
+=
+r+1X
+k=1
+knk − nr+1.
+Hence
+ˆθMLE =
+r+1X
+k=1
+knk − n
+r+1X
+k=1
+knk − nr+1
+.
+Boundary cases. If every observation is r + 1, the formula gives the boundary MLE ˆθ = 1. If every observation is 1, it gives
+0; under the stated strict condition θ > 0, this is a supremum as θ ↓ 0 rather than an attained MLE.
+4

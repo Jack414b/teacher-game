@@ -1,0 +1,201 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=24mm]{geometry}
+\usepackage{amsmath,amssymb,booktabs}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Exp}{\operatorname{Exp}}
+\begin{document}
+\begin{center}
+{\Large\bfseries EE6497 -- Homework 1}\\[10pt]
+Name: LIU JIALE\qquad Student ID: G2601566F
+\end{center}
+
+\section*{Question 1}
+\subsection*{(a)}
+Taking the exponential of both sides gives
+\[
+p(x)=e^{ax+b}=e^b e^{ax},\qquad x\geq 0.
+\]
+Since $p(x)$ is a probability density,
+\[
+1=\int_0^\infty e^{ax+b}\,dx=-\frac{e^b}{a}.
+\]
+Thus $e^b=-a$. With $\lambda=-a>0$, this becomes
+\[
+\boxed{p(x)=\lambda e^{-\lambda x}=\Exp(x\mid\lambda),\quad\lambda=-a.}
+\]
+It is an exponential distribution with rate $-a$, and $b=\log(-a)$.
+
+\subsection*{(b)}
+Yes. The variable $z$ selects one of three exponential distributions. Summing over its possible values,
+\begin{align*}
+p(x)&=\sum_{k=1}^3 p(z=k)p(x\mid z=k)\\
+&=\boxed{0.5\Exp(x\mid7.8)+0.4\Exp(x\mid0.6)+0.1\Exp(x\mid4.5).}
+\end{align*}
+The weights are nonnegative and sum to one, so this is a valid mixture model.
+
+\subsection*{(c)}
+Let $\mathrm{SSE}=\sum_i(y_i-\hat y_i)^2$ and $\mathrm{SST}=\sum_i(y_i-\bar y)^2$. Assuming $\mathrm{SST}>0$,
+\[
+R^2=1-\frac{\mathrm{SSE}}{\mathrm{SST}}<0
+\quad\Longleftrightarrow\quad
+\mathrm{SSE}>\mathrm{SST}.
+\]
+Thus $R^2$ can be negative when the predictions have a larger squared error than simply predicting the mean $\bar y$ for every observation.
+
+For example, take $y=(1,3)$ and $\hat y=(0,0)$. Then $\bar y=2$, $\mathrm{SST}=2$ and $\mathrm{SSE}=10$, giving $R^2=1-10/2=-4$.
+
+For ordinary least squares with an intercept, fitted optimally and evaluated on the same training data, $R^2$ cannot be negative: the constant mean predictor is already an available choice. This restriction does not hold for arbitrary predictions or evaluation on a different dataset. If $\mathrm{SST}=0$, the stated formula is undefined.
+
+\newpage
+\section*{Question 2}
+\subsection*{(a)(i)}
+For a given state pair, the joint probability factors as
+\[
+p(z[1],z[2],o_2,o_1)
+=\pi(z[1])p(o_2\mid z[1])T(z[1],z[2])p(o_1\mid z[2]).
+\]
+Using the initial probability $1/2$ for either state gives:
+\begin{center}
+\begin{tabular}{ccc}
+\toprule
+$z[1]$ & $z[2]$ & Joint probability\\
+\midrule
+$s_1$ & $s_1$ & $\frac12(1-p)ap$\\[5pt]
+$s_1$ & $s_2$ & $\frac12(1-p)(1-a)q$\\[5pt]
+$s_2$ & $s_1$ & $\frac12(1-q)(1-b)p$\\[5pt]
+$s_2$ & $s_2$ & $\frac12(1-q)bq$\\[3pt]
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection*{(a)(ii)}
+When the states are hidden, all four state paths can produce the observed sequence. Therefore their joint probabilities must be added:
+\begin{align*}
+L(a,b)&=p(o_2,o_1)\\
+&=\frac12\big[(1-p)ap+(1-p)(1-a)q\\
+&\hspace{23mm}+(1-q)(1-b)p+(1-q)bq\big]\\
+&=\boxed{\frac12\big[(1-p)\{ap+(1-a)q\}+(1-q)\{(1-b)p+bq\}\big].}
+\end{align*}
+
+\subsection*{(b)(i)}
+The observed transition counts are
+\[
+N_{11}=1,\quad N_{12}=1,\quad N_{21}=0,\quad N_{22}=2.
+\]
+Assuming $0<p,q<1$, independence of the four sequences gives
+\[
+L(a,b)=C\,a(1-a)b^2,
+\qquad C=\frac1{16}(1-p)^2p\,q^3(1-q)^2>0.
+\]
+The constant $C$ does not depend on $a$ or $b$. Since
+\[
+a(1-a)=\frac14-\left(a-\frac12\right)^2,
+\]
+it is maximized at $a=1/2$. Also, $b^2$ is maximized at $b=1$ on $[0,1]$. Hence
+\[
+\boxed{\hat a_{\mathrm{MLE}}=\frac12,\qquad\hat b_{\mathrm{MLE}}=1.}
+\]
+These are also the observed proportions of self-transitions from each state.
+If $p$ or $q$ equals $0$ or $1$, some of the given records are impossible under the model, and the full likelihood is zero for every $(a,b)$; the above unique estimate then does not apply.
+
+\newpage
+\subsection*{(b)(ii)}
+Here only one emission sequence is observed. Expanding the result in (a)(ii),
+\[
+L(a,b)=C_0+A a+B b,
+\]
+where
+\begin{align*}
+C_0&=\tfrac12\big[(1-p)q+(1-q)p\big],\\
+A&=\tfrac12(1-p)(p-q),\qquad
+B=\tfrac12(1-q)(q-p).
+\end{align*}
+For $0<p,q<1$, the signs of these coefficients determine the maximum over $0\leq a,b\leq1$:
+\begin{itemize}
+\item If $p>q$, then $A>0$ and $B<0$. Increasing $a$ and decreasing $b$ increases the likelihood, so $(\hat a,\hat b)=(1,0)$.
+\item If $p<q$, then $A<0$ and $B>0$. The likelihood is maximized at $(\hat a,\hat b)=(0,1)$.
+\end{itemize}
+Thus
+\[
+\boxed{(\hat a_{\mathrm{MLE}},\hat b_{\mathrm{MLE}})=
+\begin{cases}
+(1,0),&p>q,\\
+(0,1),&p<q.
+\end{cases}}
+\]
+Intuitively, the optimal transition sends the second state to whichever state is more likely to emit $o_1$.
+
+At the emission boundaries, these displayed choices remain maximizers but may not be unique. If $p=1>q$, then $\hat b=0$ and any $a\in[0,1]$ is optimal. If $q=1>p$, then $\hat a=0$ and any $b\in[0,1]$ is optimal.
+
+\subsection*{(c)}
+I would use the \textbf{Baum--Welch algorithm}, which applies EM to an HMM. The states are unobserved, so their transition counts cannot be read directly from the data. Each length-20 sequence has $2^{20}$ possible state paths, whereas forward--backward computes the required posterior probabilities efficiently.
+
+Starting from an initial choice of $a,b$, each iteration has two steps:
+\begin{enumerate}
+\item \textbf{E-step:} Run forward--backward on each of the five sequences using the current parameters. Compute the posterior expected transition counts and add them across sequences.
+\item \textbf{M-step:} Update the self-transition probabilities by
+\[
+a^{\mathrm{new}}=\frac{\E[N_{11}]}{\E[N_{11}]+\E[N_{12}]},\qquad
+b^{\mathrm{new}}=\frac{\E[N_{22}]}{\E[N_{21}]+\E[N_{22}]}.
+\]
+\end{enumerate}
+The expectations are conditional on the observed sequences and current parameters. There are $5(20-1)=95$ transitions in total; no transition is counted between different sequences. The known $p,q$ and initial probabilities remain fixed.
+
+Repeat until the log likelihood changes negligibly. Exact EM updates do not decrease the observed-data likelihood, but a global maximum is not guaranteed. Different initial values can be tried, retaining the result with the highest likelihood.
+
+\newpage
+\section*{Question 3}
+\subsection*{(a)}
+Since the devices are independent and $\sum_{k=1}^{r+1}n_k=n$, the likelihood is
+\[
+L(\theta)=\prod_{k=1}^r\left[\theta^{k-1}(1-\theta)\right]^{n_k}
+\left(\theta^r\right)^{n_{r+1}}.
+\]
+The final category contributes no factor of $1-\theta$. Define
+\[
+S=\sum_{k=1}^{r}(k-1)n_k+r n_{r+1}
+=\sum_{k=1}^{r+1}kn_k-n,
+\qquad F=n-n_{r+1}.
+\]
+Then $L(\theta)=\theta^S(1-\theta)^F$, and for $0<\theta<1$,
+\[
+\boxed{\ell(\theta)=
+\left(\sum_{k=1}^{r+1}kn_k-n\right)\log\theta
++(n-n_{r+1})\log(1-\theta).}
+\]
+Boundary values are interpreted directly from the likelihood or by limits.
+
+\subsection*{(b)}
+First suppose $S>0$ and $F>0$. Differentiating and setting the derivative to zero gives
+\[
+\ell'(\theta)=\frac{S}{\theta}-\frac{F}{1-\theta}=0
+\quad\Longrightarrow\quad
+S(1-\theta)=F\theta
+\quad\Longrightarrow\quad
+\hat\theta=\frac{S}{S+F}.
+\]
+Also,
+\[
+\ell''(\theta)=-\frac{S}{\theta^2}-\frac{F}{(1-\theta)^2}<0,
+\]
+so this is the unique maximum. Since
+\[
+S+F=\sum_{k=1}^{r+1}kn_k-n+n-n_{r+1}
+=\sum_{k=1}^{r+1}kn_k-n_{r+1},
+\]
+we obtain
+\[
+\boxed{\hat\theta_{\mathrm{MLE}}=
+\frac{\displaystyle\sum_{k=1}^{r+1}kn_k-n}
+{\displaystyle\sum_{k=1}^{r+1}kn_k-n_{r+1}}.}
+\]
+For completeness, the boundary cases are as follows (assuming $n\geq1$):
+\begin{itemize}
+\item If all observations equal $r+1$, then $F=0$, $S=rn$, and $L(\theta)=\theta^{rn}$. Its maximum is at the allowed endpoint $\hat\theta=1$, consistent with the formula.
+\item If all observations equal $1$, then $S=0$ and $L(\theta)=(1-\theta)^n$. The formula gives $0$, but the parameter space excludes $0$. The likelihood approaches its supremum of $1$ as $\theta\to0^+$, without attaining it. Thus an MLE does not exist for this sample under $0<\theta\leq1$.
+\end{itemize}
+\end{document}

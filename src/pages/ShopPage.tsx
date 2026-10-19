@@ -194,6 +194,15 @@ export default function ShopPage({ showToast }: Props) {
         if (updated) setUser(updated)
         else setUser({ ...cur, beans_small: cur.beans_small - selectedItem.price, cards: nc })
         showToast('✅ 获得免学半日券！')
+      } else if (selectedItem.name === '明日双倍卡') {
+        const nc = { ...cur.cards, 明日双倍卡: (cur.cards?.['明日双倍卡'] || 0) + 1 }
+        const updated = await updateUser(cur.id, {
+          beans_big: cur.beans_big - selectedItem.price,
+          cards: nc,
+        })
+        if (updated) setUser(updated)
+        else setUser({ ...cur, beans_big: cur.beans_big - selectedItem.price, cards: nc })
+        showToast('🔥 获得明日双倍卡！')
       } else if (selectedItem.currency === 'small_bean') {
         const updated = await updateUser(cur.id, { beans_small: cur.beans_small - selectedItem.price })
         if (updated) setUser(updated)
@@ -211,6 +220,9 @@ export default function ShopPage({ showToast }: Props) {
       } else if (selectedItem.name === '免学半日券') {
         const nc = { ...cur.cards, 免学半日券: (cur.cards?.['免学半日券'] || 0) + 1 }
         setUser({ ...cur, beans_small: cur.beans_small - selectedItem.price, cards: nc })
+      } else if (selectedItem.name === '明日双倍卡') {
+        const nc = { ...cur.cards, 明日双倍卡: (cur.cards?.['明日双倍卡'] || 0) + 1 }
+        setUser({ ...cur, beans_big: cur.beans_big - selectedItem.price, cards: nc })
       } else if (selectedItem.currency === 'small_bean') {
         setUser({ ...cur, beans_small: cur.beans_small - selectedItem.price })
       } else {

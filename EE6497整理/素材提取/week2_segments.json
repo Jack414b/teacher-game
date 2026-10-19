@@ -1,0 +1,1316 @@
+[
+  {
+    "id": 1,
+    "start": 37,
+    "end": 80,
+    "en": "Yeah. Okay. Good evening, everybody. Good to see everyone here today. Yeah. This is our first in class lecture. Last week was the public holiday, so we had the online makeup. I hope those who didn't attend the online session, you can always view the video. Okay reminder. Okay. So the video is at the media gallery inside your NT lens. When you click on it, you should be able to see the video. And the lectures are all recorded, right. So Usually, the videos will be available within one to 2 hours after the lecture itself."
+  },
+  {
+    "id": 2,
+    "start": 85,
+    "end": 130,
+    "en": "Yeah. Another reminder is the U clap. So remember, you have 5% class participation. If you attend this Clap, right you just have to attempt the questions, don't need to you will get the marks even if you get the answer wrong, so it's fine. So don't be afraid to just try out the questions. And those of you who did the Clap during the online session, last week, you should be able to see your score. Yeah, as long as you see a basically a non store, if you see something right inside your NTN instead"
+  },
+  {
+    "id": 3,
+    "start": 130,
+    "end": 175,
+    "en": "of I think a dash, that means that your participation has been recorded, right regardless of what the score is, even if you get a zero, is also counted. So unless you see a dash, right, there's nothing. That means that it's not captured. So if you find that you see a dash, but you have attempted, then please let me know. We will try to figure out what happened. Okay. Yeah, exactly how the score is computed, actually, I also don't know. The system the clap the convert the score somehow inside the O clap into the NT. So there's a mapping. If you ask"
+  },
+  {
+    "id": 4,
+    "start": 175,
+    "end": 220,
+    "en": "me why you get 50 instead of 55 out 100, I also don't sn. But it doesn't matter. As long as you get some score, then it's counted as one class participation. So Basically, you will get the full class participation marks if you do nine. If you attempt nine of the class out of their 13 weeks. There's a buffer there. Don't have to worry. Yeah. Today, please go to the We two and then you need to enter through the N. Very importantly, have to go through the NQ"
+  },
+  {
+    "id": 5,
+    "start": 220,
+    "end": 264,
+    "en": "Ln. Otherwise, the system cannot capture your attempt because it needs to know your account. Okay. So if you go through the NQ learn, then you should be able to see this interface. And then yeah. Okay, so far okay? Okay. Great. Okay. Then we can start on two days. Lecture. Let me see. Okay. So before we start, that's a quick recap of last week."
+  },
+  {
+    "id": 6,
+    "start": 266,
+    "end": 310,
+    "en": "So basically, last week was mainly about probability review. So you so basically just a quick review of concepts of PDF, right, expectations, different standard distributions, like the bernodi, exponential, normal, uniform and so. So these are standard distributions that we will use as examples throughout the rest of the cost. So these distributions themselves may or may not be useful in different application. There are some applications where it's actually quite okay to use some of these distributions to model"
+  },
+  {
+    "id": 7,
+    "start": 312,
+    "end": 357,
+    "en": "to model whatever you want to model, right For example, packet arrivals in a network is actually very well modeled by pzon distribution. Your call arrival rate in your communication system is also well modeled by Po jong, your noise that you observe, when you do measurements in any system or for example, your communication system again, is well modeled by Gaussian distributions. And there are reasons behind that. And then it doesn't mean that all these simple distributions has no use. They still have a place in very important applications. But we will mainly use them to illustrate the concepts."
+  },
+  {
+    "id": 8,
+    "start": 357,
+    "end": 403,
+    "en": "And of course, At the end of this course, all these concepts, I hope you will be able to apply it to much more complicated dision, much more complicated models, which basically don't even have a name for the distribution. The model itself, you can think of it as a distribution, but it's a very complicated model that you have to train the model accordingly. In general, first of all, we need to for whatever application that you're doing your machine learning for, first of all, have to decide on what kind of model architecture you're going to use. In the probablistic case, where let's say you believe"
+  },
+  {
+    "id": 9,
+    "start": 403,
+    "end": 447,
+    "en": "that using some distribution is good enough to model your application, then of course, here you have to decide what kind of distributions are you going to use? What kind of probability distributions you're going to use to build out your model. These dstion that we saw last is the very basic one. Subsequently, we are going to see how to combine them together. For example, in this mixture model, how to combine them together to come up with something that is more sophisticated, more complex, that can model your application better. Then we also have all these markov models, SD mako models. These are again combinations of of different concepts and combinations of different distributions together in a more"
+  },
+  {
+    "id": 10,
+    "start": 448,
+    "end": 493,
+    "en": "complex model. Of course, when you go to the second half of the course, then we won't be too concerned on whether we're using distributions or not, but we are rather going to look at the lost based models using this kind of neural network architectures. But at the end of the day, you can actually think of the neural network architecture as a complicated distribution. When you look at it, you your neural network architecture, in most cases, for example, you are doing classification, the logic layer of your neural network is actually giving you a distribution. So it's only when you got the distribution, you map it into a single output. So Mathematically, you can think of the whole neural network"
+  },
+  {
+    "id": 11,
+    "start": 493,
+    "end": 536,
+    "en": "as one big distribution that you're trying to deal with. Okay. But of course, this has no the names that are given to these models are no longer based on, you know, this kind of standard distributions. Okay. Choosing the model itself is also kind of There's also a whole procedure behind it, but in this course, we are not going to cover that. Those of you who are interested in case you are wondering, how do I exactly choose a model architecture? Then you can actually use this kind of validation techniques and try to find the optimal architecture that"
+  },
+  {
+    "id": 12,
+    "start": 539,
+    "end": 584,
+    "en": "that fits your application. This will then depend on having enough training data for you to do this. We're not going to do that in this course. We are just going to assume that you have chosen your model architecture and now Once you have a model architecture, there are all the weights inside the model. In this course, we are mainly going to focus on parametric models. You have a distribution or a neural network model, and then the distribution or the model itself, comes with unknown weights that that you can optimize. These are called the model weights or the model parameters. You can think of it as basically a conditional distribution"
+  },
+  {
+    "id": 13,
+    "start": 584,
+    "end": 629,
+    "en": "that's given by this. We are already actually interested when it comes to machine learning training. We are actually basically trying to learn what are these model parameters. But ok. In terms of the simplest example that you can have. For example, last we we talk about nudi distribution. You have the data which is telling you what's the probability that that the random variable is equals to one. This is an unknown probability. Then we want to make use of your training data observations to try to learn, what is this data value for this particular application. Then for the gaussian distribution, remember, the gaussian is"
+  },
+  {
+    "id": 14,
+    "start": 629,
+    "end": 674,
+    "en": "characterized by the mean me and the coven matrix Sigma. Again, this would be something that is unknown in advance. You know that the data is generated by Gaussian, but you don't know what is the mean, what is the coence matrix, and so you want to make use of some training data to try to learn what is the mean and coence metric of this gaussian. Then in subsequent weeks we will see more and more complicated models with more and more parameters that you need to learn. Of course, in the second half of the course, we are talking about some of the models. Big new network models can have billions, billions of model parameters."
+  },
+  {
+    "id": 15,
+    "start": 675,
+    "end": 720,
+    "en": "For example, I think the most recent LLM by Kim is one that basically has over 1 trillion parameters. These are all basically the model weights and we'll try to use training data to try to come up with the model weights. Okay. Then the question is, how to come up with the models, right? We want to find good model weights. What are so called consider optimal, right I mean person A, he may think that this data is better to person B, may think that this other data is better. So we need some criteria to help us"
+  },
+  {
+    "id": 16,
+    "start": 720,
+    "end": 764,
+    "en": "to guide us, to say which parameter is considered to be optimal. So we are basically trying to answer that question. Today we'll do at two common criteria to say that this is what we want. I will also give you some reasons why people use these criteria. Hopefully, I can convince you that these are good criteria to use. It makes sense to use this MLE or MAP criteria. This will mainly cover these two. Of course, after you have learned the model, the data star has been trained from your"
+  },
+  {
+    "id": 17,
+    "start": 765,
+    "end": 809,
+    "en": "training data, you want to make use of it. During your inference time, you're going to get new data that you have never seen before, you plug into the model that you have learned and then you get some predicted outcome. And subsequently, if you manage to observe the ground hf, then you can measure whether your predicted outcome is good or not. Whether your model is good or not. Can you generalize during the influence time to something that you have never seen before. This we'll also talk about all the goodness of fit, test accuracy, all these different criteria, Trough the example. RMS."
+  },
+  {
+    "id": 18,
+    "start": 810,
+    "end": 856,
+    "en": "These are basically typical criteria that people use to test your model. So using data that you have never seen before. That's why this is called testing testing data. You use data to train your model, that is called the training data. After you have trained the model, maybe you need to adjust certain hyperparameters inside your model, then we will use this thing called validation data to tune the hyperparameter. Training. So you have training data. Then you have validation data that is for This is to to train or to find the data star Validation"
+  },
+  {
+    "id": 19,
+    "start": 856,
+    "end": 901,
+    "en": "data is mainly to hyperparameter. Hyperparameters are parameters that do not belong to the data star. It's not something that you that you want to learn. Most of the time, these are things that you fit in advance. But then you try to adjust the weight, all these hyperparameters using your valuation data. Of course, finally, you have the testing data. Testing data should be totally different right from the training and validation data. Here we are trying to see whether the model can generalize. Whether it's generalized or not, how"
+  },
+  {
+    "id": 20,
+    "start": 901,
+    "end": 919,
+    "en": "will tell whether it generalized or not, then we basic use of all these kind of criteria. All right. So we'll jump straight into the basic models. Here you can see that"
+  },
+  {
+    "id": 21,
+    "start": 930,
+    "end": 974,
+    "en": "Okay. I hope you can see, I want to make it full screen, but I guess it's not possible. Okay. Let's start with some motivation. For example, you can see here. Let's say you are given a training data set with XI and YI pas. Y is or the outcome that you are trying to predict, from the the ads would be the favors the input fur or, then In the testing, are basically only given X, you don't know the y, want to predict the y. But in the training, this is a supervised training problem. You are given X and Y so that"
+  },
+  {
+    "id": 22,
+    "start": 975,
+    "end": 1020,
+    "en": "you can learn the model weights. Here of course, we already assume that we've chosen what kind of model we're going to use. We then use the training data to try to learn the model weights. So One example here is, for example, you are trying to fit this quadratic function. So we are given the x value, you are given the y value. So each point here, each data point consists of x and y. Of course, your data is generated in a probablistic way. There's noise inside the data. We should think of the X and Y coming from some joint distribution. It's not a deterministic relationship, but in terms of the model,"
+  },
+  {
+    "id": 23,
+    "start": 1020,
+    "end": 1066,
+    "en": "we are hoping to use a deterministic model, a quadratic model to try to model the y in terms of the X. Here we assume this is the model that we've chosen. We assume that y equals to some a zero plus a one x plus e2x squared. This are a quanttic function. But of course, the A zero e one and e two are unknown. We have chosen a quanttic model, but you don't know exactly what are the values of a zero e one and e two. So question that we want to answer, is what is the optimal value of this A 0e1e2? And to answer this question, usually"
+  },
+  {
+    "id": 24,
+    "start": 1066,
+    "end": 1111,
+    "en": "we will need to try to make use of the property distribution that generates this data. So will give some examples. Here, for example, you have the training data set. This one is I don't put the y here. So this is an illustration to show you what the so called the Lhod model looks like. Okay. To answer this question, we first need to come up with a likelihood model and then we can try to do something to that likelihood model to then say what is the best values of A 08182."
+  },
+  {
+    "id": 25,
+    "start": 1113,
+    "end": 1157,
+    "en": "Before we do that, do some examples of so called likelihood model, right. So in the simplest example is like your training dataset just consists of a values. So you have X values. Now you believe that all these X values are generated by Sun Bn. All the X I are generated by Sun Berny distribution with some unknown data. Of course, we always assume that the data set is IID. IID means independent and identically distributed."
+  },
+  {
+    "id": 26,
+    "start": 1163,
+    "end": 1208,
+    "en": "Okay. We assume that the data is generated from, for example, from different experiments. So each time when you want to you got the X one from the first experiment, and then you re run the same experiment, you get the X two, you re run the same experiment, you get X three and so on. And our belief is that the experiments don't affect each other. So that's why they're called independent. So they the outcomes of the different experiments don't affect each other. Then we also believe that all the experiments are of the same type. All the experiments are the same kind of experiments, coming from the same distribution. That's why we call it"
+  },
+  {
+    "id": 27,
+    "start": 1208,
+    "end": 1253,
+    "en": "identical distribution. Independent and identically distributed, this is a very common assumption in machine learning. Since they are independent and identically distributed, if I want to compute the likelihood, The likelihood of the data set over here. The whole data set. The likelihood of the whole data set the product of the individual likelihoods of the data points inside your data set, because of the IID assumption. Identical sorry, independent tells you that you can write this into a product of PDX."
+  },
+  {
+    "id": 28,
+    "start": 1253,
+    "end": 1298,
+    "en": "This is from the product is due to the independence assumption. And then the identical assumption tells you that the P, this P is the same, same for the si. We are basically using the same PDF for all the i. If I write it out, then this would be. Remember, this is the Bernd, Another way to write it is if you want to write it this way is also okay."
+  },
+  {
+    "id": 29,
+    "start": 1300,
+    "end": 1334,
+    "en": "Remember, we use this Bernd PDF, we give it a special name a special symbol, the PDF or the Bernov, then this guy will be theta X. Here we are basically assuming all the x01. V. One minus X. Then of course, you can simplify this. This will visas. The product becomes a summation in the exponent."
+  },
+  {
+    "id": 30,
+    "start": 1342,
+    "end": 1387,
+    "en": "In the lecture notes, we give it a notation right. We call this n one. So n one is just this submission, the number of the number of X that is equals to one, right. And then this will be zero. So n0pn one will be equal to. So n zero is the number of X that is equals to zero. Okay. So that's how you get the function for your training data set. A numerical example here. I think I don't really go through, you can see that in this training data set, there are seven ones and 30."
+  },
+  {
+    "id": 31,
+    "start": 1388,
+    "end": 1433,
+    "en": "That's why your likelihood becomes like this. Now let's say we don't know how to solve this problem. I want to find data values that will fit this data as much as possible. Since this is the likelihood, Lho basically tells you, if I have a higher likelihood, that means the probability of getting data values that are close to this one is higher. Remember your PDF. When I have a PDF, then if I look at the value at some some particular X value. This is your PDF value. What does this PDF value tell you? It basically tells"
+  },
+  {
+    "id": 32,
+    "start": 1433,
+    "end": 1477,
+    "en": "you if I take a small region around this x, the area under this curve basically tells me what's the probability that you observe this these are small interval of a value. This is basic the probability. The probability of observing your ad is between say between x minus asilon and X plus as. The area under your PDF curve is basic indic indication of how ly, this particular a value that you observe is"
+  },
+  {
+    "id": 33,
+    "start": 1478,
+    "end": 1523,
+    "en": "with respect to the PDF. You can see that this is myo. That's why we call this a likelihood function. For different values of data, is going to reveal different lilihood values. For example, if I let data equals to 0.6, you are going to get a certain value. I t data to be say 0.4, I'm going to get a certain value. At some point, you can see if I try different values of data, your lilihood value is going to change according to data. This is actually a function. This is a function. A function of this is actually a function of data."
+  },
+  {
+    "id": 34,
+    "start": 1525,
+    "end": 1570,
+    "en": "So maybe that's called data. When I change the value of data, the value of this Lho function will change. Of course, according to our intuition, if I want to say that I want my data to be as likely as possible. Since you have already observed the data, this is what you observed, most likely is going to correspond to some data value that gives you high probability of you having observed this data set. That's the rationale behind this maximum likelihood"
+  },
+  {
+    "id": 35,
+    "start": 1570,
+    "end": 1615,
+    "en": "estimation. Before we formalize it, let's do at one more example here. Here, instead of the Balu D, now you have I being exponential, exponential. So again, IID. Your exponent. Again, I can compute the D hoo. But now my parameter, I call it Lambda. You can call it data one. Same thing because it's IID, I can write it as the individual ones product of the individual ones. Okay. And then each individual"
+  },
+  {
+    "id": 36,
+    "start": 1616,
+    "end": 1661,
+    "en": "exponential, is of the form Lambda E minus Lambda x. Okay. Of course here, we assume that all the x1x, these are all negative. So if you have something that is negative, that it cannot come from the exponential distribution, right? Remember your exponential distribution side, right, your PDF do sides. Okay. So it's going to be equal to zero when the x, your observation is less than zero. So this is also the case is b you have to choose the right model, right? So that basically indicates that right"
+  },
+  {
+    "id": 37,
+    "start": 1662,
+    "end": 1706,
+    "en": "your domain knowledge is also important. If you observe you know that your random variables, your observations are are non negative, you wouldn't want to, for example, choose a gauing distrition, or choose something else that has positive probability of getting negative observations. This where the choice of the model comes in. Anyway, this product, you can simplify it. The product becomes the exponent. Again, same thing, you can go and try it out. If I put in different values of Lambda, you are going to get"
+  },
+  {
+    "id": 38,
+    "start": 1707,
+    "end": 1750,
+    "en": "different values of likelihood. This is basically a function of the Lambda. We want to find what is the value of Lambda that is most likely to have generated this observed data. I think I can skip the gaussian similarly Gaussian distribution. You can compute the likelihood. This one, the formula may do slightly more complicated, but it's actually the same formula as before. I basically you just have to write it as a product and then plug in the formula and then you can simplify. Here in this case,"
+  },
+  {
+    "id": 39,
+    "start": 1752,
+    "end": 1796,
+    "en": "my data is mile and Sigma square these are the two unknown parameters. The mean and the variance are both unknown, and you can see that the likelihood now looks like this for this particular observed data. You can try different values of Mu and Sigma. For different values for Mu and Sigma is zero and one, then your likelihood is this value. If I choose u to be minus one Sigma to be one, then I'm actually getting this likelihood. You can see that clearly this one is higher, is higher than the one at the bottom, which means that the set of parameters are more more fitting to the data."
+  },
+  {
+    "id": 40,
+    "start": 1797,
+    "end": 1833,
+    "en": "This is a data set that you have observed. This one is this set of parameters will fit this data set better right because it has a higher likelihood value. So of course, we are not going to stop there, and we are not going to do trial and error. We want a systematic way to find the best value of data or in the best value of data, right to fit our training data. So as you may have suspected. So this is called the maximum likelihood estimator. Maximum likelihood estimate."
+  },
+  {
+    "id": 41,
+    "start": 1843,
+    "end": 1888,
+    "en": "In sort MLE. So basically, we will do at the likelihood. D is your training data set. And so this guy is called the likelihood. This is the likelihood function, and we are going to maximize? We maximize over all the possible parameters inside your parameter space. So Ma maximum likelihood estimate is the upma Means that I'm going to take the data value that maximizes this, M. Data ML is the maximizer"
+  },
+  {
+    "id": 42,
+    "start": 1888,
+    "end": 1932,
+    "en": "of this likelihood. Okay. In illustration over here, for example, in this particular PDF, when my data has three different values, these are the three different PDF. It depends on what is the observation that you make. For example, if I If I observe the data that value somewhere over here, I sorry, if I observe the X somewhere over here, then you can see obviously the orange one is the one that will fit your x better. If I observe the somewhere over here, then is the green one, right, the data goes to tank that will fit your data better. So it there's"
+  },
+  {
+    "id": 43,
+    "start": 1934,
+    "end": 1979,
+    "en": "no best data in advance, right. It all depends on the training data that you are observing. So this is where you this is where your training data is very important, right? Basically, we are maximizing the likelihood function, so we are trying to ask ourselves, which value of data will make this IID data set that we see to be the most likely. Mi the likelihood is actually equivalent to maximizing the log likelihood. This is the same, same as or rather as put maps. The map"
+  },
+  {
+    "id": 44,
+    "start": 1981,
+    "end": 2025,
+    "en": "is going to be the same. As maximizing the lot because why? Because your lot is is a increasing function. Meaning if I take. If I take A is smaller than B, then lot of A will be smaller than a lot of. So it doesn't change the ordering. If something is bigger, originally is bigger, then you take lot, it will still be bigger. That's why when I apply the lot function. To this likelihood, it doesn't change where the maximizer is. You can actually apply any increasing function they want."
+  },
+  {
+    "id": 45,
+    "start": 2027,
+    "end": 2048,
+    "en": "It won't change. What is the value of the maximizer. But why we want to apply lot is because as you see before, this likelihood usually we assume it is IID data, so we will write it as a product. If I apply lot to eight, then it becomes a summation."
+  },
+  {
+    "id": 46,
+    "start": 2054,
+    "end": 2099,
+    "en": "And this makes it easier for us to perform calculations. To do summation is easier for us to take derivative right when we want to differentiate this lot likelihood, is much easier to differentiate the lot likelihood than to differentiate the likelihood itself, right without the lot because there's a product. If you are trying to differentiate the product, then you have to use a chain rule. There's a product chain rule. So if you want to differentiate this guy, you have to use the product chain, which is very complicated, right. But to differentiate this guy, the summation you just bring the"
+  },
+  {
+    "id": 47,
+    "start": 2099,
+    "end": 2100,
+    "en": "summation inside at."
+  },
+  {
+    "id": 48,
+    "start": 2105,
+    "end": 2150,
+    "en": "So then you just differentiate each lot term right inside the submission. This makes it much easier. But of course, I mean, this is a tool, is just a way of doing things. It doesn't mean that you always have to do that. Sometimes Sometimes may when we find the maximum, you don't have to do any differentiation, right. My aside. How to find the maximum of a function. So we have data. This function we want to maximize. The usual way, the usual way is if this function is if it's differentiable, be differentiable, then what do"
+  },
+  {
+    "id": 49,
+    "start": 2150,
+    "end": 2195,
+    "en": "we do? We take the first order derivative, and then we set to zero, then you can find the data star. You find the root of this equation. Since we are trying to maximize, actually, we need to do one more statep. We need to take the second derivative and we want to so that is concave. This is being concave is negative, right. Under these two conditions, then your data would be the maximizer. But of course, are Most of the time"
+  },
+  {
+    "id": 50,
+    "start": 2196,
+    "end": 2229,
+    "en": "we don't have to verify this because most of the time we can tell that it's true. In this course, most of the time we will just do this. We will just do this. If you want to verify this, of course, nobody you can do this directly. But in terms of the calculations, it should be quite obvious that whatever you get is the one that does the maximization instead of minimization. But of course, this is not the only case. What happens if it's not differentiable."
+  },
+  {
+    "id": 51,
+    "start": 2235,
+    "end": 2278,
+    "en": "Not differentiable, then you cannot. You cannot differentiate cannot take derivative. To D data. In this case, we have to use other techniques. It doesn't mean that we always always solve equation. Sometimes you have to be flexible depending on your application, depending on your problem. Maybe you need other techniques. There are many timization techniques you can use optimization. You can do, you know, simulated annulling, you can do general timization step. So there are now many ways to do optimization."
+  },
+  {
+    "id": 52,
+    "start": 2280,
+    "end": 2325,
+    "en": "Okay. Yeah. So this as a side note. But in this course, I think most of the problems we will be doing differentiation, B y all the problems that we are going to use as illustrations, we basically assume they are the easy ones, can differentiate. And so we always like to take the lot likelyhood. Okay. Go back to just now the Berudi example. So we have the P, the Luddy hook right. We saw that this is theta n11 minus theta n zero. Okay. So if I take the lot, then"
+  },
+  {
+    "id": 53,
+    "start": 2325,
+    "end": 2327,
+    "en": "you can see it simplifies."
+  },
+  {
+    "id": 54,
+    "start": 2333,
+    "end": 2371,
+    "en": "Before I forget. In this course when I write log, I actually mean natural log natural log a rythm. Some of you may write it as a L. This basically the same thing. If I have other base log, then base tank so I will write base tank explicitly, then that is the base tang lock. But in this course, we will ma e. So we'll do differentiation with respect to theta."
+  },
+  {
+    "id": 55,
+    "start": 2378,
+    "end": 2423,
+    "en": "This is n one over data. And then we're going to set this equal to zero, solve for the equation. If you solve the equation, you find that this data, the optimal value of data is n one over n zero plus one n one. L estimate you can see that it makes a lot of sense, The ML estimate happens to be basically the proportion of ones that you are seeing. This data is supposed to be the probability of getting a one. Now the ML estimate tells you that the solution is"
+  },
+  {
+    "id": 56,
+    "start": 2423,
+    "end": 2468,
+    "en": "to basically count the proportion of ones in your training data. For example, in this training data set, your M one is seven, you are seeing seven ones over here out of ten. ML estimate is 0.7. In the exponential case, we have In the exponential case, we have the s. Again, you can see that to differentiate this guy directly, with respect to Lambda is not going to be simple, it becomes very complicated. If I take lot. If I take lo, then"
+  },
+  {
+    "id": 57,
+    "start": 2468,
+    "end": 2469,
+    "en": "everything simplifies."
+  },
+  {
+    "id": 58,
+    "start": 2475,
+    "end": 2481,
+    "en": "Okay. And then I take differentiation differentiate with respect to Lambda."
+  },
+  {
+    "id": 59,
+    "start": 2489,
+    "end": 2495,
+    "en": "I set to zero and then I solve for da right. So this will be my ML estimate."
+  },
+  {
+    "id": 60,
+    "start": 2501,
+    "end": 2546,
+    "en": "Okay. Okay. So On numerical example here for you to check. Why Yeah. Why we want to use the ML estimate, right? Of course the heuristic reason is basically, right, we know that the likelihood function is basically telling us, right how likely that your that you are observing this training data set. So that's why we believe that finding the data, the weight that maximizes this likelihood should be the one that gives you the right answer, right because this is the training data set they observed. So"
+  },
+  {
+    "id": 61,
+    "start": 2546,
+    "end": 2572,
+    "en": "that is more on a heuristic level. If you are okay with that, I think it's okay, that's fine. But there's a deeper mathematical reason to that. So the next part is a supplementary. So just for your knowledge. So this supplementary. So there's actually a deeper mathematical reason why this is a good approach. So first of all,"
+  },
+  {
+    "id": 62,
+    "start": 2577,
+    "end": 2622,
+    "en": "we do at the log likelihood. So this is remember, this is your log likelihood, is basically a summation of the individual lot likelihood of the individual data points. Okay. So if I take I normalize it by one over n. Then if I normalize it by one over n, you see that this is this is average right is the average log likelihood. This average log likelihood, according to the there's this result in probability theory, called the strong law or large numbers. We say that"
+  },
+  {
+    "id": 63,
+    "start": 2623,
+    "end": 2668,
+    "en": "if I take a sufficiently large number of samples, right, and take the average. Of course, I need to assume that these samples are IID. So that's where your IID assumption comes from. You I your XIs are IID. And because your XIs are ID, then if you think of this as a random variable itself, right? I apply the PDF, I take the lot. I basically change the value of the random variable. So this log ID itself is also a random variable, right? If you assume that this XI is random. So this guy itself, right is also IID. Because your I IID,"
+  },
+  {
+    "id": 64,
+    "start": 2668,
+    "end": 2713,
+    "en": "you apply the same operations to it, it will still be IID, this whole thing. On basis, taking the average of many IID random variables. According to this strong law of large numbers, this average is going to converge to the expectation. Of the random variable. So the random variable is log P x given data. Okay. So the y. So the average is going to convert to whatever the expectation of whatever average that you're taking. And moreover, this conversion, is with respect sorry, this expectation is with respect to the true value"
+  },
+  {
+    "id": 65,
+    "start": 2713,
+    "end": 2758,
+    "en": "of data. So yeah. So we assume that all these Is are generated I ID according to some unknown data. Is IID coming from some distribution with some data not no you don't sn. But we take a large number of them, take the average. Strong low or large numbers tells me that it will convert to the average value of this lot. PDF and how this average value is computed is with respect to the actual true data value, the true data not value. But of course you won't know how to compute this average, exactly because you don't so what's the data not"
+  },
+  {
+    "id": 66,
+    "start": 2758,
+    "end": 2803,
+    "en": "value. But you can imagine if I'm you are the one trying to find the expectation, what can you do? You just take a large number, take the average and this tells you that this is a very good approximation of the true expected value. There's a whole idea behind it. We basically use a strong large numbers. And then we know that this is your average likelihood. We know that it's going to converge or approximately equals to the true expected value when n is large. And then this true expected value is the one that we are maximizing. Remember, when we"
+  },
+  {
+    "id": 67,
+    "start": 2804,
+    "end": 2832,
+    "en": "try to maximize the locked likelihood, we are basically maximizing this guy, right now we believe that this guy is is approximately equals to expectation. Which means that we are actually maximizing this expectation. When we maximize this, when we are maximizing this is the same, is approximately the same as maximizing this expectation."
+  },
+  {
+    "id": 68,
+    "start": 2839,
+    "end": 2883,
+    "en": "Notice that the true value of data note is here. The expectation is with respect to the true value, which we don't know. We're now taking the maximization, we're maximizing this data over here. So what do we hope for? Right? We hope that this maximization will give me the we hope that the what's the maximizer data star is going to be Data. If I maximize this guy, I can get the maximizer to be data not then I'm done, right? So I will have found the true theta the true parameter, the true model parameter. So"
+  },
+  {
+    "id": 69,
+    "start": 2885,
+    "end": 2903,
+    "en": "is this valid. So we can see that if I take this expectation. Now I'm going to combine it with something else. I take the negative of this expectation. And then I add something to it."
+  },
+  {
+    "id": 70,
+    "start": 2909,
+    "end": 2943,
+    "en": "This one is with respect to data. This is data. Data note is the true value, but of course we don't se. But you can see that this is constant in terms of data is independent, independent of data. Basically, I'm just adding a constant to it. I add a constant to it. Why I won't do that because when I add a constant to it, I will be able to simplify the expression into something that looks like this."
+  },
+  {
+    "id": 71,
+    "start": 2949,
+    "end": 2994,
+    "en": "I'm adding a constant, it doesn't change the maximizer, add a constant to it, then this becomes this expression over here and this is called the KL diversions. In terms of simple, you can write its P data. Maybe this is the distribution with the parameter data, the KL diversions between this guy and the one with respect to data. Basically now when I When I'm maximizing this guy, but now I take negative for this guy. That means when I maximize this guy"
+  },
+  {
+    "id": 72,
+    "start": 2994,
+    "end": 3020,
+    "en": "is equivalent to minimizing this whole thing. Because I add a negative sign and then this part here, this is a constant. This part doesn't affect the minimization at all. This minimizer is the same as the maximizer here. Nothing has changed. Basically, I change the problem has changed to minimizing over data of the KL diversions."
+  },
+  {
+    "id": 73,
+    "start": 3028,
+    "end": 3072,
+    "en": "As the one that we're doing is this guy is the same as this guy. Basic equivalent. Why I want convert into KO diversions and minimize it is because of the next theorem. Schengen has a famous theorem that says, This KO diversion is going to be no negative, is no negative and equals to zero if and only if the two distributions are the same. The KL divergence is basically telling you the difference. What's the distance between these two distributions? Remember, this guy is the true distribution with the data not unknown, the true one."
+  },
+  {
+    "id": 74,
+    "start": 3073,
+    "end": 3119,
+    "en": "This is the one that you're trying to find. If I'm trying to minimize this, according to Shenon theorem, this function, this KL divergence is going to be no negative, right and is going to achieve the minimum value equality, if and only if the theta esta. So this is the minimizer. So if I ready go and minimize the KO diversions, right, the minimizer has to be the parameter, the tru data distribution parameter. Okay. So it's very nice, right. So the basic,"
+  },
+  {
+    "id": 75,
+    "start": 3120,
+    "end": 3165,
+    "en": "your strong large numbers right. And this is all you know it is like It's quite amazing. It's quite amazing that this is just mathematics and nothing to do with the physical world, and yet the math tells you that by doing it this way, you will get exactly the true answer in the physical world. That's the beauty behind this. The strong lot of large number basically tells you that if I go and minimize or maximize this lot likelihood of the whole training data, if my training data set is sufficiently large, I'm going to get something that is going to be very close to the real actual ground parameters. This is g guaranteed"
+  },
+  {
+    "id": 76,
+    "start": 3165,
+    "end": 3211,
+    "en": "mathematically guaranteed. That's the reason why this MLE, right, maximum likelihood estimator is probably the most widely accepted way that people go about trying to train your model. Some of you may be more familiar, for example, with classification. Yeah. Those of you who have done maybe come across a bit of maximum li, you will definitely have come across this thing called the cross entropy loss. Cross entropy loss is actually derived from the maximum likelihood estimate. The cross"
+  },
+  {
+    "id": 77,
+    "start": 3211,
+    "end": 3256,
+    "en": "entropy loss is basically based on the MLE. How does it work? Basically here, we have cross entropy. We have K K classes that you want to classify into. So we have K labels. Basically, you have some input feature x and then you want to label it. You want to predict a y that comes from one of these K labels. Okay. To do that, we will train a machinal ing model, So model. It could"
+  },
+  {
+    "id": 78,
+    "start": 3256,
+    "end": 3301,
+    "en": "be a probablistic model, or it could be a neural network model, but it doesn't matter. You can always think of the model, even it's a neural network model, it's actually a probability distribution, right? So the output from your neural network before it comes to the final output, the logic layer, the soft max layer of your neural network is actually a probability distribution. We can think of whatever model that we are trying to learn is actually a probability distribution where you give it some input at. Of course, data is the parameters inside your probability distribution, and then this model, is going to tell you say with 80% probability is going to be label one, 10% probability is Label two,"
+  },
+  {
+    "id": 79,
+    "start": 3301,
+    "end": 3346,
+    "en": "5% probability, T three and so on. This model is basically going to tell you give you a vector of probability that corresponds to each of the labels. Okay. So here we are trying to to use the MLE. Basically, we want to find the best data. We want to using the training data to find the best model weights. How can we do this from the MLE perspective? Basically, we are trying to maximize the log likelihood of the training data. We have training data, do this. We have XI and YI pas. Say"
+  },
+  {
+    "id": 80,
+    "start": 3346,
+    "end": 3356,
+    "en": "you have of them, right? You have training pas, and then as before, we can find the log likelihood of this training data set."
+  },
+  {
+    "id": 81,
+    "start": 3367,
+    "end": 3378,
+    "en": "Okay. Now your training data set is X and Y, X and Y I PS. Okay. So now we can expand this."
+  },
+  {
+    "id": 82,
+    "start": 3392,
+    "end": 3437,
+    "en": "So I'm taking out the XI first, right? So remember your probability rule, right, probability of PDF of X and Y. Join PD of X and Y can be written as Y given a, and the PDF of X. So I'm taking out the PD of X and then left with the Y given a. So why I won't do that because this is your model, right. So I I write S Q. So this is the model that you're training. This is the outcome of your model. Then here we're going to make an important assumption. When people do cross entropy, this is actually,"
+  },
+  {
+    "id": 83,
+    "start": 3438,
+    "end": 3483,
+    "en": "this is the inherent assumption that we're making. We're going to assume that this guy over here doesn't depend on data. It's just equals to f. Basically, the PDF of the, the facial vectors doesn't affect the training the model parameters. This is a inherent assumption when we are actually doing the cross and showy loss. The facial vectors themselves doesn't depend on your model parameters, which make sense, I mean, the facial vectors is something you observe, in the world. So your neighbor may decide to use a different model than you, of course, what you observed in the world is not affected by choice of parameters and not affected by your neighbor's"
+  },
+  {
+    "id": 84,
+    "start": 3483,
+    "end": 3520,
+    "en": "choice of parameters. We are going to assume that this guy is P at size, so it doesn't depend on data. Then you can see that here down rewrite this s rewrite this first part in terms of this thing over here. I basically collect all the terms together. We are going to collect in terms of the class one to k, indicator function of y equals to k."
+  },
+  {
+    "id": 85,
+    "start": 3526,
+    "end": 3571,
+    "en": "So why I equals k. Okay. This is. This is nothing but I basically rewrite the sum. By taking all the y values that are equals to the same label, put all the same labels together inside this sum. This indicator is basically say if my y eques to k, then I put inside this particular term, or this sum. So nothing much to it. Indeed, this is basically what we call the cross and locks. Basically we're going to put divide by n, take negative and then multiply"
+  },
+  {
+    "id": 86,
+    "start": 3571,
+    "end": 3596,
+    "en": "by minus n at the at the front. This green one, this is called the cross entropy loss. So when we are maximizing the lot hood we are maximizing the lotto because there's a minus here, then it's equivalent to minimizing the cross entropy loss. That's where your cross entropy loss comes from."
+  },
+  {
+    "id": 87,
+    "start": 3608,
+    "end": 3624,
+    "en": "And okay. I think I miss out. Okay. So I think it's time to do some exercise. I think I missed out that one. Okay. So maybe let's take a minute, right to at the ya."
+  },
+  {
+    "id": 88,
+    "start": 3635,
+    "end": 3636,
+    "en": "Okay, try this out."
+  },
+  {
+    "id": 89,
+    "start": 3659,
+    "end": 3671,
+    "en": "Okay. So to do the clap, you have to go through the NTU ln and log in through the T n so that your responses are captured."
+  },
+  {
+    "id": 90,
+    "start": 3822,
+    "end": 3847,
+    "en": "Okay. I see some so called confusion indicators. So please either pose your questions on the message so that I can try to address them or, you know, so welcome to raise the questions. Okay. Let me know which part is confusing. So I can address."
+  },
+  {
+    "id": 91,
+    "start": 3877,
+    "end": 3920,
+    "en": "All right. So I think most of you have tried, Let me see what this was. Yes. Okay. Okay. So we have exponenture, random variables. This is your data set. Okay. So we saw just now, right the D hoop. The Light hoop is basically the product, right. The product of the individual hoods. This guy is Lambda and summation of the. Here, we have how many data points, four data points. So we have Lambda to p four."
+  },
+  {
+    "id": 92,
+    "start": 3922,
+    "end": 3964,
+    "en": "And then we need to sum up all these terms. Sum up all these terms. We have 1.5 0.1, Tums 5.1. Okay. So the first part the first one is wrong, right, because this would be Lambda power four. Okay. So second one is incorrect, also, right. Both the power and the sum is wrong and so the third one is the right answer. Okay. So now we want to find the MLE, right. So better to take the log."
+  },
+  {
+    "id": 93,
+    "start": 3970,
+    "end": 3971,
+    "en": "Set to zero."
+  },
+  {
+    "id": 94,
+    "start": 3976,
+    "end": 3997,
+    "en": "And then you take not set to zero. You'll take the derivative, right the Lambda. So f then set to zero. So your ML estimate will be fall over 5.1. Okay. So what's fall over 5.1?"
+  },
+  {
+    "id": 95,
+    "start": 4003,
+    "end": 4011,
+    "en": "Zero point. T will be number two, right. Okay. All right. Okay?"
+  },
+  {
+    "id": 96,
+    "start": 4027,
+    "end": 4028,
+    "en": "Okay. Second question."
+  },
+  {
+    "id": 97,
+    "start": 4041,
+    "end": 4053,
+    "en": "Okay. So here, this is a slightly complicated distribution, right? Not the standard one that we encountered so far. But the approach is the same."
+  },
+  {
+    "id": 98,
+    "start": 4124,
+    "end": 4124,
+    "en": "H."
+  },
+  {
+    "id": 99,
+    "start": 4308,
+    "end": 4353,
+    "en": "Okay. So here you have given a probability distribution. So you have this probability distribution, right. Depending on the basically the different observations, whether it's Alpha, Beta, or Delta, you are given different probabilities. Of these probabilities are a function of some unknown pea. Your data set has five Alphas, two beta, and three Delta. I want to find the L. Five Alpha s, that means each Alpha is theta square."
+  },
+  {
+    "id": 100,
+    "start": 4354,
+    "end": 4399,
+    "en": "Five Alpha will be this. Then two beta. Each beta is two theta one minus theta and then you have two of them. Square here, and then you have Delta s. One minus theta square. I will simplify this, this will be theta ten times four theta square one minus theta six. You can simplify further four theta 12, one minus theta"
+  },
+  {
+    "id": 101,
+    "start": 4401,
+    "end": 4414,
+    "en": "eight. This is your hod function. Of course, if I take the lot, take the lot, you will become a"
+  },
+  {
+    "id": 102,
+    "start": 4420,
+    "end": 4440,
+    "en": "81 minus. Same thing as before, I can differentiate it. So you minus and then set equals to zero."
+  },
+  {
+    "id": 103,
+    "start": 4445,
+    "end": 4446,
+    "en": "So you have"
+  },
+  {
+    "id": 104,
+    "start": 4455,
+    "end": 4455,
+    "en": "Okay."
+  },
+  {
+    "id": 105,
+    "start": 4461,
+    "end": 4493,
+    "en": "Sorry. So I I hope you saw the right things just now. So you are left with six over theta 1/1 minus theta, right? So six minus. Okay. Did I make a mistake? I think I made a mistake. Sorry. Okay. So coming back to here, we have we take the lock, right? Take the lock."
+  },
+  {
+    "id": 106,
+    "start": 4500,
+    "end": 4537,
+    "en": "So don't make the same mistake as me. Be careful of this. The four, the constant is outside when you take the lock is lock four, then this one plus lock theta plus eight. In fact, this constant doesn't matter. When you differentiate, the constant becomes zero, doesn't matter. Okay. Then I differentiate it. So data."
+  },
+  {
+    "id": 107,
+    "start": 4545,
+    "end": 4551,
+    "en": "Okay. So this is two this is three. So we have three over Theta"
+  },
+  {
+    "id": 108,
+    "start": 4562,
+    "end": 4566,
+    "en": "Theta equals three. So Theta equals 3/5. Okay."
+  },
+  {
+    "id": 109,
+    "start": 4571,
+    "end": 4580,
+    "en": "So I think most of you got the correct answer, 0.6 at 3/5. Okay,"
+  },
+  {
+    "id": 110,
+    "start": 4588,
+    "end": 4613,
+    "en": "by the way, all the clap is even after the lecture, I have also put the offline the questions offline as well in the clap. If you want to review the questions or try out, you can do that. If you go to the same clap, you should be able to see a so called offline or self paid session. So it's the same question as what we go in class."
+  },
+  {
+    "id": 111,
+    "start": 4620,
+    "end": 4630,
+    "en": "So this question here, you have to think more flexibly. It doesn't mean that you want to always differentiate things, right? Because you may see that this one is not differentiable."
+  },
+  {
+    "id": 112,
+    "start": 4814,
+    "end": 4815,
+    "en": "T"
+  },
+  {
+    "id": 113,
+    "start": 4842,
+    "end": 4842,
+    "en": "H."
+  },
+  {
+    "id": 114,
+    "start": 4873,
+    "end": 4918,
+    "en": "Okay. I hope all of you have tried. So you look at this likelihood over here. Okay. You'll see that, maybe we can convert to lot likelihood also. No harming that. So the lot Lho will be minus c So constant. Because this proposion just means that there's a constant two e. This guy equals to some constant multiply by this. The lot will have some constant here, but it doesn't matter. You can see if I try to differentiate this with respect to data, this not differentiable, right? You"
+  },
+  {
+    "id": 115,
+    "start": 4918,
+    "end": 4963,
+    "en": "cannot differentiate. Basically, I want to maximize this log likelihood, I basically need to just look at this function and see how to maximize it right. Why is the observation, right? Is a fixed value. The question is, what data value is the one that will maximize this function. To maximize this whole thing, because there's a minus C is the same equivalent equivalent to minimizing, minimizing this guy. How to minimize this? What is the minimum value? The minimum value is zero because this absolute value is always bigger or equals to zero."
+  },
+  {
+    "id": 116,
+    "start": 4964,
+    "end": 5003,
+    "en": "The minimum value is zero and the minimum value is given by data equals y. When you data equals, then this becomes zero. That's why your MLE is. You single observation is exactly the optimal parameter value that you're going to estimate. Any questions? Okay. I think this is probably the last one. Let's take a break here. We'll come back at around 835. Okay."
+  },
+  {
+    "id": 117,
+    "start": 5764,
+    "end": 5809,
+    "en": "Okay. Yeah. Coming back to this Yeah. So to point out something is it may seem a bit Yeah, some of you may be confused by the notation over here. So basically, we have this sum. So this is the cross NOP example. So we have the summation of the log likelihoods. I mean, the logo of the Y condition on the ads. Okay. This part the ds one we've taken out and we go sum is constant. Then why you write it in this way. So will give a quick example. For example, you see four data"
+  },
+  {
+    "id": 118,
+    "start": 5809,
+    "end": 5853,
+    "en": "points, your y one is equal to two, your y two equals to one, y two equals to two y four equals to one. What this indicator function is doing is basing I write it as a sum in this way so that I basically choose all the data that have the same labels, and I basically combine them into one term together. It's basic saying that I take all the y that is all the say all the y equals to one. All the y equals to one, I write it and combine them together. I take all the y equals to sorry, y equals to two,"
+  },
+  {
+    "id": 119,
+    "start": 5854,
+    "end": 5899,
+    "en": "y equals to two, I basically just write it and combine them together. It's as simple as that. Is just rearranging the terms and then combine them together with the same y values. Why we want to do that is because maybe some of you are more familiar with this expression. If you look at this guy, this one over n, if you bring side this summation. You're going to get the indicator of y over k divided by n. This guy when n is large, this is going to be as angles infinity, this is going to be the probability of y"
+  },
+  {
+    "id": 120,
+    "start": 5899,
+    "end": 5932,
+    "en": "i equals to k. That's why I sometimes you will see people write the cross anual P loss as this as the P of Y i equals to k instead of this indicator function. Yeah. But this is an approximation. If you know what is the true value of the probability, if you can use it. But most of the time we don't, then we will just basically this guy is just estimating what's the probability value of the YI."
+  },
+  {
+    "id": 121,
+    "start": 5938,
+    "end": 5975,
+    "en": "Next example is the linear regression. This is also a very commonly use technique. Basically here, we have y, is called the response variable that you are trying to estimate, and this y response variable is going to depend on some input input variables, as 12 to x d. We combine everything to one single feature vector a. We can write the model as y equals to t weight."
+  },
+  {
+    "id": 122,
+    "start": 5981,
+    "end": 5996,
+    "en": "So our model is some weight transpose times a. So this is a vector, us some apps long. This is the noise. Okay. So the weight"
+  },
+  {
+    "id": 123,
+    "start": 6002,
+    "end": 6026,
+    "en": "the weight, you can think of as W one, W two, two d. So the decompon, a visual vector has also de components. This guy is nothing but that's one to us. So."
+  },
+  {
+    "id": 124,
+    "start": 6032,
+    "end": 6076,
+    "en": "Then the noise here, we are going to assume that this noise is g noise, o g noise with some variance. We can see that I I condition on the value of x, y condition on you observe the side. This is your observe feature. If I condition on X, then this part is constant. This will be just a galian. A gal with this as the mean. This will be the mean of the gasian because this is mom. Then of course, the variant will stay the same."
+  },
+  {
+    "id": 125,
+    "start": 6077,
+    "end": 6122,
+    "en": "It's a galsiu with me W transpose t and variance square. Okay. Okay. So we can do the same thing as before. We have IID, training data. So we have of these labeled pass. Okay, maybe I shouldn't call it label, but the Ys are real values, down here, this regression problem. So maybe we call it response, these are Ys are response, not labels. So, same thing. We can do the likelihood."
+  },
+  {
+    "id": 126,
+    "start": 6125,
+    "end": 6137,
+    "en": "So the lot likelihood would be same as before so the like the lolihood of the training data."
+  },
+  {
+    "id": 127,
+    "start": 6144,
+    "end": 6176,
+    "en": "Here we're going to do things slightly different. We are going to because we are going to train a model that is conditioned on the input ads. We are going to straightaway do at the lot light he of the y, but condition on the ads as well as the data. We are going to basic condition on all the values of ads and the parameters. These are the model parameters that we want to learn. This one will be of the individual."
+  },
+  {
+    "id": 128,
+    "start": 6183,
+    "end": 6208,
+    "en": "We know that this is a gaussian, lot of a gas of Yi, and the mean of the gaussian is the W transpose of the X i. The Xi is all vectors. Maybe I should write it as the whole set of vectors."
+  },
+  {
+    "id": 129,
+    "start": 6215,
+    "end": 6257,
+    "en": "Yeah. Basically, this five ads will represent all the ad vectors collected together. Data, you will see what this notation can represent. We'll introduce something slightly more general, so we will see what this notation will exactly represent. But for now, right, you think of it as basically the what's the fal vectors collected together. This one, each of the data points will be condition on W transpose this vector and what's that the variance will assume to be the same Cigma square. It's I ID."
+  },
+  {
+    "id": 130,
+    "start": 6260,
+    "end": 6306,
+    "en": "According to the Gauian distribution, we can now Remember your gal galian y given Cigma square This proportional what's that e -1/2 Cima square y minus M squared. If you want mi, write down of the constant, this is two Pi cima square. This is a gusing PD, you plug everything in. There's a lot here, then you will basically get the exponent -1/2"
+  },
+  {
+    "id": 131,
+    "start": 6306,
+    "end": 6350,
+    "en": "cima square. Y i, the mill is transpose. Square. And then you lot of the constant. These are all constant doesn't depend on W. So I don't really need to go and compute the just write constant. B at the end of the day right when I take differentiation is not going to matter anyway. Okay. More compactly, we can actually write it in this very compact form. I I define this five to be just all the apps all the ads stack together. So we have n of them data set."
+  },
+  {
+    "id": 132,
+    "start": 6352,
+    "end": 6359,
+    "en": "We basically put all the ads stack in the matric. You can write this as"
+  },
+  {
+    "id": 133,
+    "start": 6368,
+    "end": 6369,
+    "en": "minus five"
+  },
+  {
+    "id": 134,
+    "start": 6377,
+    "end": 6381,
+    "en": "is basically all the stack together as well."
+  },
+  {
+    "id": 135,
+    "start": 6394,
+    "end": 6439,
+    "en": "Okay. Yeah. So I hope you all can see this. In case you are not familiar, what is this norm square right. This is basically the square of the component. So this is called the L two norm. So basically can no, right? In your equ space, you will take the square of the components, add them up right and then take the square root. So because we are doing the square nom, right. So that's why there's no square root. Okay. The advantage"
+  },
+  {
+    "id": 136,
+    "start": 6439,
+    "end": 6484,
+    "en": "of writing in this form is so that it becomes very simple to manipulate. Basically, you can see that here. According to our MLE, we are trying to find the MLE, that means we are trying to maximize the lot likelihood. Trying to maximize the lot lihood, that means we're trying to maximize this whole thing. Then this constant doesn't contain the W, so it doesn't matter. So we're trying to maximize this guy, right. And to maximize this guy, you can see that there's a minus here, so it's equivalent to minimizing this part, right. The MLE is equivalent to minimizing over,"
+  },
+  {
+    "id": 137,
+    "start": 6485,
+    "end": 6486,
+    "en": "which is a factor."
+  },
+  {
+    "id": 138,
+    "start": 6500,
+    "end": 6545,
+    "en": "Yeah, so we'll see how to minimize this. But you can see that this is a very simple model. You have a linear model whereby we assume that the response is going to depend in a linear way on the input variable as. We can slightly generalize this by introducing non linear relationships called basis functions. Instead of taking the ads, Instead of taking the ads as a raw feature vector, I now apply a function to it, and this function can be something that's non linear. I can use one function,"
+  },
+  {
+    "id": 139,
+    "start": 6545,
+    "end": 6589,
+    "en": "for example, I choose one function 51. I apply to the, the input feature. Maybe I'm still not happy with it. I can choose another function f two, apply to the input feature and so on. I'm going to choose basis functions, apply to the input features, and then I'm going to use this model instead, I'm going to take a linear combination of the basis functions. Instead of just the ax itself, instead of just the components of a side, you can see the difference here is now we have sum of m,"
+  },
+  {
+    "id": 140,
+    "start": 6592,
+    "end": 6592,
+    "en": "W i"
+  },
+  {
+    "id": 141,
+    "start": 6601,
+    "end": 6607,
+    "en": "As compared to us now, we are basically taking summation one to D, W,"
+  },
+  {
+    "id": 142,
+    "start": 6614,
+    "end": 6659,
+    "en": "write it at the component of the factor. Basically, just now, we are basically just taking each component value as the basis function. Now I let you be more general. I can choose some arbitrary basis function. For example, a very simple example, let's say your x has two components, two variables. You can for example, choose your first basis function to be just a constant. This is doesn't depend on the x itself, is possible. I just let it to be a constant one. Your second basis function would be just taking the first component"
+  },
+  {
+    "id": 143,
+    "start": 6659,
+    "end": 6704,
+    "en": "of your x, x one, your third basis function, take the second component as two, and then now you can have more notes. Now I'm going to take one square, and then I'm going to take two square. Previously, in the simplest case, we don't have this square terms, you basically just take x1x2 as the your basis function. You didn't even have a one right now. Now we can any to whatever that we like that fits our problem. You can see that in this example, this would be your linear regression model. This still consider linear regrection, right although we are introducing non linearities"
+  },
+  {
+    "id": 144,
+    "start": 6704,
+    "end": 6748,
+    "en": "in terms of in terms of the basis function, but the non generality is basically processing the input features. We are not the model parameters, are not inside the non linear part. The model parameters, the W one, W two are still in the linear part. That's why this is still called linear regression. The advantage of this having this more general framework is that you can see, for example, in this example, your observation, is distributed in this way. If we are using just the simple one with the d one and adds two as a basis function, then"
+  },
+  {
+    "id": 145,
+    "start": 6750,
+    "end": 6791,
+    "en": "you are basically creating a flat surface to try to model all these data points. But you can see obviously it's not going to work well, But now if I have the quadratic components inside, your surface becomes quadratic surface, so we can see that it can fit the data better. This will be very advantageous to your model. Depending on your model, then you'll have to choose different basis functions. Same as before. Now we are basically going to this five. This five is called the design matrix."
+  },
+  {
+    "id": 146,
+    "start": 6799,
+    "end": 6844,
+    "en": "This design measure, basically, each row will correspond to one basis function. Sorry each column will correspond to one basis function, each row will correspond to one data point. The first data point, the first row is correspond to the first data point. Basically, apply the basis function to to to each data point. The first row is all the x one. So here we have m basis functions. And then the second row will correspond to the second data"
+  },
+  {
+    "id": 147,
+    "start": 6844,
+    "end": 6844,
+    "en": "point."
+  },
+  {
+    "id": 148,
+    "start": 6853,
+    "end": 6853,
+    "en": "So."
+  },
+  {
+    "id": 149,
+    "start": 6861,
+    "end": 6862,
+    "en": "So we have any data points."
+  },
+  {
+    "id": 150,
+    "start": 6873,
+    "end": 6915,
+    "en": "Okay. So this is called the design matrix. But the L is the same as is that, you know, instead of X here, now we use the not, right? Okay. Yeah. But the math is the same as before. Basically replace the I with the five I. Then you can write everything. Everything is still the same as before, so we are trying to minimize over the is y minus the design matri multiply multiply by the tmters of the model."
+  },
+  {
+    "id": 151,
+    "start": 6920,
+    "end": 6962,
+    "en": "Now we want to minimize this, you can see that this guy. Is the same as the transpose, multiply by itself. So you have U transpose. I hope you can see this you can verify this. U transpose is up to say, then um. So when you expand out this U transpose is exactly the sum of the U."
+  },
+  {
+    "id": 152,
+    "start": 6966,
+    "end": 7011,
+    "en": "We can write in this way. This is one of the advantage if you choose the right notation, becomes much simpler. If you do at this messy summation, it's very hard to try to make sense of it and try to differentiate. You choose the right notation. Everything becomes very simple, right. There's something nice about math. If you can write something the writing abstract notation actually helps you. When you spend this out, there's a Y transpose Y, that one doesn't include the W. We are trying to minimize with respect to W, so I don't need to care. So I only care about the terms that have ws"
+  },
+  {
+    "id": 153,
+    "start": 7011,
+    "end": 7012,
+    "en": "inside."
+  },
+  {
+    "id": 154,
+    "start": 7018,
+    "end": 7018,
+    "en": "Minus."
+  },
+  {
+    "id": 155,
+    "start": 7025,
+    "end": 7069,
+    "en": "And then plus some constant term, that constant here means constant in terms of the doesn't contain the W. This part that then we have to make use of the matrix differentiation formulas. We're going to take derivative with respect to the vector, partial derivative. We can apply these two formula to this. The first formula, we can apply here, and then the second formula we apply here. This i transpose is basically your A, X transpose A X, take derivative with respect to X"
+  },
+  {
+    "id": 156,
+    "start": 7070,
+    "end": 7078,
+    "en": "is this. Basically, when you take the partial derivative with respect to y applying these formulas, we are going to get"
+  },
+  {
+    "id": 157,
+    "start": 7084,
+    "end": 7128,
+    "en": "this part is A. You're going to five transpose, five plus, e transpose a e transpose because the A symmetric at transpose equals to A, so that's why you have two. Then this one this is your e transpose. You are going to get five transpose y there's a two also and set to zero. And finally, you can solve for W. Assuming assuming that this A is invertible"
+  },
+  {
+    "id": 158,
+    "start": 7130,
+    "end": 7144,
+    "en": "meaning you can find the inverse. The inverse of the matrix, then my optimal the ML estimator will be given by this guy."
+  },
+  {
+    "id": 159,
+    "start": 7150,
+    "end": 7195,
+    "en": "Then you will get an exact solution, the ML estimator. In some cases, it's not invertible, so people will use the pseudo inverse. The pseudo inverse. Yeah, you can replace this with the pedo verse, but that will not be the exact optimal solution. I mean, in that case, you may have multiple solutions. Sed inverse is one of the solutions. When will it be invertible, right? From your linear algebra, this five trans f must have linearly independent columns, which means that you must have more data samples than the dimension of your space, right. Remember"
+  },
+  {
+    "id": 160,
+    "start": 7197,
+    "end": 7242,
+    "en": "what is five, five, the correspond to your basis, your basis functions. So basically down here, we're choosing basis function. We believe that the space has basic n dimensions. And then the roles are the roles. N rows are the basic n data points. For it to be linearly independent, we need to have more data than the number of basis functions. So each basis function will correspond to one parameter 10. So this is bs saying that In order to estimate the Wi, to have an optimal solution, then you"
+  },
+  {
+    "id": 161,
+    "start": 7242,
+    "end": 7283,
+    "en": "need more data points, more data sample. This is also known as the square solution. Quick numerical examples. Same thing as from now, we have X consisting of just two components, and then we have one, two, three, four, five. You have five basis functions over here. Five basis function. So we have 51 is one, 52 is x one, 53 is x254 is x one square, 55 is X two squared. So you can write down your design metrics."
+  },
+  {
+    "id": 162,
+    "start": 7287,
+    "end": 7332,
+    "en": "Yeah. The notation may do a bit tedious over here because we are using x1x2 to represent different data points, right? Now your training data has n data points. So the first data point is X one, and then the component is called x11. S11 s12, n is the component is n1s2. So I hope. You have to get used to it. This notation sometimes can be confusing, but once you get used to it. The first row would be like all the x one, x one something, the first data point, and then"
+  },
+  {
+    "id": 163,
+    "start": 7333,
+    "end": 7378,
+    "en": "the columns are all the different basis functions. That's your design metrics and once you have the design metric, you can just put in the formula. Of course, in your psychic learn. Usually people will just call Psych learn the Python package. Everything is implemented in the psychic learn. Especially, you don't want to try to implement the matrix inverse yourself because this is quite sensitive to slight perturbations in the design matrix. There are ways people have come up with numerical procedures and ways to make it more robust. And then you can add some regularization term to make it more robust as"
+  },
+  {
+    "id": 164,
+    "start": 7378,
+    "end": 7411,
+    "en": "well. So basically, The recommendation is just to call the Psych learn function, right to get the answer. Don't try to implement yourself. Okay. But of course, you need to know how to create the design matrics because the Psych learn won't know what is the basis function they are choosing, right. So you have to specify what's the basis function, the design matrix so that then you can call the function accordingly. Okay. Let's try some questions."
+  },
+  {
+    "id": 165,
+    "start": 7477,
+    "end": 7488,
+    "en": "Okay. By definition, linear regression means the parameters, right? We're talking about the parameters being linear. As your model is linear in the parameters."
+  },
+  {
+    "id": 166,
+    "start": 7495,
+    "end": 7509,
+    "en": "Okay. So I guess this question, we didn't specify everything in detail, but I hope all of you understand. The Ws are the parameters. The as input variables. The y is the response."
+  },
+  {
+    "id": 167,
+    "start": 7525,
+    "end": 7531,
+    "en": "So you can choose more than one answer, choose all the linear regression models."
+  },
+  {
+    "id": 168,
+    "start": 7690,
+    "end": 7733,
+    "en": "Okay. So we do add the first one. So clearly, this is Dine, right? Dinar in terms of all the. Your basis function here is one, one, and then two. The second one. You can see this is not linear anymore. This is X one to the two. So it's not linear in these are parameter, right. This is in fact exponente, right this parameter. So this is not a linear regression problem. So two is no. How about three? Three is yes, you can check all the W. These are all linear functions of W,"
+  },
+  {
+    "id": 169,
+    "start": 7735,
+    "end": 7774,
+    "en": "regardless of whether the, how you transform the X the other matter. So three is linear. Linear regression. The fourth one is also linear. 01, are linear in terms of Ws. These are the basics function transform. So it doesn't matter. So you can be highly non linear, for the X. But as long as the Ws are linear functions, then we are okay. The right answers will be one, three, and four. Next."
+  },
+  {
+    "id": 170,
+    "start": 7952,
+    "end": 7997,
+    "en": "Okay. So I think we have a overwhelming favorite answer over here. You can see in this model, your basis functions are basic one, as one square and log at two square, right. So your design metrics are evaluated each column corresponds to one basis function, each corresponds to one data point. So obviously, the first one is not correct, right? The basis functions are not even correct. The second one is also not correct. We are basically looking at we want the design metrics. So you shouldn't have the Ws inside. The Ws are the parameters that we are trying to learn, right."
+  },
+  {
+    "id": 171,
+    "start": 7997,
+    "end": 8016,
+    "en": "So the design metric will only contain the data the values from the data. Then the third one will be answered. So you can see the first column corresponds to the first basis function one, and then you have the first component square and the lock of the second component."
+  },
+  {
+    "id": 172,
+    "start": 8022,
+    "end": 8024,
+    "en": "Okay. So I think that's the last question here."
+  },
+  {
+    "id": 173,
+    "start": 8030,
+    "end": 8033,
+    "en": "Is everybody okay. Any questions?"
+  },
+  {
+    "id": 174,
+    "start": 8038,
+    "end": 8059,
+    "en": "Okay. I hope I. So I see four confusions, but no questions. But I hope I clarify any of your confusions. Yeah. Please, anything your que in chat. Yeah. Okay. Let's see."
+  },
+  {
+    "id": 175,
+    "start": 8065,
+    "end": 8110,
+    "en": "Okay. So now we have We are training the model. We find the ML estimate. We want to know how well we generalize. Now I give you some new data you haven't seen before. We want to apply it to this new data in the testing part. How to tell whether your model is good or bad. One criteria commonly used is called the residual sum of squares, RSS. Basically, you can see it is very natural. This is the Y A is the one that you use a model to predict, and then we just see how far away, we are from the actual value. Okay. Yeah. Then you"
+  },
+  {
+    "id": 176,
+    "start": 8110,
+    "end": 8155,
+    "en": "have the root mean square error. Roman square, basically you normalize it by n, the number of data points. This will give you an average and then we'll take the square root. That's why it's called root mean square means means that you are taking average over here. A sum. Root mean square error. Then we have this co efficient or determination of the r square value. R square is defined to be one minus the residual sum of squares divided by this thing ca the total sum of squares. Total sum of squares, Basically is trying to measure what is the empirical variance of the data."
+  },
+  {
+    "id": 177,
+    "start": 8156,
+    "end": 8200,
+    "en": "You can see that here, we are basically estimating what is the variance inside the data itself regardless of whatever model you are applying. I give you some data itself is random, right? He has some variances inside. So I'm going to compute the mean of the data, the y values inside the data. And then you can see that this guy is basically looking at the empirical version of the variance. Y minus the mean, hit the sum. If you divide by n at the top and n at the numerator and ng at the bottom, right you are taking the average, right? If you take the average, then, this will be the amblcal estimate of the variance. Okay."
+  },
+  {
+    "id": 178,
+    "start": 8202,
+    "end": 8247,
+    "en": "Here we don't divide by n. Top important is the same, right. Whether you divide by n, top important right because it will cancel out. Okay. So this is T. You can see that if my residual sum of squares, if this is very small. For example, in the strin case is zero, then my R square will be equal to one. This is the best R square value that you can have. Basically The RSS is basically what is still left, right after you have apply the model to it. This is the amount this is the so called the sum of square or the variation, the square variation that is still left that is still"
+  },
+  {
+    "id": 179,
+    "start": 8247,
+    "end": 8292,
+    "en": "left out after you have applied the model. This is the part that is not captured inside the model. This R is basically measuring the amount of variance that is being explained by the model, normalized by the total variance. A higher r square means you have a better fit, your model is able to explain all the variation moves or the variation inside your data. On the other hand, if let's say I use a very simple model, I let the model to be always output the mean of the data. That means I don't even train the model. I assume that whatever input you give me, I'm going"
+  },
+  {
+    "id": 180,
+    "start": 8292,
+    "end": 8337,
+    "en": "to tell you that it's the mean of the data. IP, I can compute just take the average of all the training data. In this case, if you apply, you le a y, this Yi, the prediion, YI equals to y you plt in. You can see that the R S S is equals to the T S S, and then your R square will equals to zero. R square that is close to zero means is a very poor model, as poor as does the constant model. You take the mean. And you can in fact have R square less than zero. Don't be fooled by the notation. Although we call it r square, you may think that it's bigger or equals to zero,"
+  },
+  {
+    "id": 181,
+    "start": 8337,
+    "end": 8381,
+    "en": "but it can be less than zero. The R square here is a name. It's not a math symbol. It's just a name. The R square can actually be less than zero, which means that your model is even worse than the constant prediction. Your model is so bad that is giving you something that introduce more variation inside the data than trying to explain away the variation. Okay. Yeah. So there's an example, uputer notebook here. Okay. So you can get this from the NQ Ln. How do I?"
+  },
+  {
+    "id": 182,
+    "start": 8384,
+    "end": 8388,
+    "en": "Okay. Anyway. Okay. So I hope you can see."
+  },
+  {
+    "id": 183,
+    "start": 8404,
+    "end": 8449,
+    "en": "Okay. I'm not going to go through the code. For those of you who are interested, you can take a look basically nowadays, I don't feel that going through code is because now your AI can generate the code easily for you right. You just need to understand at a high level what the code is doing. We can see here. Okay, this is a example is basically generating the synthetic data. And then we are doing some rescaling of the data. Okay. So the code here is fine to fit different polynomial functions. Different basically we're going to use the polynomial terms,"
+  },
+  {
+    "id": 184,
+    "start": 8450,
+    "end": 8494,
+    "en": "the x que x Q and all these as your basis function. Inside this linear regression. Now the question is, What is the degree of the polynomial, right? So I stop at quadratic terms or I go to cubic terms and so on, or even adds to power 20. We use a follow to test it out. The actual data, the synthetic data is using quadratic. So the Y is a quadratic function of the ads. But we assume we don't snow so here, you see we are 15 different degree polynomial to e. And you can see this is the"
+  },
+  {
+    "id": 185,
+    "start": 8495,
+    "end": 8540,
+    "en": "train and test RMS. Or MSC, sorry, not RMS mean square error. The train one, you can see it always going down. But the test one, at some point, it actually becomes worse. Because the actual data is actually generated using quadratic square up to order two. But you can see the training data When you train the model, if you use a higher degree, you are actually getting better. But then the testing data is the MS is getting worse. This is an example of overfitting. Although your model"
+  },
+  {
+    "id": 186,
+    "start": 8540,
+    "end": 8585,
+    "en": "is can capture the training data very well, but then when you do it on the testing data, it actually gives you worth performance. Basically, your model is overfitting to the training data is memorizing the training data instead of coming out with something that's useful that can be generalized to the testing data. Okay. This some visualization examples. This is for degree one, degree one is just a straight line, and this is the training data. This is degree two. This is the ground truth. The ground truth is the quadratic, you can see the feet. But definitely have some errors"
+  },
+  {
+    "id": 187,
+    "start": 8585,
+    "end": 8630,
+    "en": "because our data is noisy. But when you're doing training, you don't know that. That's the degree three is going to give you better degrees even better. Degree 20. You can see that degree 20 is basically the polynom such high degree that is able to fit every training data almost exactly. That's why your M is almost zero. You can fit all the data almost exactly. But then when it comes to the testing data, it comes to testing, it becomes very bad because the generalization is bad. I see that this is the error,"
+  },
+  {
+    "id": 188,
+    "start": 8631,
+    "end": 8676,
+    "en": "the residue error for degree 20 is almost zero. This is the R square. You can compute square on both train and test. Basically rule or um, some guideline is that when you train your model, you should always compare your R square value between the t square value as well as your test R square value. This will help you to see whether your model is over fitting or not. So your square value should be the same similar on both train and test. This is a train one, and this is your test one, right. Okay. You can see that the degree two,"
+  },
+  {
+    "id": 189,
+    "start": 8676,
+    "end": 8721,
+    "en": "the train is about 0.871. The test is 0.813. But once you go to degree, your are on the train is become very good, 0.906. But on the test, it actually dropped become 0.8 instead of drop 0.813, drop slightly, 0.8. If you go on to higher and higher degree 20, degree 20, train, the square on the train is almost one is basically one, and then on your test, is actually negative. This is actually worse than the constant prediction. Okay. Make"
+  },
+  {
+    "id": 190,
+    "start": 8721,
+    "end": 8766,
+    "en": "sure when you choose your model architecture, you need to be also trade off between the complexity of the model. This is the thing that we don't cover in this course. Basically, when we choose a model architecture, we need to balance between the complexity of the model and the performance of the model. If you go and take some more advanced machine learning course, you will learn about some of these criteria on how to optimize your model architecture choices. Okay. Okay, so we are running a bit late. But okay, let's move on to the next one, right? So we talked about MLE, but now we We can actually"
+  },
+  {
+    "id": 191,
+    "start": 8767,
+    "end": 8812,
+    "en": "what happens in the case when you have additional information. We can actually do this thing called the posterior distribution. So the posterior distribution of data given the training data D. If you recall, this is according to B, this can be written as the ho multiplied by the prior distribution of data. So this is the Lightho this is p. In the MAP approach, we are going to maximize the posterior. We're going to maximize the posterior of data"
+  },
+  {
+    "id": 192,
+    "start": 8813,
+    "end": 8857,
+    "en": "given the training data that you see. We're going to maximize this. This basic by doing this, this allow us to introduce the pi. For example, you are the system designer, you know, what system you're designing. You know that this parameter values can only be in a certain range. You are going to put the pi with high high PDF values on the range that you think the parameter data should be in. This will give the model the training additional outside information other than the training data that you have. This is one way to inject more information. If you do at this, if you take the log,"
+  },
+  {
+    "id": 193,
+    "start": 8859,
+    "end": 8904,
+    "en": "you take the log, this one will just a log likelihood plus the log we have the log likelihood here. This is. You can see previously, we just maximize this term, but now we add another term to it, so we have to maximize the whole thing. Okay. So there's a constant right because this is proportional. Anyway, the constant doesn't matter. Okay. One example over here, this is the Bernui example that we saw before, right? So now we have the pr."
+  },
+  {
+    "id": 194,
+    "start": 8905,
+    "end": 8908,
+    "en": "So we have the likelihood as before."
+  },
+  {
+    "id": 195,
+    "start": 8913,
+    "end": 8957,
+    "en": "This was your likelihood function, and I previously, we don't have any additional information. So with us maximize the likelihood, we can find the ML estimated. But now let's say you have additional information, you believe that the beta is most likely to be in certain range, have certain value. We are going to impose a beta distribution, a beta distribution with Pameters, A and B. If you've forgotten what the beta distribution looks like, go back to week one, basically there's a plot that shows you for different values of A and B, what it looks like. So you can then choose your A and B accordingly"
+  },
+  {
+    "id": 196,
+    "start": 8958,
+    "end": 8980,
+    "en": "to what belief that you have from the data. Here we are now trying to find the MAP estimate. So we can to find the lot posterior is the likelihood plus the lot py we can just plug everything in."
+  },
+  {
+    "id": 197,
+    "start": 8986,
+    "end": 8990,
+    "en": "Okay. So you have a lot of"
+  },
+  {
+    "id": 198,
+    "start": 8996,
+    "end": 9015,
+    "en": "So this part is the same as before. But now you have this Beta, right. Beta Beta is this what's that theta A minus one minus theta B minus one. Yeah. So"
+  },
+  {
+    "id": 199,
+    "start": 9022,
+    "end": 9034,
+    "en": "to be y to be absolutely correct, plus the constant. So as before, we can simplify it."
+  },
+  {
+    "id": 200,
+    "start": 9050,
+    "end": 9052,
+    "en": "Combine everything together."
+  },
+  {
+    "id": 201,
+    "start": 9065,
+    "end": 9072,
+    "en": "Okay. Then we do the same thing as before. We di differentiate with respect to data, right."
+  },
+  {
+    "id": 202,
+    "start": 9083,
+    "end": 9095,
+    "en": "Set to o. Then you can solve this equation eventually after some simplification, right? You will get the MAP estimate. So it's given by O."
+  },
+  {
+    "id": 203,
+    "start": 9102,
+    "end": 9147,
+    "en": "We can see how it differs. Previously, in the MLE, the ML estimate is just one over n. Now because of your prior information, you have added depending on how you choose the A, so you will affect this part and the B also, you will affect the bottom, both the bottom and top. These are the basic the hyperars, depending on how you choose your prior distribution that will basically affect what's the outcome of your MAP estimate? Okay. So classification. So can also think of classification"
+  },
+  {
+    "id": 204,
+    "start": 9147,
+    "end": 9192,
+    "en": "in this example, if you are trying to minimize the classification error, this is actually a MAP estimate. Of the labor y given the facial vector. Previously, we'll talk about the ML to do classification, that will correspond to the cross entropy loss. In this case, the MAP mate will correspond to the error probability error probily. We are trying to minimize the error probability here. Basically, you can think of classification as in general, you have a facial vector. That you imagine it is in some space. To do classification, what we are really doing is to partition this space into different parts."
+  },
+  {
+    "id": 205,
+    "start": 9193,
+    "end": 9238,
+    "en": "And then for each region, we are going to say that this is correspond to y, y equals one, say y equals two, y equals three, and so on. So classification in general, you can think of this way. We are ready actually partitioning the whole input space into different parts, and then each part we assign a labor that is our prediction. Okay. So you can denote this as a Delta. This is a function. I give you a input. So that means my Delta is going to be equals to one on this vision, right so it's going to be equals to some estimate your Y is your Delta."
+  },
+  {
+    "id": 206,
+    "start": 9240,
+    "end": 9285,
+    "en": "Or rather depends on if equals to one, if X is say in certain vision sion one equals to two, if X is in certain vision two and so. So basically define it this way. In order to minimize the classification error. So what's the classification error? The classification error is basically the probability. I give you the observation ads. This is the probability of that your labor, true label is equals to one. When will you make an"
+  },
+  {
+    "id": 207,
+    "start": 9285,
+    "end": 9331,
+    "en": "error? You will make an error when the true labor is not equal to your Delta a side. You Delta ad is the predicted label. I'm going to have an error if my y, the true one is not the Delta x. That's why your classification error is just a summation over all the y values that is not equal to Delta x. In other words, it is just one minus. The probability that indeed this is my true label is indeed equals to the predictor one. This is the predictor. Okay. So Delta is the predicted labor. They"
+  },
+  {
+    "id": 208,
+    "start": 9331,
+    "end": 9373,
+    "en": "the true labor is equal to a predicated label, then there's no error, right? So that's why the classification error, right? This is called classification error. It's one minus the correct prediction probability. If we are trying to minimize this classification error, which means that we are trying to maximize this guy. We want to minimize, right? We want to minimize. We can see one minus this guy. That means it's the same as maximizing But you can see what is this guy? This is basically the posterior. This is the posterior probability of of this y given ads."
+  },
+  {
+    "id": 209,
+    "start": 9376,
+    "end": 9420,
+    "en": "In order to maximize this procedure, basically, we're trying to maximize the procedure. So we need to choose the Delta add side that maximizes that makes this procedure as big as possible. So that's why this is exactly the MAP. Okay. Another example here is the so called Naive based classifier. In this case, we are given all these kind of images where you have a handwritten digit set, and basically you want a machine learning model that is able to tell you what is the true digit that is written? What is the digit that is written in each of these images. This is"
+  },
+  {
+    "id": 210,
+    "start": 9421,
+    "end": 9466,
+    "en": "one of the easiest classification data set that probably you will encounter, this is the data set. One of the earlier machine learning classification data set. Here we'll go use a very simple model. Of course, now the ME data set using your CNN, you can reach accuracy of I think more than nine 9%. But in the second half of this course, we will do that. But let's consider a very simple one. It's called a NE based model. So you can think of each image as the input v, the input. Each image,"
+  },
+  {
+    "id": 211,
+    "start": 9467,
+    "end": 9512,
+    "en": "you can step it into a All the pizzel, you just put inside a facial vector, stack up all the pizzel values. Assuming the are d of them, so x one to x d. We're going to make a very simple assumption. If I know what is the label class? What is the class label? I tell you the value of y. I tell you that this picture is four, is digit four. Then I'm going to assume that the components, the pizzel values are actually independent of each other. We can see that this is a very so simplistic or naive"
+  },
+  {
+    "id": 212,
+    "start": 9512,
+    "end": 9557,
+    "en": "assumption. In real life is not like that. If this is I tell you it's a digit four, you still expect that the pizzel value so somehow be related to each other. Otherwise, it won't be. They give you the digit four. But of course here, we're going to assume something very naive. That's why it's called naive, naive based. A very simple model we just assume it is independent Using this model, then we are basically trying to train the data values. The data is basically. In this MIS data set, the pixels are plus one or minus one. It is a binary image binary image. The data, all these data"
+  },
+  {
+    "id": 213,
+    "start": 9557,
+    "end": 9602,
+    "en": "values are probabilities that is equals to one. The data is the probability of it equals to one and one minus data is equal to the probability of it being minus one. Of course, you have many data, the D and C can be two different values. The D here corresponds to different components. So each component will give you a different data, and then the C corresponds to the class. For each class, we also have different datas. You can see that this model has many parameters inside, and the main assumption is the independence assumption, which is naive in a sense. But even with"
+  },
+  {
+    "id": 214,
+    "start": 9602,
+    "end": 9618,
+    "en": "this naive assumption, Yeah. Even with this naive assumption, you can use the MAP, to estimate. Here, we are going to assume that the what's that?"
+  },
+  {
+    "id": 215,
+    "start": 9624,
+    "end": 9669,
+    "en": "We are going to impose some prior probability for the y, the class table. Most of the time we'll just assume it's uniform. We basically unless you have some additional information, so we're going to assume the Pi would be just the uniform distribution. Then if you do that, though these are very simple model, you can actually get good accuracy, e percent. Of course, it's now close to nowadays, the state of the 99.9 something percent. Yeah. But still you can see this naive based approach is still giving you something quite good, 84%, even though it's naive. There are some links here you can try out."
+  },
+  {
+    "id": 216,
+    "start": 9672,
+    "end": 9717,
+    "en": "Try play around with this call that put the notebook. That's the last example. Finally, in summary, what we have learned today is basically all about basic influence. We talk about the MLE. MLE as the basic technique to find to optimize for your parameter weights. We introduce the MAP is in the case where you have some additional information, you can come up with some p distribution for the parameter weights. Then you can put that inside, then you can get the MAP. And yeah, and that's basically some practice"
+  },
+  {
+    "id": 217,
+    "start": 9717,
+    "end": 9762,
+    "en": "problems for you. Okay. So last thing, any questions? Let me see. Ah. The question is for the Din region, can we change the basis of Y instead of five weights. Of course, you can always come out with a model where you transform the y first. But of course then the transformation has to be something that is known. Instead of trying to learn a model of Y, maybe you are trying to learn lot of y, a model of lot Y. That's possible. But of co you need to know what is the transformation that you are going to apply beforehand. It's quite common in economics, people like to learn"
+  },
+  {
+    "id": 218,
+    "start": 9763,
+    "end": 9776,
+    "en": "of Y instead of y. But there isn't so called basic functions for Y unless you are talking about having multiple regression models, right. Okay."
+  },
+  {
+    "id": 219,
+    "start": 9782,
+    "end": 9798,
+    "en": "Okay. Any other things? Okay, good. Then we'll end here today and I'll see you next week. Thank you. Thank you. Thank you."
+  }
+]

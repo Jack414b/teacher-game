@@ -1,0 +1,1112 @@
+=== PDF第1页 ===
+2. Bayesian Inference
+1 Bayesian Models
+2 MLE
+3 MAP
+4 Some Practice Problems
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 1 / 38
+=== PDF第2页 ===
+Bayesian Models
+Outline
+1 Bayesian Models
+2 MLE
+3 MAP
+4 Some Practice Problems
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 2 / 38
+=== PDF第3页 ===
+Bayesian Models
+Motivation
+Recall:
+▶ Classification, regression, prediction, etc.:D={(x i , y i ) :i= 1, . . . , n}
+▶ Fitting a quadratic functiony=a 0 +a 1 x+a 2 x
+2
+to training samples(x i , y i ).
+“Optimal” values ofa 0 , a 1 , a 2 ?
+0.0 2.5 5.0 7.5 10.0 12.5 15.0 17.5 20.0
+−10
+−5
+0
+5
+10
+15
+degree 2
+Typical goal: learn a probability distribution that generatesD.
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 3 / 38
+=== PDF第4页 ===
+Bayesian Models
+Examples of Likelihood models
+Training data setD={x 1 , . . . , x n }:
+x i ∼Bern (· |θ)i.i.d., whereθ∈[0,1], then
+p(D |θ) =θ
+N 1
+(1−θ)
+N 0
+, N k =
+n
+∑︂
+i=1
+1{x i =k}.
+The probability of the data measures how well the model fits the data.
+This is called the likelihood function (ofθwithDfixed).
+E.g.:D={0,1,1,0,1,1,1,0,1,1},N 1 = 7,N 0 = 3.
+p(D |θ) =θ
+7
+(1−θ)
+3
+.
+▶ Ifθ= 0.6, thenp(D |θ) = 0.6
+7
+(1−0.6)
+3
+= 0.6
+7
+·0.4
+3
+.
+▶ This tells us how “likely”θ= 0.6is to have observedD.
+▶ Varying levels of likelihood for differentθ.
+▶ θis unknowna prioriand we want to infer it from the training dataD.
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 4 / 38
+=== PDF第5页 ===
+Bayesian Models
+Examples of Likelihood models
+Training data setD={x 1 , . . . , x n }:
+x i ∼Exp (· |λ)i.i.d., whereλ >0, then
+p(D |λ) =λ
+n
+exp
+(︄
+−λ
+n
+∑︂
+i=1
+x i
+)︄
+E.g.:D={0.15,0.28,0.23,0.14,0.35},n= 5.
+▶ The likelihood ofλis
+p(D |λ) =λ
+5
+exp(−1.15λ).
+▶ Different values ofλgive different likelihood values.
+▶ Which value ofλis most likely to have generated the data?
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 5 / 38
+=== PDF第6页 ===
+Bayesian Models
+Examples of Likelihood models
+Training data setD={x 1 , . . . , x n }:
+x i ∼ N
+(︁
+·
+⃓
+⃓µ, σ
+2
+)︁
+i.i.d., thenθ= (µ, σ
+2
+)and
+p(D |θ) =
+1
+(2π)
+n/2
+σ
+n
+exp
+(︄
+−
+1
+2σ
+2
+n
+∑︂
+i=1
+(x i −µ)
+2
+)︄
+.
+E.g.:D={0.24,−0.35,−0.16,0.12},n= 4.
+▶ The likelihood ofθis
+p(D |θ) =
+1
+(2π)
+2
+σ
+4
+exp
+{︂
+−
+1
+2σ
+2
+(︁
+(0.24−µ)
+2
++ (0.35 +µ)
+2
++ (0.16 +µ)
+2
++ (0.12−µ)
+2
+)︁}︂
+.
+θ= (µ, σ)p(D |θ)
+(0,1) 0.0227
+(−1,1) 0.0036
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 6 / 38
+=== PDF第7页 ===
+MLE
+Outline
+1 Bayesian Models
+2 MLE
+3 MAP
+4 Some Practice Problems
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 7 / 38
+=== PDF第8页 ===
+MLE
+Maximun Likelihood Estimate (MLE)
+MLE of a model’s parameterθ:
+θ ML = arg max
+θ
+p(D |θ)
+⏞ ⏟⏟ ⏞
+likelihood
+An observation or datax∼p(· |θ):
+θ= 1
+θ= 5
+θ= 10
+p(x |θ)
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 8 / 38
+=== PDF第9页 ===
+MLE
+Maximun Likelihood Estimate (MLE)
+Given i.i.d. dataD={x 1 , . . . ,x n }, whichp(· |θ)is most “likely”?
+MLE: findθthat maximizes the log likelihood:
+logp(D |θ) = log
+n
+∏︂
+i=1
+p(x i |θ) =
+n
+∑︂
+i=1
+logp(x i |θ).
+[Can you see why it is ok to uselog? This is often done to simplify the
+expression.]
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 9 / 38
+=== PDF第10页 ===
+MLE
+MLE Examples
+p(D |θ) =θ
+N 1
+(1−θ)
+N 0
+, whereN k =
+∑︁ n
+i=1
+1{x i =k}.
+logp(D |θ) =N 1 logθ+N 0 log(1−θ).
+Taking derivatives w.r.t.θand setting to zero:
+N 1
+θ ML
+=
+N 0
+1−θ ML
+θ ML =
+N 1
+N 0 +N 1
+=
+N 1
+n
+.
+E.g.:D={0,1,1,0,1,1,1,0,1,1},N 1 = 7,N 0 = 3 =⇒θ ML = 0.7.
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 10 / 38
+=== PDF第11页 ===
+MLE
+MLE Examples
+x i ∼Exp (· |λ)i.i.d., whereλ >0.
+logp(D |θ) =nlogλ−λ
+n
+∑︂
+i=1
+x i .
+Taking derivatives w.r.t.θand setting to zero:
+n
+λ ML
+=
+n
+∑︂
+i=1
+x i
+λ ML =
+n
+∑︁ n
+i=1
+x i
+.
+E.g.:D={0.15,0.28,0.23,0.14,0.35},n= 5
+=⇒λ ML =
+5
+0.15+0.28+0.23+0.14+0.35
+=
+5
+1.15
+.
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 11 / 38
+=== PDF第12页 ===
+MLE
+Kullback-Leibler Divergence (Supplementary)
+Strong Law of Large Numbers (SLLN): SupposeX 1 , X 2 , . . .are i.i.d. random
+variables. Then, with probability one,
+1
+n
+n
+∑︂
+i=1
+X i →E[X 1 ]
+asn→ ∞.
+Suppose thatθ 0 is the actual parameter value.
+Whennis large, from the SLLN,
+1
+n
+n
+∑︂
+i=1
+logp(x i |θ)≈E θ 0
+[logp(x|θ)]
+Therefore, MLE is approximately minimizing
+−E θ 0
+[logp(x|θ)] +E θ 0
+[logp(x|θ 0 )]
+⏞ ⏟⏟ ⏞
+const.
+=E θ 0
+[︃
+log
+p(x|θ 0 )
+p(x|θ)
+]︃
+≜D(p θ 0
+∥p θ ).
+D(p θ 0
+∥p θ )is the Kullback-Leibler divergence betweenp θ 0
+andp θ . It
+measures how “different” these two distributions are.
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 12 / 38
+=== PDF第13页 ===
+MLE
+Kullback-Leibler Divergence (Supplementary)
+Shannon (1948): D ( p∥q ) ≥ 0with equality iff p ( x ) = q ( x )with probability one under both
+pandq.
+Proof.
+Jensen’s inequality: Iffis convex,E|X|<∞, andE|f(X)|<∞, thenE[f(X)]≥f(E[X]).
+Furthermore, iffis strictly convex, then equality holds iffXis a constant.
+D(p∥q) =E p
+[︃
+log
+p(x)
+q(x)
+]︃
+=−E p
+[︃
+log
+q(x)
+p(x)
+]︃
+≥ −logE p
+[︃
+q(x)
+p(x)
+]︃
+=−log
+∫︂
+q(x)
+p(x)
+p(x) dx= 0,
+where equality holds iff
+q(x)
+p(x)
+= const, i.e.,p(x) =q(x)for allxwith probability one.
+MLE is approximately minimizingD(p θ 0
+∥p θ )whennis large.
+MLE tries to find the parameter that makesp θ as “close” top θ 0
+as possible.
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 13 / 38
+=== PDF第14页 ===
+MLE
+Example: Cross-entropy Loss
+Cross-entropy loss is widely used in classification problems.
+Suppose we haveKclasses and the true class label of a data pointxis
+y∈ {1, . . . , K}.
+To predict the class label, we can use a modelq(· |x,θ)that outputs a
+probability distribution over theKclasses.
+To find the best parameter θ , we can use MLE: maximize the log likelihood of
+the training dataD={(x 1 , y 1 ), . . . ,(x n , y n )}:
+n
+∑︂
+i=1
+logp(x i , y i |θ) =
+n
+∑︂
+i=1
+logq(y i |x i ,θ) +
+n
+∑︂
+i=1
+logp(x i |θ)
+=
+n
+∑︂
+i=1
+K
+∑︂
+k=1
+1{y i =k}logq(k|x i ,θ) +
+n
+∑︂
+i=1
+logp(x i )
+=−n·
+(︂
+−
+1
+n
+n
+∑︂
+i=1
+K
+∑︂
+k=1
+1{y i =k}logq(k|x i ,θ)
+⏞ ⏟⏟ ⏞
+cross-entropy loss
+)︂
++ const,
+i.e., we minimize the cross-entropy loss.
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 15 / 38
+=== PDF第15页 ===
+MLE
+Example: Linear Regression
+y- response variable depends on input variablesx= (x 1 , x 2 , . . . , x D )in a
+linear model:
+y=w
+⊺
+x+ϵ,
+whereϵis GaussianN
+(︁
+0, σ
+2
+)︁
+, thenp(y|x,w) =N
+(︁
+y
+⃓
+⃓w
+⊺
+x, σ
+2
+)︁
+.
+Suppose we have i.i.d. training dataD={(x 1 , y 1 ), . . . ,(x n , y n )}:
+log likelihoodlogp(y|ϕ(x),w) =
+n
+∑︂
+i=1
+logN
+(︁
+y i
+⃓
+⃓w
+⊺
+x i , σ
+2
+)︁
+=−
+1
+2σ
+2
+n
+∑︂
+i=1
+(y i −w
+⊺
+x i )
+2
++ const
+=−
+1
+2σ
+2
+∥Φw−y∥
+2
++ const
+whereΦ= [x 1 · · ·x n ]
+⊺
+. MLE ofw:
+min
+w
+∥Φw−y∥
+2
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 16 / 38
+=== PDF第16页 ===
+MLE
+Example: Linear Regression
+Model non-linear relationships using basis function expansion. Choose basis
+functionsφ i :R
+D
+→R,i= 1, . . . , M.
+ϕ(x) =
+⎡
+⎢
+⎢
+⎢
+⎢
+⎢
+⎢
+⎣
+φ 1 (x)
+φ 2 (x)
+. . .
+φ M (x)
+⎤
+⎥
+⎥
+⎥
+⎥
+⎥
+⎥
+⎦
+, y=w
+⊺
+ϕ(x) +ϵ
+=
+M
+∑︂
+i=1
+w i φ i (x) +ϵ∼ N
+(︁
+·
+⃓
+⃓w
+⊺
+ϕ(x), σ
+2
+)︁
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 17 / 38
+=== PDF第17页 ===
+MLE
+Linear Basis Function Examples
+x= [
+x 1
+x 2
+].
+ϕ(x) = [1, x 1 , x 2 , x
+2
+1 , x
+2
+2 ] =⇒y=w 1 +w 2 x 1 +w 3 x 2 +w 4 x
+2
+1 +w 5 x
+2
+2 +ϵ.
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 18 / 38
+=== PDF第18页 ===
+MLE
+MLE of the Weights
+Suppose we have i.i.d. training dataD={(x 1 , y 1 ), . . . ,(x n , y n )}:
+log likelihoodlogp(y|ϕ(x),w)
+=
+n
+∑︂
+i=1
+logN
+(︁
+y i
+⃓
+⃓w
+⊺
+ϕ(x i ), σ
+2
+)︁
+=−
+1
+2σ
+2
+n
+∑︂
+i=1
+(y i −w
+⊺
+ϕ(x i ))
+2
++ const
+=−
+1
+2σ
+2
+∥Φw−y∥
+2
++ const
+=−
+1
+2σ
+2
+(w
+⊺
+Φ
+⊺
+Φw−2y
+⊺
+Φw) + const,
+whereΦ=
+⎡
+⎢
+⎢
+⎢
+⎣
+ϕ(x 1 )
+⊺
+.
+.
+.
+ϕ(x n )
+⊺
+⎤
+⎥
+⎥
+⎥
+⎦
+=
+⎡
+⎢
+⎢
+⎢
+⎣
+φ 1 (x 1 ). . . φ M (x 1 )
+.
+.
+.
+φ 1 (x n ). . . φ M (x n )
+⎤
+⎥
+⎥
+⎥
+⎦
+is called the design matrix.
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 19 / 38
+=== PDF第19页 ===
+MLE
+MLE of the Weights
+Recall
+∂(a
+⊺
+x)
+∂x
+=a,
+∂(x
+⊺
+Ax)
+∂x
+= (A+A
+⊺
+)x.
+Taking gradient w.r.t.wand setting to zero,
+Φ
+⊺
+Φw ML −Φ
+⊺
+y= 0
+w ML = (Φ
+⊺
+Φ)
+−1
+Φ
+⊺
+y
+if Φ∈R
+n×M
+has linearly independent columns (need n≥M , i.e., more data
+samples than dimension of parametric space). Also known asleast squares
+solution.
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 20 / 38
+=== PDF第20页 ===
+MLE
+Example
+x= [
+x 1
+x 2
+].
+ϕ(x) = [1, x 1 , x 2 , x
+2
+1 , x
+2
+2 ],y=w 1 +w 2 x 1 +w 3 x 2 +w 4 x
+2
+1 +w 5 x
+2
+2 +ϵ.
+φ 1 (x) = 1, φ 2 (x) =x 1 , φ 3 (x) =x 2 , φ 4 (x) =x
+2
+1 , φ 5 (x) =x
+2
+2
+x 1 = [
+x 11
+x 12
+],x 2 = [
+x 21
+x 22
+],. . .,x n = [
+x n1
+x n2
+].
+Φ=
+⎡
+⎢
+⎢
+⎢
+⎢
+⎢
+⎢
+⎣
+1x 11 x 12 x
+2
+11 x
+2
+12
+1x 21 x 22 x
+2
+21 x
+2
+22
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+1x n1 x n2 x
+2
+n1 x
+2
+n2
+⎤
+⎥
+⎥
+⎥
+⎥
+⎥
+⎥
+⎦
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 21 / 38
+=== PDF第21页 ===
+MLE
+Goodness of Fit
+Residual sum of squaresRSS =
+∑︁ n
+i=1
+(y i −ˆy i )
+2
+.
+Root mean squared errorRMSE =
+√︂
+1
+n
+RSS.
+Coefficient of determination
+R
+2
+= 1−
+RSS
+TSS
+= 1−
+RSS
+∑︁ n
+i=1
+(y i −¯y)
+2
+,
+where¯y=
+1
+n
+∑︁
+i
+y i . TSS is the total sum of squares or the empirical variance
+of the data.
+▶ R
+2
+measures the amount of variance in the dataexplainedby the model with
+largerR
+2
+implying a better fit.
+▶ E.g., if ˆyi = ¯y for all i (constant prediction using empirical mean), then R
+2
+= 0.
+▶ IfR
+2
+<0, the model is worse than constant prediction!
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 23 / 38
+=== PDF第22页 ===
+MLE
+Fitting Different Degrees
+02_linreg_poly_vs_degree.ipynb
+0.0 2.5 5.0 7.5 10.0 12.5 15.0 17.5 20.0
+−10
+−5
+0
+5
+10
+15
+degree 1
+0.0 2.5 5.0 7.5 10.0 12.5 15.0 17.5 20.0
+−10
+−5
+0
+5
+10
+15
+degree 2
+0.0 2.5 5.0 7.5 10.0 12.5 15.0 17.5 20.0
+−10
+−5
+0
+5
+10
+15
+degree 14
+0.0 2.5 5.0 7.5 10.0 12.5 15.0 17.5 20.0
+−10
+−5
+0
+5
+10
+15
+degree 20
+−10 −5 0 5 10 15 20
+true y
+−4
+−2
+0
+2
+4
+6
+predicted y
+degree 1. R2 on Test = 0.473
+−10 −5 0 5 10 15 20
+true y
+−5.0
+−2.5
+0.0
+2.5
+5.0
+7.5
+10.0
+12.5predicted y
+degree 2. R2 on Test = 0.813
+−10 −5 0 5 10 15 20
+true y
+−5.0
+−2.5
+0.0
+2.5
+5.0
+7.5
+10.0
+12.5predicted y
+degree 14. R2 on Test = 0.626
+−10 −5 0 5 10 15 20
+true y
+0
+500
+1000
+1500
+2000
+2500predicted y
+degree 20. R2 on Test = -5167.893
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 24 / 38
+=== PDF第23页 ===
+MLE
+Fitting Different Degrees
+0.0 2.5 5.0 7.5 10.0 12.5 15.0 17.5 20.0
+−10
+−5
+0
+5
+10
+15
+degree 20
+−10 −5 0 5 10 15 20
+true y
+0
+500
+1000
+1500
+2000
+2500predicted y
+degree 20. R2 on Test = -5167.893
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 25 / 38
+=== PDF第24页 ===
+MAP
+Outline
+1 Bayesian Models
+2 MLE
+3 MAP
+4 Some Practice Problems
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 26 / 38
+=== PDF第25页 ===
+MAP
+Maximum A Posteriori (MAP) Estimate
+In some applications, we may have prior knowledge of the parameter
+distribution.
+MAP estimate of a model’s parameterθ:
+θ MAP = arg max
+θ
+p(θ| D)
+⏞ ⏟⏟ ⏞
+posterior
+Takinglog:
+p(θ| D)∝p(D |θ)p(θ)
+logp(θ| D) = logp(D |θ) + logp(θ) + const.
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 27 / 38
+=== PDF第26页 ===
+MAP
+MAP Example
+Suppose p ( D |θ ) = θ
+N 1
+(1 −θ )
+N 0
+, where N k =
+∑︁ n
+i=1
+1 {x i = k} . The prior of θ is
+p(θ) = Beta (θ|a, b). Find the MAP estimate ofθ.
+log(p(D |θ)p(θ)) = (N 1 +a−1) logθ+ (N 0 +b−1) log(1−θ).
+Taking derivatives w.r.t.θand setting to zero:
+N 1 +a−1
+θ MAP
+=
+N 0 +b−1
+1−θ MAP
+θ MAP =
+N 1 +a−1
+n+a+b−2
+.
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 28 / 38
+=== PDF第27页 ===
+MAP
+Example: Classification
+Suppose each feature vectorx∈ Xhas a class labely∈ {1, . . . , K}.
+Decision ruleδ(x) =kifx∈ R k ,k= 1, . . . , K. We want to determine the
+optimal decision regionsR 1 , . . . ,R K .
+For a givenx, its classification error is given by
+∑︂
+y̸=δ(x)
+P(Y=y|x) = 1−P(Y=δ(x)|x).
+Therefore, to minimize the classification error, we letδ(x) =kwhere
+p(y=k|x)is the largest, i.e., we take the MAP estimate ofygivenx.
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 29 / 38
+=== PDF第28页 ===
+MAP
+Example: Naive Bayes
+Given the imagex, what digit is it?
+Assume that the features inx= (x 1 , . . . , x D )are conditionally independent
+given the class labely.
+p(x|y=c,θ) =
+D
+∏︂
+d=1
+p(x d |θ dc ),
+whereθ dc are the parameters for the classcand featured.
+Letπbe the prior probability distribution ofy. Posterior distribution ofy:
+p(y=c|x,θ)∝π(c)
+D
+∏︂
+d=1
+p(x d |θ dc )
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 30 / 38
+=== PDF第29页 ===
+MAP
+Example: Naive Bayes
+Binarized version of MNIST (http://yann.lecun.com/exdb/mnist/) serves as the
+featuresx. The class labelyis the digit the image belongs to.
+Binary features,x d ∈ {0,1}:x d |y=c∼Bern (θ dc ).
+Simple model but test accuracy84.3%!
+https://colab.research.google.com/github/probml/probml-notebooks/blob/
+master/notebooks-d2l/naive_bayes_mnist.ipynb
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 31 / 38
+=== PDF第30页 ===
+MAP
+Summary
+Principles of Bayesian inference.
+▶ MLE
+▶ MAP
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 32 / 38
+=== PDF第31页 ===
+Some Practice Problems
+Outline
+1 Bayesian Models
+2 MLE
+3 MAP
+4 Some Practice Problems
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 33 / 38
+=== PDF第32页 ===
+Some Practice Problems
+Some Practice Problems
+1. Supposex 1 , . . . , x n ∼ N
+(︁
+·
+⃓
+⃓µ, σ
+2
+)︁
+i.i.d. with known varianceσ
+2
+. Find the
+MLE ofµ.
+Solution:The log likelihood is
+logp(D |µ) = log
+n
+∏︂
+i=1
+N
+(︁
+x i
+⃓
+⃓µ, σ
+2
+)︁
+=−
+1
+2σ
+2
+n
+∑︂
+i=1
+(x i −µ)
+2
++ const.
+The first order derivative w.r.t.µis
+d
+dµ
+logp(D |µ) =−
+1
+2σ
+2
+n
+∑︂
+i=1
+2(x i −µ)(−1) =
+1
+σ
+2
+n
+∑︂
+i=1
+(x i −µ).
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 34 / 38
+=== PDF第33页 ===
+Some Practice Problems
+Some Practice Problems (cont.)
+Finding the root of the first order derivative, we have
+1
+σ
+2
+n
+∑︂
+i=1
+(x i −µ ML ) = 0
+nµ ML =
+n
+∑︂
+i=1
+x i
+µ ML =
+1
+n
+n
+∑︂
+i=1
+x i .
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 35 / 38
+=== PDF第34页 ===
+Some Practice Problems
+Some Practice Problems (cont.)
+2. Continuing from the previous question, suppose that the prior distribution of µ
+isN(· |µ 0 ,1). Find the MAP estimate ofµ.
+Solution:
+logp(µ| D) = logp(D |µ) + logp(µ) + const
+=−
+1
+2σ
+2
+n
+∑︂
+i=1
+(x i −µ)
+2
+−
+1
+2
+(µ−µ 0 )
+2
++ const.
+The first order derivative w.r.t.µis
+d
+dµ
+logp(µ| D) =−
+1
+2σ
+2
+n
+∑︂
+i=1
+2(x i −µ)(−1)−(µ−µ 0 )
+=
+1
+σ
+2
+n
+∑︂
+i=1
+(x i −µ)−µ+µ 0 .
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 36 / 38
+=== PDF第35页 ===
+Some Practice Problems
+Some Practice Problems (cont.)
+Finding the root of the first order derivative, we have
+1
+σ
+2
+n
+∑︂
+i=1
+(x i −µ MAP )−µ MAP +µ 0 = 0
+µ MAP =
+1
+σ
+2
+∑︁ n
+i=1
+x i +µ 0
+n
+σ
+2 + 1
+.
+3. Explain each line of the following code snippet.
+Solution:
+Line 1: Creates a Linear Regression object.
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 37 / 38
+=== PDF第36页 ===
+Some Practice Problems
+Some Practice Problems (cont.)
+Line 2: Creates a polynomial features class of degreedwith bias term.
+Line 3: Generates the training feature matrix.
+Line 4: Fits the linear regression model.
+T ay W.P . IE4497/EE6497 Pattern Recognition and Deep Learning 38 / 38

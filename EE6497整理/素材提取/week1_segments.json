@@ -1,0 +1,1550 @@
+[
+  {
+    "id": 1,
+    "start": 21,
+    "end": 29,
+    "en": "Okay. Good afternoon, everybody. Can I just get a indication on whether all of you can hear me?"
+  },
+  {
+    "id": 2,
+    "start": 35,
+    "end": 80,
+    "en": "Okay, good. Yeah. Thank you very much. Okay, good afternoon. Yeah. So welcome to EE six, I e4fn seven, Pattern Recognition and D. Yeah. My name is tang. I will be the er for the first half of this course. And y. So unfortunately yesterday was the public holiday, so we couldn't have the physical lecture in the lecture theater. But I'm excited to see many of you here and hope and definitely hope to meet of you in person next week on Monday, right? So we will have the normal physical"
+  },
+  {
+    "id": 3,
+    "start": 80,
+    "end": 125,
+    "en": "lecture on Monday next week. Okay. But for today, we will just have this teams lecture. And yeah, and I have started the recording And I will post the recording after the lecture has ended on the NTU Ln so that you in case you want to review the lecture materials. Yeah. Okay. So maybe let me just go through some administrative things first. So say course admin. All right. So this course is about"
+  },
+  {
+    "id": 4,
+    "start": 126,
+    "end": 171,
+    "en": "pattern recognition and machine learning and deep learning. So deep learning is just one aspect of machine learning, right? So this course, we are actually going to focus more on the deep learning part. But of course, the first half is on the pattern recognition part. The learning outcomes for the first half, the ones in the blue color. So on basin inference, H H models, EM algorithm, Markov model, Markov models, Markov Shan Mont Cardo, MCMC. And then in the second half of this course, then we will be looking at the neural networks,"
+  },
+  {
+    "id": 5,
+    "start": 171,
+    "end": 217,
+    "en": "which is now the You know, the most popular approach to doing pattern recognition in EI, right, how to do the training, generating model, self supervised learning. And then, of course, applications of pattern recognition and machine learning will be will be discussed throughout the whole course, right, both in the first half and the second half. Okay. So this is my e mail address. You are most welcome to e mail me if you have any questions or anything that you are not clear about. And later on, I will talk about the O clap. You can also put your questions in the O clap as well so that, you know, your classmates who may have the same question as you can benefit"
+  },
+  {
+    "id": 6,
+    "start": 218,
+    "end": 263,
+    "en": "from the discussion. So you can y you can e mail me or you can put in the O clap. Y and I'm basically covering the weeks one to seven. Then after that after the recess week, the professor Depo, right H e mail is here. He will be coming in to cover the remaining six weeks. Okay. So this course is on pattern recognition and deep learning. Okay. So it's related to a few other courses. So re44 83. Okay. So for the MSE students, this would be"
+  },
+  {
+    "id": 7,
+    "start": 264,
+    "end": 309,
+    "en": "EE 683, right? And then I e4414, this is available to the post graduate MSE students. This is a undergraduate course. So and then of course, now for the master students, we also have other courses like EE 64 oh six, EE 6406 EE 64 oh seven. Okay. Yeah, I suppose this will be the few most EE EE 64"
+  },
+  {
+    "id": 8,
+    "start": 309,
+    "end": 310,
+    "en": "oh five."
+  },
+  {
+    "id": 9,
+    "start": 315,
+    "end": 354,
+    "en": "All right. Okay. Yeah. So please make sure that you meet yourself. Unless you have questions to ask so that we don't disturb the others. Okay. So these are all the related courses, right? So what's the difference between all these courses and this particular course that we are having? So basically this course itself, right, we are basically focusing on the concepts and underlying theories, and we are talking more For the first half, we are talking about pattern recognition."
+  },
+  {
+    "id": 10,
+    "start": 510,
+    "end": 553,
+    "en": "Sorry, there is no voice now. Okay. Yeah. Okay. So yeah. So somehow I got admitted. Sorry. I don't know where I lost the. Okay. So I was saying that For this course, we are talking about mathematically interpretable models, probabilistic approach, and the reasoning behind is selected models. As compared to all these other courses which are more on the AI architecture and model,"
+  },
+  {
+    "id": 11,
+    "start": 555,
+    "end": 600,
+    "en": "like talking about using different approaches, different models to solve different problems. So yeah. So the difference is that for this particular course, we are going to focus more on the concepts and the underlying theories behind why we want to do certain things, right? And then and then once you understand this concept, then this will help you to understand what all these other models are trying to do. So you should think of this course as actually an introductory course to all these other courses, right? And that's why this course is actually offered together as a undergraduate course as well, right? For the MSE students here, just some"
+  },
+  {
+    "id": 12,
+    "start": 600,
+    "end": 644,
+    "en": "background information. This course is actually offered as a undergraduate year four. Course and we actually have also a handful of undergraduate students registered for this course for this semester as well. These are the part time students. So basically, a short to the part time undergraduate students, right. There are only a few of you registered in this course. So if you need any additional help or any things that are not clear, right, please feel free to contact me. So I I I appreciate that, you know, doing part time studies is actually very difficult. You guys have to work full time in the day and then a ten evening classes, right. So so"
+  },
+  {
+    "id": 13,
+    "start": 645,
+    "end": 690,
+    "en": "don't just feel free to contact me anytime. The majority of the students here today is the MSC or post graduate students for this particular semester. So, this semester, most of our students are post graduate students. We are actually offering this course in the next semester as well. So in the next semester, there will be more undergraduate students because then it will be offered actually as a undergraduate class, but also open to graduation for master students. Okay. So Yeah. Coming to that, if you are not able to get a registration for this course, this semester, you can consider to take it next semester as well."
+  },
+  {
+    "id": 14,
+    "start": 691,
+    "end": 735,
+    "en": "Especially for those students who just joined the MSC program. In the next semester, you actually have priority to register for courses. For this semester, since you are new, the priority is given to the older students. That's one thing. The other thing is for course regulation, actually, I have no control over the course regulation. So no point, you know, asking me to help you to register, right? Because the school doesn't allow the professor to register students. So this one has to go through whatever appeals that you have, you have to go through the program office. But I want to say that I mean, if you are not able to register for this course, don't worry, right? You can also take it next semester."
+  },
+  {
+    "id": 15,
+    "start": 737,
+    "end": 782,
+    "en": "Okay. In terms of the requirements, yeah. Basically, you will need some elementary calculus like being able to take derivatives, partial derivatives, solving equations, finding the maximum minimum values. Okay. And then we will need quite a bit of probability theory, right. So you need to understand what is a probability density function, probability mass function, right? What is an expectation? What's the variance? What's the co variance and so you have no background"
+  },
+  {
+    "id": 16,
+    "start": 782,
+    "end": 827,
+    "en": "in probability theory, maybe you may want to consider actually taking EE 74 oh one, right. So although the course code is 74 oh one, but the level is not that high h, I have to say, right. Although it's primarily for PhD students, but in this 74 oh one, right, we're actually covering everything from the very basic. So if you had totally never done any probability before, then I think it will be good to have some probability background. So in 74 oh one. Yeah. And really try to do well"
+  },
+  {
+    "id": 17,
+    "start": 827,
+    "end": 872,
+    "en": "in this course, right, you need to get yourself involved mentally. Try to solve the problems. And try to work out the solutions, instead of immediately asking check GPT. So so I have provided like practice problems, at the end of every week, right. So I I won't be going through those practice problems, but you can try. So those are simple basic problems just to test your understanding. Yeah. So you should try them before you, you know, get help from the EII. And of course, if you don't understand I mean, I think there's nothing"
+  },
+  {
+    "id": 18,
+    "start": 872,
+    "end": 916,
+    "en": "wrong to ask AI help, but I guess the key thing is that you should learn from what, you know, the EI is telling you or try to figure out what is it that you don't smoke and why is it that you not able to solve that problem. Okay? So that's the best way to get the maximum out of this cost. Okay, Python code wise, I suppose is not as critical This was put here when I was teaching this course like in the last two or three years, right? And then being able to implement piton codes. At that time was still very important. But nowadays, I know"
+  },
+  {
+    "id": 19,
+    "start": 917,
+    "end": 962,
+    "en": "a lot of you are probably much more familiar with using EI cloud cloud GPT and all the that me, And you know that this thing called fight coding, right? You using the AI to code for you is actually now the standard things become so easy to implement a Python program. You don't even need to know, you know, all the syntax or all the libraries or all the things, and you can write your program very easy, using the help of AI. So that's why I say nowadays implementing, you know, being able to know how to implement the python codes from scratch is actually not as important as in the past. But"
+  },
+  {
+    "id": 20,
+    "start": 963,
+    "end": 1008,
+    "en": "nevertheless, I have provided some example python codes for you to look through. Okay. So I won't be going through the python codes, but these are provided in the NTN for you to take a look and to see, you know, what are the common packages that being used and how the usual program is structured. Okay. And practice problems, practice problems at the end of each of which are lecture slides. Okay. The solutions are actually also provided. So it's, um, In blue as well. If you do at the end of week one slide, you will see the problems and the solutions which"
+  },
+  {
+    "id": 21,
+    "start": 1008,
+    "end": 1053,
+    "en": "are in blue color. So try not to do the solutions first, right? Try to do the problems. And of course, the solutions are going to help you. And of course, the solutions that I write are very concise. So there's not a lot of information. I will also encourage you if you don't understand the solution, you can actually also get the AI to help, right? You can get AI to explain to you what each step of the solution is trying to do. And of course, yeah. As welcome your timely feedback. Okay. So don't wait until the end of the semester when the school asks you to do feedback, right? Then you write the feedback because by that time it's already to date, I I won't be able to change anything. So if you see anything that, you know, we can do"
+  },
+  {
+    "id": 22,
+    "start": 1053,
+    "end": 1098,
+    "en": "better and help you to learn better, please let me know immediately. So we can make your semester the most productive as possible. Okay. Okay. So the grading wise, k. This slide is for the UG students. So the few part time students who are joining the lecture. So I'm not going to go through in detail, right. So this is the percentage. So maybe I'll focus more on the or the majority of you, right? Sorry. Okay. So y. For"
+  },
+  {
+    "id": 23,
+    "start": 1098,
+    "end": 1142,
+    "en": "most of you, the MSC students, you are taking the EE 6497. So this is the grade components. Your final exam is 60%. There are two cases. Each of them is 10% each. Okay. And then there are two homewards. Each of them is 5%. There's a class participation. I'll later on, so this will constitute 5%. And then there's a survey report that you need to submit at the end. This will be another 5%. Okay. So there's no late submission allowed for homework because the homeworks are posted well in advance. You don't have to wait until, you know, the deadline to do the homework. So I hope"
+  },
+  {
+    "id": 24,
+    "start": 1143,
+    "end": 1188,
+    "en": "of you once you have once we have covered, you know, sufficient material, you can start doing the homework and see and then prepare to do it and then, you know, submit it one, right? So that's why we don't allow any late late submission. For the quizzes and the final exam, you can bring a double size A four reference sheet, right? And you can write anything on it. You can write any formula, any equation, whatever you want, right on this reference sheet, so you can bring this to the exam hall, to the quiz venue. Okay. And the idea is that we don't want you to memorize anything. So in"
+  },
+  {
+    "id": 25,
+    "start": 1188,
+    "end": 1234,
+    "en": "fact, for this colle, you shouldn't try to memorize anything at all. Oh. What we hope is for you to achieve a good understanding of the material. Without having to memorize anything. And then this A four size reference sheet, right, you can basically if there's certain formulas or certain things you want to write down on it, you know, you can just write and bring it to the Sam Quiz venue. And Yeah. Yeah. At least for the first half of the course, actually, I feel that there's actually nothing much right. I mean, I don't. Actually, everything is logic is just based on logic."
+  },
+  {
+    "id": 26,
+    "start": 1234,
+    "end": 1279,
+    "en": "So yeah, if you understand the material, there's actually nothing to memorize or to record. Yeah. Okay. So the course contained, right? The topics that we're going to cover. Okay. So in the first half, you can see this is the first seven weeks of the course. We are going to your homework one is going to be due in five or W five submitted online through the equivalent. So you basically just have to work out the solution, write it down, you can use Latex. You can use as well, you want to type it up, but there's no requirement, right. Pase option about you. The minimum you can do is just use pain in paper, write it down,"
+  },
+  {
+    "id": 27,
+    "start": 1279,
+    "end": 1324,
+    "en": "write down the solution, you know, scan it. So now there's a lot of apps, you can use to take a photo, you can convert that into a PDF. So very importantly, please convert everything into a single PDF before you submit it. This makes it much easier for me to mark the homework. Okay. So and then in week seven, we are going to have the quiz right. So the quiz will cover only the materials from weeks one to four. Okay. So basically this four weeks material. And this quiz, I will give you more information about the quiz. Later on, this quiz will be a online quiz, but you'll be done in person in the lecture theater. You have to bring your laptop"
+  },
+  {
+    "id": 28,
+    "start": 1325,
+    "end": 1370,
+    "en": "or your table, and then the quiz is through the anti. So we going to do the anti quiz. Okay. And then after the recess in the second half of the course, will be pro po, right? He will be covering more on the simple AI architectures. Okay. Okay. So class participation, clap, soever use this Clap basically to help to test your understanding during the lecture, you will earn the full class participation marks if you attend the UPA quions in nine out of 13 lectures. So there's some"
+  },
+  {
+    "id": 29,
+    "start": 1370,
+    "end": 1415,
+    "en": "buffer for you, right? And you will get the marks as long as you attend, right, you don't have to get it right. So the even you get the question wrong, as long as you submit the answer, your answer, right, does not have to be a correct answer. You will get the mark. So Yeah. As long as you attempt, then you will get one out of the 13, right? So basically, you need to accumulate nine h. You will need to attend nine lectures minimum. Attend nine lectures to get the full class participation marks. Okay. So I think this one is to be quite easy for all of you, right? This be kind of like everybody to get the 5%."
+  },
+  {
+    "id": 30,
+    "start": 1416,
+    "end": 1444,
+    "en": "Okay. So the clap right, please let's try it out. Okay. So this is your NTU len. Okay. So you can see that the middle gallery, this is a place where all the lecture recordings will be soreed. Okay. So after today's lecture when you click on, you should be able to see the recording from here."
+  },
+  {
+    "id": 31,
+    "start": 1450,
+    "end": 1495,
+    "en": "Okay. Okay. So I'll upload the recording later on. And then there's a library resource. This one, you will see the recommended textbooks. Basically, you can also get them from the library. And then this is the Python notebooks that I mentioned. So the python code, you can take a look. I won't be going through the python code in the co. I mean, I'll show sign of the python notebooks, but I will not go through the code in detail. So at least for the first half, of course, I won't be testing you on any python code. But for the second half, under the bot part, he may ask you to explain or to discuss or"
+  },
+  {
+    "id": 32,
+    "start": 1496,
+    "end": 1539,
+    "en": "interpret some python code. So that is possible. But for the first half, I won't ask you to write any python code. Okay. So this is more for your reference. Okay. So you can see that in one week two week three, right? So y, so you have to click on the arrow to see the content, right. So the first three weeks materials are available. And each week, you have the clap, okay. So so I would like to invite all of you here, to go into the clap and then to answer the question, right. So I have some questions for you. And this is also to help to make sure that we can capture your response, okay? So after you answer the question,"
+  },
+  {
+    "id": 33,
+    "start": 1541,
+    "end": 1586,
+    "en": "what's that? Yeah. Afterwards, after this lecture ends, I will look through the response and make sure that, you know, everybody's attempt is captured, right? Because eventually you will show up in your group book, right, whether you have attempted or not. Okay. So yeah. So this is basically an exercise will make sure that what's that? There are no technical issues, h? Okay. So 1 minute, right of you, please attempt the so you have to go through the Qn to click on the UCL link, right? Otherwise, the system will not be able to recognize your account. If you can't recognize your account,"
+  },
+  {
+    "id": 34,
+    "start": 1587,
+    "end": 1632,
+    "en": "obviously, you cannot capture your te, right? You cannot record that you have done the UCA, and then of course, it won't sold out in the Tulum. So please in order to let the system capture your class participation, you need to go through the N log in through the Q using your student account. Go to this course website, click on this clap for week one before you and then go through that portal, and then you can see this clap question, and then you can key in your answer here. And then going through this process, then hopefully nothing goes wrong and your tem"
+  },
+  {
+    "id": 35,
+    "start": 1632,
+    "end": 1633,
+    "en": "is captured inside the NTU."
+  },
+  {
+    "id": 36,
+    "start": 1646,
+    "end": 1690,
+    "en": "Yeah. And I want to also I think what you're seeing here in the UCL is for the student interface is slightly different from mine. I'm seeing the instructor interface. I believe right there's an option in your interface, right? There's one place where you can actually post messages. So somebody has posted a message here. So you are welcome to post messages during the lecture. I both today as well as during the physical lecture in the LT, anything that you are not clear, you can post a message here if you If you don't want to ask the question outright, right you can always post the message."
+  },
+  {
+    "id": 37,
+    "start": 1691,
+    "end": 1727,
+    "en": "But of course, I also encourage you to just meet yourself or during the actual lecture in the LT just raise your hand and ask the question. Don't be shy. Yeah, ask the question. But if really you don't feel comfortable to ask a question, you can always post it here. It's just that I may not be able to see the question immediately. So y. So because I'm doing the lecture, I will only come and look at the messages at certain interverts, right? Not so regular."
+  },
+  {
+    "id": 38,
+    "start": 1732,
+    "end": 1754,
+    "en": "Okay. So I may not see your question immediately. But that's fine. So I guess the most direct way is to ask you raise your hand and ask the question. And for today, of course, you can just met yourself. And today, actually, there's another option. You can also put inside the teams chat. Okay."
+  },
+  {
+    "id": 39,
+    "start": 1760,
+    "end": 1805,
+    "en": "Okay. So I think most of you will have answered the question. So basically, yeah, most of you 53%, right, intend to work in a data size related job after graduation. Okay. So now this is a very popular area. But of course getting more difficult, I have to say, right this tech BIT tech area is actually in terms of hiring is getting more difficult. And of course, now you guys have to also compete with AI agents. Okay. I'll talk more about that later on. Okay. So So yeah, it's good to see most of you are looking for this, but I want to"
+  },
+  {
+    "id": 40,
+    "start": 1805,
+    "end": 1848,
+    "en": "encourage you to keep your options open, right? It's not necessary that you have to work in a data science related job. Although this course is all about data size. Okay, 20% want to pursue further studies, about 20% want to do another area other than data science. So actually doing a data size course is going to be very helpful for you to apply to other areas, right. So now there's a lot of areas that require AI AI for other things, in many other areas. Okay. Okay. So"
+  },
+  {
+    "id": 41,
+    "start": 1852,
+    "end": 1852,
+    "en": "I school."
+  },
+  {
+    "id": 42,
+    "start": 1858,
+    "end": 1903,
+    "en": "Okay. So yeah, before we go back to the Clap, let's finish out some of the main thing. So yeah, textbooks wise. The first one, the shop is the main textbook that we use. But this one is pretty old, I would say, 2007. But of course, the fundamentals don't change, right? This course is a introductory course to pattern recognition and determining, right. So in terms of the fundamental math, fundamental size, change. So of course this textbook is still relevant. Then there's a from Murphy. So this Murphy textbook, 2012, right now has actually evolved into two textbooks. So originally,"
+  },
+  {
+    "id": 43,
+    "start": 1903,
+    "end": 1919,
+    "en": "it was one textbook, now they changed to Part one and Part two, so they added a lot of new material inside. So you may want to take a look also. And of course, the third one is one of the classic textbooks used in Machining."
+  },
+  {
+    "id": 44,
+    "start": 1927,
+    "end": 1964,
+    "en": "Okay. Yeah, make sure you don't touch the recording. Okay. What side? Yeah. So the first textbook, I think is probably the most relevant. And the second one is also very useful. In fact, we are going to use a lot of the python code from the second textbook. Okay. Yeah. And the python code basically from the textbook, 12. And supplementary materials are provided for reference only."
+  },
+  {
+    "id": 45,
+    "start": 1971,
+    "end": 1984,
+    "en": "Okay, good. So, maybe before I start on the actual lecture material, do we have any questions here? Anything not clear."
+  },
+  {
+    "id": 46,
+    "start": 1991,
+    "end": 2029,
+    "en": "Okay. If not, then I do at this clap. So this is a brainstorming activity. So I think this will become more and more relevant as the EI agents develop and become more powerful, right? So at a job interview, right you are asked what advantages do you have over an AI agent, right? The employer wants to know why the employ you instead of using the AI agent. So what how we will respond to this. There's no right or wrong answer, So basically just to see what everybody's opinion is about."
+  },
+  {
+    "id": 47,
+    "start": 2041,
+    "end": 2086,
+    "en": "Okay. So I see a very big letter creativity. Okay. Good. And then there's thinking, learning, emotional. So I think very important, right, emotional, the emotional aspect of a product, right, is not just based on pure, you know, what the AI can create, right. So I think that is one of the most important most important contribution as a human worker, right that you can have you can provide that emotional bridge, the bridge between the company and the customer, right? Okay. So that one the EI at least for now, h, the AI cannot do it right, but you'll never know, right next time. All these are human robots are being developed"
+  },
+  {
+    "id": 48,
+    "start": 2086,
+    "end": 2129,
+    "en": "at such a fast pace. Then you have to think about what are the other possibility possible new things that you can bring to the table. Okay. I see creativity, a lot of you put creativity, which is which is indeed very true, right? So to think out the bot, come out new ideas. And now the AI agent is able to help you to implement the ideas. You think of the AI agent as something that helps in your productivity, right? You are the one who come up with the ideas and the AI agent is the one to help you to implement to make it so much faster and more productive, right to implement something."
+  },
+  {
+    "id": 49,
+    "start": 2132,
+    "end": 2177,
+    "en": "But the main idea actually still comes from the human. And responsibility. Yeah. I see a keyword responsibility, that's very important. At the end of the day, who is going to take ownership and responsibility for that particular product. It can only be a human being. Okay. So very good. Yeah. So following up on that, right? I actually tried to use the Germin in agent. So I think all of you should know, right, you have access to the ermine EI agent that is provided by NT, right? All the students actually"
+  },
+  {
+    "id": 50,
+    "start": 2177,
+    "end": 2222,
+    "en": "are given access to the to the paid version, right? This is provided by NTU. So you can use it for your studies and to do other things. Mainly for your studies, okay? Sorry. So basically, you use this seminar agent that is provided by NTU, right or your studies. So I try to make use of that. Ask this question, right? What is the best PTO architecture? So PTO is the EI package that is now being widely used to implement all these deplaning models. So basically, I ask what is the best PPO architecture for patent recognition final time series, to maximize a shark ratio. So sub"
+  },
+  {
+    "id": 51,
+    "start": 2222,
+    "end": 2267,
+    "en": "ratio is a basic a measurement to indicate what is the return rate of a certain portfolio? So basically, we implement the model to optimize a portfolio of tech stocks using Intra Day data from Yahoo Finance and use out of sample that testing to get the performance of the model. This is a very simple prong, and the AI basic took less than 2 minutes, I would say, probably maximum 2 minutes. To come up with the whole program, everything nicely written, you know, in Python with all the packages and even the visualization. But of course"
+  },
+  {
+    "id": 52,
+    "start": 2267,
+    "end": 2313,
+    "en": "that along the way, I have to prompt it to give it exactly what kind of plot I'm looking for, right? So there are some slight pros, slight adjustments you need to make. But for the first round is already able to give me exactly almost exactly what I need, right? And that takes less than 2 minutes. I imagine, right if you are the human doing this, right? This will probably take you half a day, right, at least or even one day to just write the program. Okay. So we can take a look at the python code. So I'm not going to go through the python code in detail, but I just yeah, just to show you, right? What it looks like. So all of these were written by the Germani"
+  },
+  {
+    "id": 53,
+    "start": 2313,
+    "end": 2357,
+    "en": "agent, I didn't change anything, right? And everything is written very nicely with all the functions, all the different models. And so. So as a human coder, I would say, there's no way you can compete with this. Even if you can code very fast, there's no way you can compete with this won't be able to write this in less than 2 minutes and is able to do that. So really, right? What is the value of a human right? Why say investment bank, right hire you to do this portfolio optimization"
+  },
+  {
+    "id": 54,
+    "start": 2358,
+    "end": 2403,
+    "en": "as opposed to doing the job to an EI agent. So So For me, I think really the advantage of the human is being the breach, being not doing the the actual coding and implementation, but being able to understand what the AI has produced and determine whether it's correct or not, and being able to explain, right what the AI agent has produced and able to interpret this to your boss, right. So your boss, you can't expect your boss, right, you you just throw in the code and then not telling the you know, your superior"
+  },
+  {
+    "id": 55,
+    "start": 2404,
+    "end": 2448,
+    "en": "your company CEO, right, what this program is trying to do, and why is it doing in that way? So you can see that if you look through this code right, you will see familiar terms, at least, maybe not so familiar to you guys right now, but after this course, I hope this will become familiar to you, right? So you will see things like BC attention networks, Multicol and things like this. Okay. So these are all the concepts that we're going to cover in this course, right. Although the concepts that we are going to cover, it's not going to allow you to, like, for example, this basic syncret all these concepts we're going to cover, right, is actually at a very"
+  },
+  {
+    "id": 56,
+    "start": 2449,
+    "end": 2494,
+    "en": "basic level, is not going to make you into a super good programmer, right? We're not teaching programming in this course. We're teaching concepts. And I I feel, personally, I feel in today's world, there's no need to teach programming, right? Be programming is actually can be done much faster by AI. So What is the value proposition of a human worker is able to help the AI or basic work together with the AI to implement, what are the concepts? What are the models? What are the things that you want the AI to do and being able to interpret, and tell and"
+  },
+  {
+    "id": 57,
+    "start": 2494,
+    "end": 2539,
+    "en": "know whether the AI is doing what you want, and being able to tell your boss, why this approach is good, why that other approach is not good and why we want to do it this way. Oh. Okay. So so you can look at the that code that is provided. So this Jupiter Nooo is also provided in the antigu And yeah, I I hope at the end of this course, right, all of you are able to able to, you know, explain the code, right? Or at tell what the code is trying to do, okay? Okay. So start"
+  },
+  {
+    "id": 58,
+    "start": 2539,
+    "end": 2545,
+    "en": "on the start on the main part of the lecture."
+  },
+  {
+    "id": 59,
+    "start": 2553,
+    "end": 2561,
+    "en": "Okay. So okay. So we're talking about machining the ing, right in this course."
+  },
+  {
+    "id": 60,
+    "start": 2570,
+    "end": 2615,
+    "en": "Yeah. We're talking about pattern recognition and machine learning in this course. In machine learning, we can broadly categorize into a few categories of machine learning. The first one is called supervised learning. In supervised learning, what we're trying to do is to input, given some input as. This is usually also called the fi tor. So the input feature Okay. So you are given S fisial factor, for example, an image. So you can have an image. So"
+  },
+  {
+    "id": 61,
+    "start": 2616,
+    "end": 2660,
+    "en": "maybe this is 256 pizzas by 256. So you basically have an image with 256 by 256 pizzas, and this could be your x. In fact, for RGB images, right, as you can see, as the name implies, there's red, green, and blue channels. There are actually three channels. So your ads is actually consists of three different channels, right? Or 256 b256. So ads is actually belongs to say r256 times 256 times three. So this is it could be a very big"
+  },
+  {
+    "id": 62,
+    "start": 2661,
+    "end": 2706,
+    "en": "facial vector, right. So from the X, you want to infer, right? What is the y? So the y could be, for example, in classification, it could be a label, right? So whether this image is showing a digit four, whether it is So whether it's sowing a digit four, or whether it's showing one or zero or seven or eight and so on. Okay. So this function F here is the machine learning model, right? You apply some algorithm, right or model. You'll apply it to the input."
+  },
+  {
+    "id": 63,
+    "start": 2706,
+    "end": 2751,
+    "en": "Right? I give you the x, which is an image over here. You plug it into the algorithm and the algorithm will tell you, right? What is the value of y, which is what is the value of the digit that is shown inside the image? In the supervised learning, we are actually given many pairs of examples. So these are called training data or examples. Many pairs of examples, and you are basically going to use these examples of training data to train your model, in order to hopefully get something a very good F. We want to get a very accurate"
+  },
+  {
+    "id": 64,
+    "start": 2751,
+    "end": 2767,
+    "en": "F so that whenever I give you a new, you are this F is going to able to tell me what is the value of y with high probability. So I want to have a good accuracy in terms of the label."
+  },
+  {
+    "id": 65,
+    "start": 2774,
+    "end": 2819,
+    "en": "All right. So there's one example of supervised learning. Then of course, object detection of recognition is another example, right. So in this image, this is for example, from the autonomous vehicle, a camera, on the AV, right. So you can see that it's able to come out with all these bounding boxes. The model is able to come out with the bounding boxes of the different objects inside this environment that the vehicle is seeing and then is able to label, right? What is the ic object, able to recognize voice object. Okay. And then we have regression. So here we are basically"
+  },
+  {
+    "id": 66,
+    "start": 2820,
+    "end": 2865,
+    "en": "looking at I give you a X value, and then I I'm trying to estimate what is the y value except that the y value here is can be any real number, right? So y can be any real. Okay. The y here in the classification can only be up to nine. It's only one of these labels. This one is also typically is also discrete as well, right? So we only care about. No. Maybe 20 objects, or 50 objects that are of importance in the environment, and we only want to recognize about those, what are the, you know, whether"
+  },
+  {
+    "id": 67,
+    "start": 2865,
+    "end": 2910,
+    "en": "the object that we detected belongs to one of these 50 classes, so most of the time it cree. So in regression, we actually allowed the y to take on any real value. So this could be, for example, we are trying to estimate the temperature, the humidity, Yeah, any value that we are trying to estimate, right, that has comes from some real value domain. Okay. Another very important category is the unsupervised name. So as you can tell from the name itself, now it supervised. Supervised means you have levers that you can train on. So why is it called supervised because in the training example,"
+  },
+  {
+    "id": 68,
+    "start": 2910,
+    "end": 2955,
+    "en": "I tell you what is the ground. Usually a by GT GT means grouch tooth. In the supervised learning, all these examples of training data, comes with the ground tooth, and then I made use of this grouch tooth to train my mother. In the unsupervised learning case, unsupervised. You are only given training data that has no grouch. There's no such thing as ground here. Okay. There's no concept of ground truth, right? There's no such thing as ground truth in the unsupervised"
+  },
+  {
+    "id": 69,
+    "start": 2955,
+    "end": 2971,
+    "en": "len case. And here we are basically trying to based on the input features, right, we are trying to recognize, discover, or learn some patterns that is inside this input feature."
+  },
+  {
+    "id": 70,
+    "start": 2978,
+    "end": 2978,
+    "en": "Okay. So."
+  },
+  {
+    "id": 71,
+    "start": 2984,
+    "end": 3028,
+    "en": "Okay. So for example, in the clustering case. So this is basically a two dimensional x. So this x value is confused of X one and X two is in a two dimensional space. So that's how you can clock it right. Imagine the x values are given to you right without the colors, right. So no the colors. Imagine there's no color, right. So this is basically all the data that are given. In the clustering application, what we're trying to do is to try to group the data into clusters so that all the data in the same cluster are similar to each other. So you can see"
+  },
+  {
+    "id": 72,
+    "start": 3030,
+    "end": 3074,
+    "en": "here using different colors, we are basically grouping into three different clusters. And then you can argue that based on certain metrics, that all the blue color ones are similar to each other, or the red one are similar to each other, or the green ones are similar to each other. There are certain underlying pattern inside the data that we are trying to learn, and there's no reference to any so call label or cloth. Another example here is the so called using trying to learn the latent factors. So we can look at the example here is the face recognition. These are all faces of all different human beings, right. But for most human being,"
+  },
+  {
+    "id": 73,
+    "start": 3076,
+    "end": 3120,
+    "en": "most of us have two eyes, one nose, one mouth right. So this is something quite standard, right in human beings human faces. So you can imagine, right when we build a model, To do facial recognition. I don't need to actually try to, you know, remember every single detail, right inside each phase. There could be a lot of minor variations that do not appear in other phases. And so I want to learn what are the so called latent factors, right? The ones that allowed me to construct each of the phases, right so"
+  },
+  {
+    "id": 74,
+    "start": 3121,
+    "end": 3166,
+    "en": "that I can come up with a model that has a lower dimension as compared to, you know, just trying to have a database that contains all the possible you know, 7 billion phases, right on earth. Okay. So in the latent factor case, Like, basically what we are trying to learn, are all these so called latent factors, which actually look like phases. These all do like phases. And basically, the assumption here is that each of these phase is a linear combination of all these factors. Each of them is called a latent factor. Each of them looks like a phase, but they are not actually belongs to one single human being. And basically we are going to say that every human"
+  },
+  {
+    "id": 75,
+    "start": 3166,
+    "end": 3211,
+    "en": "is basically a linear combination of these latent factors. So this basic allows us to construct a model that is has lower dimension. And so how to then learn all these latent factors? I imagine this is basically the part where the so called pattern recognition comes in, right? We need to recognize be able to recognize the pattern. The pattern in all the phases. So what is this pattern that we're trying to recognize? Okay. So this will be unsupervised learning. Yeah. Another example of unsupervised learning is the core relation and structure theming. This has to do with basically, I give you all these data"
+  },
+  {
+    "id": 76,
+    "start": 3212,
+    "end": 3236,
+    "en": "points. I'm trying to learn what's the relationship between each of these different data ps inside your data set. Okay. In the first half of this call, we are going to basically focus more on the rigorous aspects of pattern recognition and using a framework, basically the basic framework that is going to be explainable most of the time."
+  },
+  {
+    "id": 77,
+    "start": 3242,
+    "end": 3287,
+    "en": "Okay. The yeah. So the next few slides, I basically just for those of you who are interested in what I'm doing. R, basically, mainly my my main research area is in a signal processing and machine learning. So some of the things that I'm very interested in would be looking at how to do signal processing and learning over graph networks. Graph networks can consist of things like molecules, transportation transportation networks, social networks, and so on. In this kind of research, we're basically coming out with models. In order to be able to process this kind of input your input is not just an image, but it's actually"
+  },
+  {
+    "id": 78,
+    "start": 3287,
+    "end": 3332,
+    "en": "a graph and it's actually more general than an image. So we are basically working on this kind of area. Yeah. Just to give you an example. This is one of the models that we we developed in 2024, ah, about two years ago already, so not that new anymore. Yeah, why I want to highlight here is is because interestingly, this model actually made use of a lot of the things that we're going to learn this course. In this model, we actually made use of the concept of basin ites. We made use of the EM algorithm, and we also made use of MCMC techniques. So these are all the basic things that we're going"
+  },
+  {
+    "id": 79,
+    "start": 3332,
+    "end": 3377,
+    "en": "to learn in the first part of this course. And of course, we are combining all these things with the deep learning networks, the graph neural network models. To come up with something that that is robust. And at that time in 2024, right, our model was the one that achieved the best performance and compared to all the other models. Yeah. I have also done some research together with industry as well with continental automotive. Here, we are developing basically a autonomous vehicle localization technique, you seeing camera. And to detect the landmarks in the environment and being able to localize, without the help of GPS,"
+  },
+  {
+    "id": 80,
+    "start": 3377,
+    "end": 3401,
+    "en": "you are by just looking at the environment, what the landmarks, the buildings, and environment, the vehicle knows where it is. Okay. Yeah, if you are interested you can look at my website, and there's also a video to show you how it works. Okay. So any questions here so far."
+  },
+  {
+    "id": 81,
+    "start": 3417,
+    "end": 3417,
+    "en": "All right."
+  },
+  {
+    "id": 82,
+    "start": 3430,
+    "end": 3430,
+    "en": "All right. Okay."
+  },
+  {
+    "id": 83,
+    "start": 3437,
+    "end": 3482,
+    "en": "Okay. I think we are good to continue. Okay. So we are going on to the probability review. Oh. All right. So I hope that gives you a kind of a overview of, you know, what we are what we care about right in this course. And basically, right, this course the first part is more theoretical, right? So that's why we need to we are going to make use of prob concepts from probability theory to explain, right to explain, you know, certain approaches and to motivate to justify,"
+  },
+  {
+    "id": 84,
+    "start": 3483,
+    "end": 3528,
+    "en": "you know, why we do things in a certain way. Okay. There's a question. Can we contribute to the process to Yeah. The process that I show you are ones. The ones that I have right now is basically also on perception. So I have I have some MSC dissertation projects as well. R posted in the porter. So if you are interested, please do it back and you can also talk to me if you are interested to do other things as well. Okay. Okay. So let's go on to the probability review. All right. So basically, the assumption of this course is that"
+  },
+  {
+    "id": 85,
+    "start": 3529,
+    "end": 3573,
+    "en": "in terms of the background, I hope all of you have done some I mean, I think all of you are from engineering background, right? So the majority of you should be from electrical engineering or control engineering background. So I think most of you have come across like calculus as well as some basic probability right in your undergraduate studies. But if you haven't if you don't know what's probability, what's the PDF, then probably Yeah. You need to then try to read out about all these concepts, because we are going to make use of all these things"
+  },
+  {
+    "id": 86,
+    "start": 3574,
+    "end": 3617,
+    "en": "throughout the whole course. And of course, there's this course, EE 74 oh one. I'm also teaching this course as well. That's on Thursday night. And this 74 oh one will basically cover all the probability theory, the basic probability theory. That is actually that will be useful, not only for this particular course, but will be useful in a lot of other courses as well. Okay. We are going to basically, as you saw before, our input feature. This is the input, the input feature."
+  },
+  {
+    "id": 87,
+    "start": 3620,
+    "end": 3665,
+    "en": "And then we have output y as well. Of course, I to restrict to the supervised lending case. And of course the unsupervised one, you can say that it's slightly easier because you don't have the. We're going to model all of this using as random records. Meaning that they are not determined sleep, right. So this as I give you an image. I cannot tell you in advance in advance what this image looks like, right? For the for example, for the camera on the AV, right? It depends on where the AV goes. Is it going to be in the urban environment or in the rural"
+  },
+  {
+    "id": 88,
+    "start": 3665,
+    "end": 3710,
+    "en": "environment, or is it at a different road junction at this junction A or junction B or at a different traffic light and so on, right? So the images are going to change over time. And more, right, even if it's at the same place at the same location, the image itself, right is going to be different at different times of the day and also depending on the dynamic objects in the environment, right. So in the AV, even if you don't go anywhere, the AV is parked at a particular location. The camera recording, right, the images that's recorded by the camera is going to be Have different objects have different things moving around because there"
+  },
+  {
+    "id": 89,
+    "start": 3710,
+    "end": 3755,
+    "en": "could be a pedtrian walking by, there's another car going by. There's a b cyclist going by, right A these are dynamic objects in the environment, and you don't know in advance, right, that which objects are going to appear, what are the effects that this image is going to be subject to. So that's why we would like to model the image itself as something that's random, right. So I give you something that I don't know what exactly is in advance, right. But But I know what is the probability distribution of this random variable, hopefully, right? So I can try to model it as something that is random, but it is also controlled in a certain way that"
+  },
+  {
+    "id": 90,
+    "start": 3755,
+    "end": 3800,
+    "en": "is controlled by a certain probability distribution. So I think of these ads as something that is coming out from this probability distribution. Although I cannot tell you exactly what's the value of ads, I can tell you that the ads is more likely to have to be of this form or these ads is more likely to be of this form, right. So for example, I can tell you that it's very likely that these as this image contains, for example, a pedestrian walking by. And it is very, very unlikely that this image ads contains an elephant, right, walking across the road. So so that could happen, who knows, right? That but that"
+  },
+  {
+    "id": 91,
+    "start": 3800,
+    "end": 3832,
+    "en": "is a very low probability event, right. But I can tell you that, you know, what are what are the more likely things that are going to happen, right inside this image. And of course, I can also have be able to quantify what is unlikely to be the x. That's why this is a very powerful framework, right? I don't need to tell you exactly what is the X in advance, but I'm able to model it, right? I am able to model it using model using probability distribution."
+  },
+  {
+    "id": 92,
+    "start": 3837,
+    "end": 3858,
+    "en": "Okay? So we'll see why this is important, right? In the rest of the course, we'll be making use of of this probability distribution to help us to infer, to be able to infer infer or estimate, right? What are the likely outcomes?"
+  },
+  {
+    "id": 93,
+    "start": 3866,
+    "end": 3911,
+    "en": "And this is really, right what all AI is about. So AI artificial intelligen is basically you know, basically the model is basically trying to do, right, what is the most reasonable thing, right in the next step? The most likely the likely thing that will solve a given task or a given problem right to the AI. Okay. So how do we model a random variable? So random variable is is something we think of as something that the rango values like with certain probabilities. So it's not fit it's not like X equals"
+  },
+  {
+    "id": 94,
+    "start": 3912,
+    "end": 3922,
+    "en": "to three, right? It's not determinist. So it can be as. So can be equals to certain value, right? X one with certain."
+  },
+  {
+    "id": 95,
+    "start": 3931,
+    "end": 3977,
+    "en": "Sorry. Is that a question? Okay. So it's not a fixed value X can be equals to X one with certain probability, say 0.0 0.2, right with certain probability 0.2. It could be It could be equals to two, another value with certain probability, say 0.3, it could be equals to another value S three, with certain probability 0.5, right. Okay. So before you observe the you don't know whether it's X one at two s three. You only know that what is the bd what is the chunks"
+  },
+  {
+    "id": 96,
+    "start": 3977,
+    "end": 4021,
+    "en": "that is going to be X one? What's the chunks is going to be a two and three. Okay. So we model this so called chunks, right. Chance of using probability mass function in the case where it's discrete. This is for probability mass function is when your takes on discrete values, and then we call it a probability density function when takes on continuous values real values. Okay? Basically we will just basically just restrict ourselves to PDF because you can actually think of the discrete value case, the PMF"
+  },
+  {
+    "id": 97,
+    "start": 4022,
+    "end": 4067,
+    "en": "as a special case of PDF. Your PDF is basically maybe something like this. You will have this this is the PDF of this. X can be continuous value and the PDF is basically telling you, right the area under the PDF curve is telling you what is the probability that is within this particular interval. So this dy. This area under the curve is basically telling you, what is the probability that X is within this particular interval A. What is the probability"
+  },
+  {
+    "id": 98,
+    "start": 4067,
+    "end": 4111,
+    "en": "that X is between A and B. So that will be given by the area under this curve. Okay. So that's what the probability density function is about. And of course, we can model the Y right. So the output can also be random, right? Because your output may depend on other factors other than the given X. Yeah. So we'll treat all these things as random effects. It's not just the x itself. So we will model the input and output as a pair of random elements. So he has a joint PDF. So he's called the"
+  },
+  {
+    "id": 99,
+    "start": 4112,
+    "end": 4125,
+    "en": "joint PDF. Okay. And of course, in the unsupervised learning case, it is just the ads, there's no Y, right? So does have a single PDF for the a."
+  },
+  {
+    "id": 100,
+    "start": 4134,
+    "end": 4178,
+    "en": "Okay. Let's look at some examples of famous PDF. The simplest one that you can have is the Bui distribution. In this case, your ad can only take on two values, either zero or one. So this binary. Binary random variable. Yeah, I can only take on the value zero, one, and then it has the probability of taking on the value equals to one is even by data, and of course, the probability of it being zero will become one minus data. In terms of notation, he's also common to write it in this way."
+  },
+  {
+    "id": 101,
+    "start": 4180,
+    "end": 4224,
+    "en": "So this guy is Basically the generic form is just like the side given data, but since it's coming from a famous random variable, we can give you a special notation. So B this just stands for Bern, this is a Bern PDF evaluated a particular X value, and data is the parameter of the PDF. So it equals to data if X equals to one and one minus data x equals to zero. It turns out that this PDF can be write in written in a very compat form. So we can see that it's actually equals to this formula, right? You can see that this formula is correct, right because"
+  },
+  {
+    "id": 102,
+    "start": 4225,
+    "end": 4271,
+    "en": "in this case, in the case where X equals to one, this formula becomes data to the 11 minus data to zero, right? So it's a data. When X equals to zero, it becomes data zero to one minus data to one minus zero. So it is one minus data. Okay. So the Bai instead of writing in this foam, you can actually write it in a very compact way in this way. If you want to be more explicit, you can also write it in this way using the indicator function. This indicator function is equals to one if whatever you are indicating is true and equals to zero is four."
+  },
+  {
+    "id": 103,
+    "start": 4271,
+    "end": 4316,
+    "en": "So you can see that in this case, when x equals to one is equals to data, and this one will become zero. This part will become one, it will just become data. When X equals to zero, this p zero, this part will go away. This will become one, so you are left with one minus data. Either way, is fine. This way may be slightly more general because sometimes it may deal with the case where is a either one or minus one, right? So in the binary case, I mean, most of the time we assume that X is either zero or one, right? But maybe in"
+  },
+  {
+    "id": 104,
+    "start": 4316,
+    "end": 4361,
+    "en": "certain applications, for some reason, you want the x to be either minus one or one. So then this formula will not be correct anymore, right? So you can't use this formula anymore, right. So then y, then your formula will become X equals to plus one and one minus theta equal to minus for. So this will allow you to write the formula in a more general way. Okay. So numerical example here, ski. Okay. Another one is the uniform. So this is another very common common PDF. So it is flat. So the PDF"
+  },
+  {
+    "id": 105,
+    "start": 4362,
+    "end": 4375,
+    "en": "is flat over a certain interval A to B. Of course, because the area under the curve has to sum out one. So that's why the height over here is one over b minus a."
+  },
+  {
+    "id": 106,
+    "start": 4382,
+    "end": 4403,
+    "en": "Yeah. In case you don't know. Basically every PDF, when I integrate the PDF, it has to be equal to one. This is by definition. We always normalize the PDF in such a way that the total area under the PDF curve is always equals to one."
+  },
+  {
+    "id": 107,
+    "start": 4408,
+    "end": 4420,
+    "en": "Okay, exponential. So these are exponential, so we can see that the PDF decays in an exponential way is controlled by some parameter Lambda, right. Okay."
+  },
+  {
+    "id": 108,
+    "start": 4425,
+    "end": 4470,
+    "en": "Okay. And then basically these are some common PDF that a lot of people use. But of course, they are not the only ones are some of the basic ones. So in terms of the probability properties, all these properties will apply to any PDF, right. It's not only the ones that I so use now. So this is general. So these are properties that apply to every PDF. So the first one is that the joint PDF, if you are interested to find the probability, in general, right, if you want to find the probability"
+  },
+  {
+    "id": 109,
+    "start": 4470,
+    "end": 4515,
+    "en": "of within any given set A, you just have to integrate over the set of interests. So we just take the PDF and integrate over whatever you are trying to find the probability form, right? So for example, here, if this is my A, right, is my A. I just basically I'm trying to find the area under the curve for this part A. And note that your A can can be discontinuous. So for example, your A, right, your A can actually consist of two parts. So it can does not have to be a continuous interval. So basically, right, in any case, I basically trying to find the area under the PDF curve. Over"
+  },
+  {
+    "id": 110,
+    "start": 4517,
+    "end": 4560,
+    "en": "the whole region of interest that I'm interested in. Similarly, for the jot PDF is the same, right? So T of this as one big random variable by itself. If I'm interested to find the probability of of the pair of random variables is, you know, belonging to a certain set. Of course, I just integrate the jot PDF. And then to get the marginal PDF, I just have to integrate out the random variable that I'm not interested in that doesn't appear in the marginal. Similarly from here, you can see immediately that P of Y is the same thing."
+  },
+  {
+    "id": 111,
+    "start": 4564,
+    "end": 4605,
+    "en": "So now I will be integrating out the X. To get the X, you integrate out the y to get the Y integrate out. H, sorry. Some notation first. So, in the in the slides and in most of the textbooks. Usually we are being lazy. So we will usually write just P as instead of p subscript s of x. So basically the understanding is that if I see a small ad, my corresponding random variable is the p. So this is just a short hand notation for this. Similarly, this is a shorthand notation for this."
+  },
+  {
+    "id": 112,
+    "start": 4610,
+    "end": 4654,
+    "en": "Okay. And then we have the conditional PDF is defined in this way. It's just the joint PDF divided by the marginal. And of course, from this formula, you can see immediately that you can basically to compute the joint PDF. We can basically take the marginal of X, then multiplied by the conditional y given x. So in particular. For example, if you have X Y Z, I can always write it as P X, probability of Y given X, and then probability of z given X and Y."
+  },
+  {
+    "id": 113,
+    "start": 4655,
+    "end": 4699,
+    "en": "So the basic condition on those things that come before it. Of course, if you don't like this ordering, you can always do let's say P and then for example, z given Y. That's given y and t. This is also valid depends on how you want to expand out the joint PDF. Very importantly, we have this thing called bas Bas Bash Yeah, it's actually so this is just a definition, right. This part is just the definition of the conditional."
+  },
+  {
+    "id": 114,
+    "start": 4700,
+    "end": 4744,
+    "en": "And then we basically changed the top to condition of X first instead of y, right. So the good thing about the nice thing about base rule is that you can see that this one originally is condition of Y. And then for various reasons that we'll see later, you want to convert it to condition of X instead because it turns out that in your lot cases, calculating the conditional distribution on the input feature vector is easier than trying to calculate the conditional condition on the output. So that's why this base is very important."
+  },
+  {
+    "id": 115,
+    "start": 4745,
+    "end": 4791,
+    "en": "In a lot of the cases, we want to for example, we want to find this condition on Y, then you can apply base because I can find the condition on eas of course, I also need the PX and also the PY. But in a lot of cases, I actually don't care about the P Y. So this one will be the most important thing. Okay. And then we have the concept of independence. If x and y are independent, then in this case, the condition on the x, y condition on is the same as as P y out condition. So you can see that the joint PDF is the product of the two in the PDS. So that's in the case"
+  },
+  {
+    "id": 116,
+    "start": 4791,
+    "end": 4836,
+    "en": "when they are independent. So in this course, we are going to make the assumption that the data set that we are given, either the training data set or the testing data set is always IID, meaning that all the data points independent and identically distribution. So they are independent, so I can basically to find the joint PDF, I can multiply the individual PDF square. And they're identically distributed, meaning that they have the same PDF, identical distribution. So basically"
+  },
+  {
+    "id": 117,
+    "start": 4836,
+    "end": 4881,
+    "en": "the P here, the function P here is the same. Nos that the I different values. Okay. So that will then give me the joint PDF for the whole data set. And we're going to make use of most of the time we're going to convert using the apply the lock function to it. Okay. So if I apply the lock function, this product, becomes a summation. Okay. And this makes calculation easier. So there's no particular reason why we want to apply the lock function. As you will see later, you will just make the calculation easier. The lot"
+  },
+  {
+    "id": 118,
+    "start": 4881,
+    "end": 4925,
+    "en": "function. This lot function here I'm referring to the natural log function. In terms of notation, you can also write it as LN, right. So I think some of you may prefer to use Le prefer to use LG LG means the natural lo L also the natural lot. Yeah. And very importantly, this log function is a increasing function. Is increasing. So it's a increasing function, which means that when I apply this lot function to the"
+  },
+  {
+    "id": 119,
+    "start": 4927,
+    "end": 4972,
+    "en": "probability to whatever that I'm that I'm trying to optimize, is not going to change the optimization, right? Because it's a increasing function. When I apply a increasing function to another function that I'm trying to optimize, right, the optimal value still remains the same as before. Okay. And of course, the other good thing is I apply the lot, the product becomes some becomes easy. As you will see later. Okay. So some other basic properties, expectation. So y. So I hope all of you remember"
+  },
+  {
+    "id": 120,
+    "start": 4972,
+    "end": 4982,
+    "en": "what is expectation. So is this given by this formula. And of course, if you want to find the expectation of a function of a random variable, then one."
+  },
+  {
+    "id": 121,
+    "start": 4988,
+    "end": 5033,
+    "en": "Some properties of expectations, expectation of X plus Y is just the sum of the individual expectations. If there's a constant C times X, the constant can bring outside the expectation. If they are and y independent, then the expectation is actually just the product of the individual expectations. Yeah, you may also come across this conditional expectation. So now I condition on y equals to some value, small Y. So if you look at this formula, right, you should be able to guess what this guy looks like, right. So now I'm just conditioning on y, right. So that's why the PDF"
+  },
+  {
+    "id": 122,
+    "start": 5034,
+    "end": 5079,
+    "en": "from the X from P X is now changed to P X given Y. Okay. So this conditioning change what is the underlying PDF. Okay. So the okay, some exercise for you, just to get yourself if you if you had forgotten, you know, about some of these things about expectation and all that, right? I think it's a good exercise, you just try try and find the expectation of these three common PDF. Okay. But of course, I mean, the answer is well known. It's just for you to practice, right? Just get yourself formed with the formula."
+  },
+  {
+    "id": 123,
+    "start": 5082,
+    "end": 5128,
+    "en": "Okay. Variance. Variance is defined to be the square distance of the random value, right. How far away it is from the expected value and then take the square and then take the expectation. Okay. So you have this formula over here. How to get this formula is you basically expand out this thing and then you get this. And then we have co variance coarance between X and Y. So the co variance is defined in this way. When you expand this out, you can see the simplification will be just this. One important property"
+  },
+  {
+    "id": 124,
+    "start": 5128,
+    "end": 5171,
+    "en": "about co variance is that if I'm independent, if X and Y are independent, then your co variance will be equal to zero. So this is what we call unc related random pose. But unc related doesn't mean independence. Okay. So if they're independent, If x and y, x and y are independent, then implies the cov B equals to. But covariance equals to zero, it doesn't imply x and y being independent. There are counter examples that you can create whereby the covariance equals to zero, but X and Y are not independent with each other."
+  },
+  {
+    "id": 125,
+    "start": 5174,
+    "end": 5215,
+    "en": "Yeah, and then you have the formula for the variance. So you can see that if they are independent, if y are independent, these covans will go to zero. So then you just the two variants add up together. But in general, you have this coverings term. Okay. Another exercise here to find the variants of these what's that random variables? Three PDF. Okay, good. So let's try some some simple exercises on the clap."
+  },
+  {
+    "id": 126,
+    "start": 5246,
+    "end": 5253,
+    "en": "Okay. So I'm going to use base roof quite regularly. So make sure that you know what's base."
+  },
+  {
+    "id": 127,
+    "start": 5305,
+    "end": 5307,
+    "en": "Okay. So I think most of you got me."
+  },
+  {
+    "id": 128,
+    "start": 5318,
+    "end": 5363,
+    "en": "Yeah. So base rule, right? So the PDF of of Data di. So we can write it as the joint PDF divided by P. And then of, if I expand the top differently from this one, you will become, You can now condition of data instead, right given data and then P divided by P X. So this is your base route. So we can see that it correspond with dist most of bottom right. The first one is incorrect, right? So because you can see the bottom"
+  },
+  {
+    "id": 129,
+    "start": 5364,
+    "end": 5369,
+    "en": "is wrong, and the third one is also incorrect The bottom is."
+  },
+  {
+    "id": 130,
+    "start": 5375,
+    "end": 5376,
+    "en": "Okay. Next question."
+  },
+  {
+    "id": 131,
+    "start": 5525,
+    "end": 5570,
+    "en": "Okay. So I think most of you have tried. So this is a given data set. But of course. I mean, in real applications, the data set will be much bigger, right? So this is just a toy example, but the concept is the same. So so in this case, your data set has only three training points, or three examples. And we know that the IID independent and identically distributed. So it means that the probability of the PDF of this dataset will be just the product, right of the individual PDF of the individual data point."
+  },
+  {
+    "id": 132,
+    "start": 5571,
+    "end": 5615,
+    "en": "And then the identical distributor means that this PDF right for all of them are the same. And here we are given that the PDF is exponential, right? So exponential means is is Sorry. So as bone is data E minus theta x, right? Okay. So the parameter here is data. Just now in the slide is written as long do, right. So I hope you are flexible enough to know what is the formula, right? So you have data E two power minus data. So here in the first one"
+  },
+  {
+    "id": 133,
+    "start": 5617,
+    "end": 5657,
+    "en": "theta and 11 is 0.2 -0.3 times theta, and multiply by data gain E minus x20 0.1 times theta. And then is the one is theta E minus three is 0.7 times data. Once you provide this data, and then 1.1 -1.1 data. Okay. So so should be number one, right?"
+  },
+  {
+    "id": 134,
+    "start": 5663,
+    "end": 5679,
+    "en": "Okay. So somehow yeah. Most of you number of you got number two. Okay. So please make sure you go back and understand number one is the correct one."
+  },
+  {
+    "id": 135,
+    "start": 5687,
+    "end": 5688,
+    "en": "Oh, let's."
+  },
+  {
+    "id": 136,
+    "start": 5728,
+    "end": 5728,
+    "en": "H."
+  },
+  {
+    "id": 137,
+    "start": 5781,
+    "end": 5811,
+    "en": "Yeah. So maybe yeah, I think we should take a more break here while we are doing this question. Maybe let's take a 5 minutes break. Come back at now is 28 Come back at around 245. Okay. Slightly more than 5 minutes. Okay. So we take a slight break here and then we'll restart 25. Okay. But in the meantime, W out this question as well. H."
+  },
+  {
+    "id": 138,
+    "start": 6093,
+    "end": 6093,
+    "en": "H."
+  },
+  {
+    "id": 139,
+    "start": 6119,
+    "end": 6119,
+    "en": "A."
+  },
+  {
+    "id": 140,
+    "start": 6185,
+    "end": 6226,
+    "en": "Okay. So, let's get that. So for this question, right, we have Let's at the variance of x. In the case where you have a zero expectation. You see that according to the definition, this is the variance. If this is equals to zero, then the variance is expectation a right then similarity for the co variance. If you look at the definition, The definition is given by this."
+  },
+  {
+    "id": 141,
+    "start": 6230,
+    "end": 6265,
+    "en": "If the expectation equals to zero, then this expectation of X stops y. Okay. In general, your variance, your variance equals to variance of X plus variance of y plus two variance of x y. So if you cut in the formulas when the expectation equals to zero. So that's why this variance of six d, variance of y d and co variance expectation of s. So the answer will be true."
+  },
+  {
+    "id": 142,
+    "start": 6271,
+    "end": 6279,
+    "en": "Okay. All good. Okay. Then let's move on."
+  },
+  {
+    "id": 143,
+    "start": 6287,
+    "end": 6332,
+    "en": "Okay. So yeah. So for marching the name, most of the time we are dealing with high dimensional feature vectors. Okay. So for example, right, we saw that the image, for example, image with 256 by 256 pieces, right, and move it has it has three channels, three channels. So if I put the ads, I take all these adds value and just write it into a column form, right, book everything step together into a column form. You can see that this is a very high dimensional vector, right, 256"
+  },
+  {
+    "id": 144,
+    "start": 6332,
+    "end": 6377,
+    "en": "times 256 times three. Okay. Okay. So in most of the cases, we are actually dealing with so called vector variables vector u vector features. All right. Okay. So we write the X a vector and x1x2 to x n, these are the basic just the components vector. So the expectation of a vector is just taking the expectation of each of the components. Okay. So we will treat all all of these are random variables, right? So the X one is random, X two is random. All the components are random, right. So it's a vector of random variables."
+  },
+  {
+    "id": 145,
+    "start": 6378,
+    "end": 6422,
+    "en": "Okay. So and then yeah, so we can define the expectation this way. If A is a determin matric, same as before, right, A times S is itself another random factor. Because A is determinic, you can bring the A outside of the expectation. Okay. So what's more interesting here is that now I can talk about covariance of the vector itself, right. Remember just now we were talking about co variance of two random variables, covariance of X and Y. But now because my a is itself a random vector, consists of many random variables inside the vector. I can talk about the covariance between the different components of the"
+  },
+  {
+    "id": 146,
+    "start": 6423,
+    "end": 6468,
+    "en": "random vector. So the common notation is right it as Sigma X is just according to this definition. So this definition X minus a tis aside, this is just a com vector. And then you take the transpos and multiply this. We can see that basically you are finding the co variance. This guy would be the co variance of X one with itself, co variance of X 1 bar. This is X one minus expectation of X one. C variance of X 1 bar with"
+  },
+  {
+    "id": 147,
+    "start": 6468,
+    "end": 6513,
+    "en": "X two bar, so variance X 1 bar with X bar. So to Okay. So it's just basically a huge matrix or covariances. Okay. So you can say it can be written in a very complet form. We usually don't want to write out in these huge matrix form, right? So we can write in a very compat form using vector notation. Yeah. I"
+  },
+  {
+    "id": 148,
+    "start": 6514,
+    "end": 6559,
+    "en": "encourage you to try to verify this formula. So ing the definition, right, using this definition, you should be able to verify that this formula is correct. Okay. So now we can also have cross conveyance. So now we have two vectors, X and Y. Both X and Y are vectors. I want to find the cross conveyance between that, right. So so you can see, I basically put the minus is a maxim. This is a core vector, and then this is a transpo This is a row vector. So basically, I'm finding the covariance between each component and together with with respect to the each component in y, right. The covans"
+  },
+  {
+    "id": 149,
+    "start": 6559,
+    "end": 6562,
+    "en": "between each component of X and each component of y."
+  },
+  {
+    "id": 150,
+    "start": 6567,
+    "end": 6612,
+    "en": "Okay. Then there are some formulas here that that may be useful. But most of the time, yeah, you will not really need to make use of this formula except maybe in the second half of the course. So you may need to make use of some of this formula here. And then this formula are actually very easy to prove. Yes. Formula. So now at the beginning, I say, don't need to memorize anything. So So most people will just make use of these formulas as es. You don't need to go and try to derive them yourself, because actually you can do it algebraically you can derive them."
+  },
+  {
+    "id": 151,
+    "start": 6612,
+    "end": 6654,
+    "en": "And so I guess these are in the kind of thing that you write in your reference sheet, you do not want to go and try to memorize them by no point. And most people will at this matrix book. This is a link over here. There is a collection of all these kind of vector differentiation formulas. So for example, that sold you. Basically here how to get this guy. So you have A transpose x. So it just basically write it in terms of factor form, write up the component. So A transpose x is nothing but A one."
+  },
+  {
+    "id": 152,
+    "start": 6658,
+    "end": 6703,
+    "en": "So if you write it out. Okay. And then I'm taking differentiation with respect to x the vector x. This notation just means I'm taking differentiation with respect to X one, differentiation with respect to X two, and so on. Okay. I'm taking differentiation with respect to all the components of X. No. So if I take the differentiation with respect to X one, you look at this guy, but the partial delity with respect a one, you get A one, right. All the other terms. Only the first term is A one times X one, right? All the other terms don't have one in side. So when you take the partial delity with respect to X one, you just get A one, right? The second one will get a two"
+  },
+  {
+    "id": 153,
+    "start": 6703,
+    "end": 6748,
+    "en": "and so. Okay. So that's why at the end, you just get A, the factor A. Okay. So that's how you get this formula. Similarly, you can actually go and expand out and then you will be able to show that all these formulas are correct. It's very tedious. So these have been already worked out. You don't need to try to derive them itself. Okay. So now we come to parametric versus non parametric models. In this course, we are going to basically mainly talk about parametric models. In the parametric model, we are basic assuming that my model is controlled by some"
+  },
+  {
+    "id": 154,
+    "start": 6748,
+    "end": 6793,
+    "en": "parameter data, right. So so basically, I know the form of the probability distribution, and desat that the parameter of the probability distribution is unknown. Okay. And moreover, this data is is a fixed number of parameters. So for example, in your neural network, right, you have the weights inside your neural network. At the beginning, you don't know what exactly are the weights, what are the true values of the par of these weights inside your neural network. And basically, we will just treat it as some unknown data that we want to use the training data to to find the most optimal data value."
+  },
+  {
+    "id": 155,
+    "start": 6794,
+    "end": 6839,
+    "en": "In the first half of this course, we'll talk about simple parani model. So we'll assume that it comes from some family that you know about. For example, just now will talk about the exponential distrition. We just know that we assume that the data comes from the exponential distribution, but we don't know what is the parameter of the exponential distribution. So in the exponential distribution, you have let's say we use Lambda or data data. So we know that it has this form, right e minus data a bigger. Okay. So this is the exponential distribution. Right. So data can be any value, right can be 0.1,"
+  },
+  {
+    "id": 156,
+    "start": 6839,
+    "end": 6884,
+    "en": "can be 100, can be five, can be, you know, any value that we don't know. But we assume that we know the form, the shape of this probability discription. And now our job is to try to find the so called optimal data value. So basically, then we are given the training data. To find based on the training data that were given, we want to find the best data value that fits the data. Okay. So that's called training right. So by using parametric model, we already assume right that he has certain form. So"
+  },
+  {
+    "id": 157,
+    "start": 6885,
+    "end": 6930,
+    "en": "it's actually is faster to train, right? You just have to find the optimal data. But of course, we need to make assumptions about the data distribution. On the other hand, for so called non parametric models, In fact, this is a misnormal. When we say parametric model, it doesn't mean that it has no parameters. Nonparametric actually means that there's no constraint on the number of parameters. So parametric here actually says not number of parameters. So whereas here, this is a fixed number"
+  },
+  {
+    "id": 158,
+    "start": 6930,
+    "end": 6975,
+    "en": "of parameters, right. The data is a fixed vector, right. We assume that it's fixed. But here, the non Parmar sic actually means that you can be infinite, right, you can have a lot of parameters. So in the non param model, your number of parameters can actually grow with the amount of training data that you are given. So this is actually a much more complicated model, but it can be more flexible. Although, you know, for large data sets, it can be intractable. So just to give a very simple example, right? For example, you look at the case of clustering. You are given a set of data and you want to cluster. So for"
+  },
+  {
+    "id": 159,
+    "start": 6975,
+    "end": 7020,
+    "en": "example, start off with some data points that put like this side. So if I only give you these data points, you may think that there's only one cluster. We will assume that the model has only one cluster, but now I give you more data points. Now you have see more data points, right. You may think that the model now think that there are actually two clusters. So you can see that the number of parameters in the model, right from one cluster becomes two clusters. I can grow with the number of data points that you're seeing. Okay. Yeah. But in this class, we will maybe restrict more to the parametric models, though we may"
+  },
+  {
+    "id": 160,
+    "start": 7020,
+    "end": 7027,
+    "en": "also talk about maybe a little bit about non parametric, but most of the time we'll be talking about parametric models."
+  },
+  {
+    "id": 161,
+    "start": 7033,
+    "end": 7078,
+    "en": "Okay. So for parametric models, for example, right, you look at the case where you have the AV. Okay. So the AV sensors, right, the sensors on the autonomous vehicle can include things like camera, dta and so, right. So you have the image, you have the sound data from the microphone. But you have La, data, data, data, et cetera. So these are basically inputs data you get from the sensors or hardware. So the Part nine actually typical part nine looks like this. Your data comes from the hardware sensors. And then inside the hardware sensor, they will usually do some sort of process pre processing, right"
+  },
+  {
+    "id": 162,
+    "start": 7078,
+    "end": 7123,
+    "en": "to make the, for example, clean up some of the noise inside the data. Before it comes to the pattern recognition part. And then the pattern recognition part is supposed to output, right the output, for example, the the label, or the object recognition. So that's why this is called data size. We input the data, we process it, we come up with the size. So that's why it's called data size, and this is the overall framework of the signal processing of machine name Pine. So yeah. In terms of the pre processing, this is more of the hardware platform, past or procedure that is done in the hardware platform. So we are not going to"
+  },
+  {
+    "id": 163,
+    "start": 7123,
+    "end": 7144,
+    "en": "go into details about that. Here, we only consider cases where the raw data has been pre processed, and then we are going to assume that, whatever x that we have, this is the part the X is here goes inside the model and come up with the y, right or some other kind of output."
+  },
+  {
+    "id": 164,
+    "start": 7150,
+    "end": 7178,
+    "en": "In the parametric model, we are going to assume that I give you a one feature vector. So at the beginning, I have a feature vector a. I go as is basically generated by some probability distrition, so we will assume that this ad is a random variable. And then of course, we have the parameter, right? This is the model parameter data. Data is."
+  },
+  {
+    "id": 165,
+    "start": 7184,
+    "end": 7229,
+    "en": "And O job is to try to learn or infer this data from the training data, right, the observed data data given ads. Okay. So basically, we hope to be able to try to learn what is the posterior distribution. What is the property distribution of data given your observation ads. So if I know this posterior distribution, it basically tells me how likely this particular value of the model parameter is going to be, given that I've seen this particular data point, right, this fase vector, what should be the, you know, how likely"
+  },
+  {
+    "id": 166,
+    "start": 7229,
+    "end": 7274,
+    "en": "this data, this parameter value is going to be. Okay. So this is this posterior distribution actually tells you a lot of things right. It's very important. It tells you. If I give you one particular value of data, I can plug into this posterior and you will tell me how likely it is going to be, right? And you can imagine actually next week we'll talk about this, we will always to find the most likely one, right? We will try to find the data that will maximize this posterior distribution. Now. But today, we'll just look at what this particular distribution is. So from the De sound from the base rule, right. So this is a PDF of data given x, you can"
+  },
+  {
+    "id": 167,
+    "start": 7274,
+    "end": 7319,
+    "en": "write in in this form, right. So joint PDF divided by the P x. And then so here, this is your base rule, right, you'll expand out, you take out the P data, so now it becomes conditional on on on data instead of a. Okay. So you can see that because we are trying to find the optimal data value and the data only appears at the top right, it doesn't appear at the bottom. So actually, the bottom doesn't matter, right Because we only care about the data value, right? Only the top matters. So you can write it as a proportional using this simple means proportional to up to a constant this PX is a constant"
+  },
+  {
+    "id": 168,
+    "start": 7319,
+    "end": 7364,
+    "en": "in terms of data. So we can just care about the top. So the top here is this PDF of X given data multiply by the PDF of data itself. So this red color one, this is called the livelihood function. Okay. And this one is called the pyro, So you can think of this. So this likelihood function basically tells you how likely this particular data is given that the model parameter is of this particular value. So that's imagine that my model is already fixed right, I have a fixed value of data. How likely is it going to"
+  },
+  {
+    "id": 169,
+    "start": 7364,
+    "end": 7410,
+    "en": "generate the observed data as that you're seeing. And then, of course, I have the py distribution here is basically telling you how likely, right, this particular data value is going to be? For example, you are the expert of this system, right? You are the one who designed the let's say the Lida sensor, right the Dia sensor on the AV. And then the Da sensor has certain parameters, right, certain system parameters that will affect this data value, right. So As a system designer, you actually have a good knowledge of what is the range of possible data values? So you already have you know that this data"
+  },
+  {
+    "id": 170,
+    "start": 7410,
+    "end": 7455,
+    "en": "is likely to be between, say minus one to one instead of from Bigger than two or less than minus two, right? So you basically have a belief that what this data correct value of data should be. So this can be then put inside this paral information. So this prior information is basically the belief that you have before you see any observation, right, you haven't seen the ads yet. So the x doesn't appear inside here, right. So after you observe the ads, After you have observed the ads. Now I'm trying to compute the posterior distribution, right. I'm trying to find which value of data, right? If I give you a particular"
+  },
+  {
+    "id": 171,
+    "start": 7455,
+    "end": 7500,
+    "en": "value of data, how likely it is to be the one that generated this observed value of ads. Okay. So this formula actually allows us to compute the posterior, right? So I have the likelihood function here, which is usually something that's known. So again, this likelihood is something that depends on on the system, right. Now I give you the data value, and you will have an assumption of how the x is being generated. So the data value is basically the one that controls the whole system. So if this data value is already fits like a condition on this data value, I know how likely is it going to generate this particular observation. No. So that's why it's called the likelihood. So I can then use the likelihood multiply"
+  },
+  {
+    "id": 172,
+    "start": 7501,
+    "end": 7503,
+    "en": "by a pirate in order to compute the posterior."
+  },
+  {
+    "id": 173,
+    "start": 7509,
+    "end": 7552,
+    "en": "Okay. So here you can see that without loss of generality, we can basically ignore the p at the bottom, because it doesn't depend on data. And why I say there's no loss of generality, right? Because even if I just tell you this guy, you can recover this easy, right. Yeah. Be even if you just know this, you can always recover it by integrating with respect to data. Because this guy is just the joint PDF, right? Okay. And then if you want to find P, you can just integrate with respect to data. Okay. Another remark over here is that"
+  },
+  {
+    "id": 174,
+    "start": 7554,
+    "end": 7599,
+    "en": "I F all these probaty distributions, I only actually really need to know the probability distribution up to a functional form. I don't need to know the exact constant, right? I just need to know that it's proportional to something F X is negative function. This is because this proportion just means that right the PS equals to some constant. And this constant is fit side, cannot be anything else because the fact is that the PDF right is defined to be the integral has to be one, right. So this is by definition. No. So"
+  },
+  {
+    "id": 175,
+    "start": 7600,
+    "end": 7644,
+    "en": "the area under the PDF curve is always equals to one, right? So which means that this C, this c value is fit. Even if you don't know what is the exact C value, we know that there can only be one value, right? There's only one need C value and and so that's why as long as we know what's the functional form, we know exactly what is the PDF, actually. Okay. So if I plug in the F X over here. So you can see the C. This has to be what's one, right. So that's why C is always one over"
+  },
+  {
+    "id": 176,
+    "start": 7645,
+    "end": 7688,
+    "en": "this F X. So if I tell you what's F, I I theory, I can compute the C. And then I know exactly what's the PDF. Of I mean, there's no point to go and compute the C, right? This is what we call the normal normalization constant. So actually you can compute the C, but there's no need to. And later on, you will see that in some cases, especially when your X is a high dimensional factor, right? To compute the C is very difficult, right. So there's actually no point to compute a C. Okay. So we talk about"
+  },
+  {
+    "id": 177,
+    "start": 7690,
+    "end": 7734,
+    "en": "basically computing the posterior, using the likelihood and the viral distributions. And then we want to to try to find the data, a suitable so called optimal data value that will fit the observed as as much as possible. Um in most of the cases, this is not so easy to find, basically to compute, to be able to figure out what this posterior although there's I mean, you can just multiply these two together, but if you want to find what exactly this posterior looks like? I may not be so easy."
+  },
+  {
+    "id": 178,
+    "start": 7737,
+    "end": 7782,
+    "en": "But people come up with a case where it becomes very easy to find what is this posterior distribution so that we can come up with analytical closed form solution. So this This basically makes the mathematics easier. In this special case, In this special case is when we have this thing called conjugate prior. So what does conjugate prior means? It means that if I happen to choose the prior distribution in a clever way, I choose it in a very clever way. So that somehow this guy multiplied by this guy, the posterior distribution, have the same form, belongs to"
+  },
+  {
+    "id": 179,
+    "start": 7782,
+    "end": 7826,
+    "en": "the same distribution family as the prior distribution. So I happen to choose the prior in such a way that it somehow fits the livelihood in a very nice way. So that out I multiply these two together, this guy is actually belongs to the same family as a prior. For example, if I take a exponential distribution here, I multiply the livelihood, and I can show that this posior is also an exponential distribution, then we say that the p data is a contigt pier for this particular lio. So as you can imagine, this will not happen very often, right? This is a very, very special case, right? I happen to be able to choose"
+  },
+  {
+    "id": 180,
+    "start": 7827,
+    "end": 7872,
+    "en": "one distribution, right, for example, the exponential distribution. When I multiply with this particular likelihood, my posterior is also an exponential distribution. But of course, the parameter can be different. The parameter of the exponential distribution can be different. And then but then if you happen to encounter this kind of case, Then it becomes very easy to write down the analytical close form solution. And it's also easy to interpret, right. You can think of the posterior, right is basically an updated version of the pyro, right. So your pyro is an exponential distribution with certain parameters. After you multiply the likelihood, it becomes another exponential distribution, but with different parameters."
+  },
+  {
+    "id": 181,
+    "start": 7872,
+    "end": 7917,
+    "en": "Okay. So you can interpret this as you are updating the pir into another exponential distribution, but the parameters are updated. So it's easy to do some interpretation. But of course, this is a very special case. It's not flexible enough to capture complex data. And that's why in the in week six, we'll talk about MCMC techniques where you don't need this kind of conjugate prior assumption. Okay. But do at some example. When can we have this kind of conjugate power. So for example, you have the"
+  },
+  {
+    "id": 182,
+    "start": 7917,
+    "end": 7962,
+    "en": "Bernui distribution. So here, your X is can only take on values 01, and the probability of x equals to one is equals to data. Okay. As we saw, you can actually write the PDF in this very compact form. Data to power one minus one minus. Okay. So here, this is to give you the context. So this could be a model that you use to indicate, right, whether an obstacle is being detected or not. So the as either one or zero, right is zero means there's no obstacle, one means that's obstacle, right? So you a"
+  },
+  {
+    "id": 183,
+    "start": 7962,
+    "end": 7981,
+    "en": "detecting whether there's one or zero. Okay. And then you you can only right because it's random right, your detection is imperfect. So that's w there's a probability distribution involved, right. A equals one on certain probability data."
+  },
+  {
+    "id": 184,
+    "start": 7986,
+    "end": 8031,
+    "en": "A congregate prior for this particular livelihood is given by the Beta distribution. The Beta distribution looks like this. So this is the normalizing constant. You don't actually really have to carp out is. Let's think of it as a constant. Although it looks very complicated, right, but we don't really have to carp out it. So it's the functional form that is the one that we're interested in, right. So the prior distribution of this data, right if we choose it to be of this form data A minus one, one minus data, b minus one. And here is basically giving you what the PDF of the prior"
+  },
+  {
+    "id": 185,
+    "start": 8031,
+    "end": 8076,
+    "en": "PDF of the data books for different values of A and PF. So if I hate this, this is my hood and if I apply this pyro, which is the Beta distribution over here, I multiply them together, right you can see that the Bado distribution can be written this way. The Beta distribution is of this form, right? So you can see that now these two forms, the red and the blue, right, when you multiply them together, it becomes very nice, right? So when you take the beta you simplify everything. You can see that this data to power something one minus data to power something, right? So we can see, right this guy"
+  },
+  {
+    "id": 186,
+    "start": 8077,
+    "end": 8121,
+    "en": "is actually of the same form as the blue one, right? It's the same family. Is still a beta distribution. And the parameter of the beta distribution is given by this. Because this beta distribution is theta A minus 11 theta b minus one. So I need to figure out what's the A and B. So you can see down here this one. So you can see that this guy over here, this is the A right. This is the new A x plus a minus one, this is a new A. And then you need to have something minus one right for the B, right. So you can see that at the top here, this is a new B."
+  },
+  {
+    "id": 187,
+    "start": 8122,
+    "end": 8167,
+    "en": "So this is the new B B minus one. So that's why your new beta distribution becomes x plus A and one minus x plus B. So Originally my P data, right the pyor distribution is starts from A and B. And now after seeing the X value, the observation after I've seen one observation, my posterior distribution right is updated from A and B becomes x plus A and one month X no B. So there's some so you can interpret this as basically updating your original belief by your original belief you"
+  },
+  {
+    "id": 188,
+    "start": 8168,
+    "end": 8212,
+    "en": "believe that the dpa, right has this distribution. After you see the x value, you become your updated belief now becomes ten d distribution. So so you can interpret the posture distribution in a very nice way. Okay. So that's the advantage. So I I happen to choose a py distribution that fits the likelihood very nicely so that the posterior is also of the same family as the pile distribution, then we call this a conjugate py, and Contribute pile now allows you to write down the posterior in a very nice way and to be able to interpret it also. But of course, I have to emphasize that this only happens in this kind of"
+  },
+  {
+    "id": 189,
+    "start": 8213,
+    "end": 8258,
+    "en": "very special cases. Similarly, now if we go to, I only talked about one single, one single observation. But of course, in your training set, you actually observe many bservation s. You have any training samples over here, IID or Bernui with some unknown data. This data is the one that you are trying to figure out what's the data. So we can do the same thing as before. You have the posterior. The posterior according to the base rule, you may write it as what's that the likely hood multiplied by the pirate. And then the likely"
+  },
+  {
+    "id": 190,
+    "start": 8258,
+    "end": 8298,
+    "en": "hood because it's IID is now just a product of the individual PDF. Okay. And then I can plug in the formula for the individual PDF. This is the formula for the individual PDF. Okay. And then I simplify everything, right, you can see that now the top those are this. So this is your new A, right? So A minus one, and this is your new PF. So we have a B minus one on top. Okay. So that's why your beta, right, beta beta discription, the new A stats, and the new B dist."
+  },
+  {
+    "id": 191,
+    "start": 8306,
+    "end": 8351,
+    "en": "Yeah. So you can see that using the conjugate pyro makes the calculation very easy. Then you are able to write down the exact form of the sorry. You are able to write down the exact form of the posteror distribution. Okay. One thing to point out, you can also we will also work with the log likelihood. Next week, we'll make use of the log likelihood. Yeah, just to show you what the lohood looks like. So log Lho taking the lot. Apply the lot to the likelihood function. So"
+  },
+  {
+    "id": 192,
+    "start": 8351,
+    "end": 8396,
+    "en": "this is your likelihood function is IID a product of the individual PDS. So after you take the lot, then this becomes a sub, Subion of lots. And then yeah. I just put in everything. Example here. So that's how we talk about d or binary radio bs. Of course, you can generalize this to the case where it's more than binary. So in this case, you have k categories. Just now just now, the bed, the bed is k equals two you have only"
+  },
+  {
+    "id": 193,
+    "start": 8397,
+    "end": 8441,
+    "en": "two categories, either one, but in general, you can have more than two, right? You can have K or thing. Okay. So the categorical distribution is just a generalization of the bed to more than two categories. So you can see that there are k parameters here. These are basically the probabilities that your x belongs to category one. So basically, Yeah. Basically, the probability that X is belongs to category one, is equals to Data one,"
+  },
+  {
+    "id": 194,
+    "start": 8442,
+    "end": 8446,
+    "en": "the probability that X is category two is Data two and so."
+  },
+  {
+    "id": 195,
+    "start": 8454,
+    "end": 8499,
+    "en": "Of course, all these data must sum up to be equals to one, and it has to be all of them has to be no negative because they are probabilities and they have to sum up equals to one. Similarly, for the categorical variable. If I give you a training data set with multiple, multiple training examples in side, X one to X n. Be the IID, again, again, write it as a product. And here, the categorical PDF, you can write it as using the indicator function in a compact way, right. So this dS"
+  },
+  {
+    "id": 196,
+    "start": 8499,
+    "end": 8545,
+    "en": "equals to the cave category, this is exactly the data K is the property of a si being in the cave category. So after you simplify, you can at K to sa sum of the indicators. So these are the generalization of the b which in the applications, it would be using the categorical distribution most of the time because We usually have most we usually use the more than binary categories. But the rest I'm not going to go through. The rest are supplementary. Similar to the Bernui situation, where the BPA distribution"
+  },
+  {
+    "id": 197,
+    "start": 8545,
+    "end": 8567,
+    "en": "is the conjugate pier. Here, we have the D distribution as the contrib pi to the s to the categorical distribution. So, these are supplementary in case you are interested. Okay. Let's try some res. Yeah."
+  },
+  {
+    "id": 198,
+    "start": 8616,
+    "end": 8626,
+    "en": "Okay. I will try the questions. Somehow Yeah, I tried the questions. Somehow I got disconnected. H."
+  },
+  {
+    "id": 199,
+    "start": 8710,
+    "end": 8755,
+    "en": "Okay. Also answer the question in the. So in poster is fixed and in likelihood is fixed. U you to think of these all as functions of both adds and data. So it's possible to, you know, to change the value of adds and data, right in either one of them. So by what we mean by fix is that it's conditional on adds or conditional on on data. So in that sense, if you think of if you understand fix as being conditional on, yeah, then that's correct, right. So in the procedure, you are conditioning on what the value of as is and in the in the likelihood function, you are actually conditioning on what is"
+  },
+  {
+    "id": 200,
+    "start": 8755,
+    "end": 8787,
+    "en": "the data value. And then there's a question in the UC asking about y, if you atten as long as you attempt one question, your attendance your participation should be clouded. Yeah. So y, so please do that because I cannot be absolute und percent sue. I need to after today, right, we will check. So there's a synchronization between the UCLA and the NTM system. I hope it will capture this properly."
+  },
+  {
+    "id": 201,
+    "start": 8804,
+    "end": 8815,
+    "en": "Okay. So I think most of you have answered which distriion is contribute prior right to the. So it has to be the Beta distriion. Um"
+  },
+  {
+    "id": 202,
+    "start": 8824,
+    "end": 8868,
+    "en": "Yeah. When we say the prior distion, if you use a bit distribution, then your bit distribution for as a as a prior, right? Pity distribution, you will do something like this, it will be like for example, I A will be the parameter of the bury distribution, then this will be. It will be one minus A one minus data. So this cannot so when you try to multiply this with thehod, your livelihood is data one minus data one minus a side. So you can see that when you multiply them, it's not going"
+  },
+  {
+    "id": 203,
+    "start": 8869,
+    "end": 8912,
+    "en": "to work out nicely, right? So the first one cannot be correct. The binomial is also similar. I didn't go through this binomial distribution, but it s n choose n choose data, right? What's that some P P one minus P minus data. So again, you will be trying to multiply together with the it's not going to work out. And of course, we do at the Bata. The exponent would do something like Lamda, E minus, Lamda, data. Okay. So it will not be a conjugate as well."
+  },
+  {
+    "id": 204,
+    "start": 8915,
+    "end": 8917,
+    "en": "Okay. So let's say."
+  },
+  {
+    "id": 205,
+    "start": 8924,
+    "end": 8924,
+    "en": "Let's"
+  },
+  {
+    "id": 206,
+    "start": 9030,
+    "end": 9030,
+    "en": "H."
+  },
+  {
+    "id": 207,
+    "start": 9071,
+    "end": 9116,
+    "en": "Okay. I think most of you have tried. Okay. So here you are given five, you have five detections. So this is each of them one detection is, right. So basically you have five and then theta is the parameter of the Burdon. Sodhd function is O. Okay. You hood function is is given by the. This is your P given data. So now you have your PD, right, your function for the whole"
+  },
+  {
+    "id": 208,
+    "start": 9116,
+    "end": 9161,
+    "en": "data set. You have five What set, you have five detection. So here you you basically have data to power five, right? You have five detection, and then the rest is no detection, right. So you have one minus data power three. Okay. So then you multiply with the py. So the posterior, the posterior is proportional to the light who multiply with the py. So in this case is You prior is theta"
+  },
+  {
+    "id": 209,
+    "start": 9161,
+    "end": 9187,
+    "en": "is five minus one, one minus b minus one minus one. You by them is n minus one. One minus theta. We have four minus one. This is your new A. Your new A is ten and your new b is four,"
+  },
+  {
+    "id": 210,
+    "start": 9192,
+    "end": 9199,
+    "en": "The second answer is the correct one. Any questions?"
+  },
+  {
+    "id": 211,
+    "start": 9205,
+    "end": 9205,
+    "en": "Okay."
+  },
+  {
+    "id": 212,
+    "start": 9213,
+    "end": 9218,
+    "en": "Okay. Next one. I think I done here. Okay. So let's continue."
+  },
+  {
+    "id": 213,
+    "start": 9225,
+    "end": 9270,
+    "en": "Okay. So the next distribution, this is actually probably one of the most important ones, especially for engineering. In most of the in a lot of applications, we use the gaucin distribution to model the data. Now your gui distribution, the PDF or the gazing distribution this is basic decaying exponentially in a quadratic ways of all the e power minus s there's a quadratic form at the top. Okay. So yeah, I guess most of you would be familiar with this, it basically has this kind of bell shaped curve. And"
+  },
+  {
+    "id": 214,
+    "start": 9271,
+    "end": 9316,
+    "en": "the mele here is the mean. So this is the point where your bell shape is symmetric at. So for different mean, have your, your PDF will be symmetric at different means. And then the Cigma square, right. Cigma square here is the variance basically tells you how wide the main lop is. No. So in the case where the mean is zero and the variance is equals to one, this is called the standard normal distrition. This one in general is called the gaussian or normal diction. We add the word standard to indicate that zero is mean zero and variance equals what we call it standard. Okay. So typically,"
+  },
+  {
+    "id": 215,
+    "start": 9317,
+    "end": 9362,
+    "en": "for example, in one application is in the A V, right, you are having some radar measurement. So your radar will tell you how far away the obstacle is, right. So this distance, the distance of the obstacle from your sensor is a real value, right? Is a real value. It's not like a integer, it can be like 2.5, 2.1, three point something, right. So this is a real value. So that's why it make sense to use the Gausia distribution. Instead of for example, bedodi distribution or just now, we top about beta, not beta Berni distribution or categorical distribution, those"
+  },
+  {
+    "id": 216,
+    "start": 9362,
+    "end": 9407,
+    "en": "are for discrete random variables where your measurement can only take discrete values. This one can take any real value. So that's why it makes sense to use a gaucim distribution. No. Yeah. So you can see that the gaucu distribution will appear in a lot of applications where when you are dealing with real values, then yeah, we like to use the gauc distribution. Also because there are some theory behind it. So the gauc distribution turns out to be the distribution if you take a lot of random effects, you add them together, right? At the end, after you add up"
+  },
+  {
+    "id": 217,
+    "start": 9407,
+    "end": 9452,
+    "en": "all the random effects, you will do approximately like a gcium distribution. You will have this kind of galcia curve. In a lot of applications, we usually model like all there are many random effects in the environment, right? If all of them add up together at your receiver at your observation site, then you expect that you are going to have somesg gusan distribution. And this is actually proven theoretically, which is actually one of the nicest results in probability theory in mathematics. You We can actually show that if you are add up sufficient number of all these random themes, you will definitely"
+  },
+  {
+    "id": 218,
+    "start": 9453,
+    "end": 9498,
+    "en": "become same distribution. That's why this is called a normal distribution. Where this word normal comes from. Normal just means typical. Normal means typical. As opposed to abnormal, normal versus abnormal the typical dision. So why is it called the typical distriion? Is because once you add up enough enough number of all these random distributions, you will definitely get this gausm discion. So that's why it's called normal distribution, and that's why it's used extensively in a lot of engineering"
+  },
+  {
+    "id": 219,
+    "start": 9498,
+    "end": 9543,
+    "en": "applications. That's why it's important for us to understand how to use this distribution? What are the properties of this normal distriion? Some important properties. If I multiply, if x itself is a normal distribution, with me variant Sigma square, I multiply some constant A, I will scale the me, I will also scale the var by squa. If I add a constant to ads, I will shift the mean, but of course, the variance doesn't change. If I do add a standard normal standard normal,"
+  },
+  {
+    "id": 220,
+    "start": 9543,
+    "end": 9589,
+    "en": "I can always write any other normal random variable in terms of the standard normal because of these two properties. I just scale it by Sigma and then shift it by me. You will get that the normal distribution meal and variance. So basically comes from here. Okay. Very importantly, if I have two normal distributions that are independent. If I add that up, they will still be normal. They are also still normal exp is normal the mean is the sum and the variance is also the sum. This is not true for other kinds of distribution, right. If you add"
+  },
+  {
+    "id": 221,
+    "start": 9590,
+    "end": 9603,
+    "en": "two exponential distribution, you're not going to get back an exponential distribution, right. Okay. So this distribution, this is a very nice property."
+  },
+  {
+    "id": 222,
+    "start": 9609,
+    "end": 9654,
+    "en": "And yeah. So for machine learning, most of the time we are dealing with vectors, with a high dimensional vectors. So we have this concept of a multi fared galciin, right? This where the whole vector is galcan we also call this joint D galcan. Okay. So the definition of g and joint D gali is actually given by this, if I take a linear function of the random vector, I just take some constant vector A, A transpose of a side. That means, it just a linear combination of the components inside ads. I take any A, then this particular"
+  },
+  {
+    "id": 223,
+    "start": 9654,
+    "end": 9699,
+    "en": "linear combination of X must still be a, right? So this guy so this is a definition. So A transpose a ds this sum, right? This is a single dimension. This is a this is a scalar value. So this is becomes a random variable. So if this guy is Galin, right, we already know what Gal what is the menial gal. Gal means that this is skater right this is for for a single dimensional, the PDF of this scaled random variable is given by this. So this is called galcan if I do a linear combination of x, I get back a scaler and this sc random"
+  },
+  {
+    "id": 224,
+    "start": 9699,
+    "end": 9744,
+    "en": "variable happens to be gaussian, then I can say that this random vector, right is jointly gain or multi varied gal. And this has to be true for any linear combination, right. Okay. So I take any linear combination, it will still remain to be gaucian, then I can say that it's jointly gal, right. So for example, if I take say one, zero, zero, everything else is zero, multiply by the p. This was just give me X one, right. So X one has to be gal, right? So X two also has to be gal right so basically, every component has to be gal, but that's not enough. So according to this definition, this is not enough."
+  },
+  {
+    "id": 225,
+    "start": 9745,
+    "end": 9773,
+    "en": "I also need X one plus X two to be gal. I also need x one plus two x two to be gin, right? So this definition actually says more two all of these, right any linear combination has to be gal X one plus four x two plus three. Everything right all these linear combination has to be gal. So if that's the case, then we can say that it's Joy Calc. Okay."
+  },
+  {
+    "id": 226,
+    "start": 9778,
+    "end": 9823,
+    "en": "Okay. So it sounds like a very that a very complicated definition, right? A very stringent definition. But it's not so. The definition sent, but actually is not. As long as if I look at the IID standard normal galcan the z consists of ID galcan. I take the matrix A times z plus me. No. This will actually make everything o gai. The right X equals to A Z plus me, then my"
+  },
+  {
+    "id": 227,
+    "start": 9823,
+    "end": 9843,
+    "en": "X will be a joint gai. Okay. Note that the Z, right, taking the D Z, all d Zs together, they are job dicalc This all you can you try to convince yourself, right? This is true. Okay? Because of the two properties that we talked about. Because of this property."
+  },
+  {
+    "id": 228,
+    "start": 9848,
+    "end": 9876,
+    "en": "Use of these properties, you can so that if they are IID, then of course they are o D gaus if I take A Z plus me, this will always be gausum. M, you can work out the mean and the co vars. The mean of this A Z plus me, and the co vari will be A times A transpose."
+  },
+  {
+    "id": 229,
+    "start": 9883,
+    "end": 9928,
+    "en": "Yeah. And people have also actually come out with a explicit close form for the PDF of the Jo Gui so we do this, do something complicated. Yeah. So most of the time we won't be using this directly, but maybe okay. In some cases, you do have to make use of the PDF because later on we will have to use the PDF, right to maximize the PDF, so you do have to make use of this. Okay. But other than that, most of the time won't be using this PDF. Um Yeah. And this is just an example of the Da, right. So for example, if you collect the DDA point cloud, we do s this, you can"
+  },
+  {
+    "id": 230,
+    "start": 9928,
+    "end": 9972,
+    "en": "see that obviously, you cannot be using one here first of all, your Da point cloud is in the three D, three D space. So definitely you need a Gaussian distribution with three dimensions, to model one point cloud, and moreover, you can see here in this data, the actual two point cloud side. Yeah. You can imagine there are actually two objects here. So you actually need more than three dimensions. In this case, you need six dimensions model the two point clouds. Okay. Some simple example for the two dimensional case."
+  },
+  {
+    "id": 231,
+    "start": 9974,
+    "end": 9981,
+    "en": "So two dimension, right, meaning you have two components inside your factor. So in the two dimensional case,"
+  },
+  {
+    "id": 232,
+    "start": 9987,
+    "end": 10031,
+    "en": "You mean of this vector, is just the individual me X and me y, the expectation of X and the expectation of y. And the core variance matrix, you can see that this is the variance of X, variance of y, and then you have the variance of X and Y on the of diagonal terms. We can define this the co relation, which just take the co variance divided by the standard divisions. So basically, the PDF will do different for different values of the core relation coefficient. Let me show you some examples. In the simpler case, when they are uncre related,"
+  },
+  {
+    "id": 233,
+    "start": 10032,
+    "end": 10077,
+    "en": "the covariance equals to zero, you can see that the PDF actually does like this, that is a very symetric is a very symmetric d of PDF. In the case, this is when the varians are also the same. Now if I it's uncorrelated, but I increase the variance in one direction, and see that now it becomes elongated, this elongated PDF. Now I increase the core relation. Once I increase the core relation, you are going to tilt the PDF function according to how much core relation you have. And finally, I I"
+  },
+  {
+    "id": 234,
+    "start": 10077,
+    "end": 10093,
+    "en": "increase it to almost two equals to one, the core relation point in fic. So we can see that it becomes almost like a straight line like that. Okay. Okay. So some quick questions here."
+  },
+  {
+    "id": 235,
+    "start": 10122,
+    "end": 10125,
+    "en": "Okay? So this on you can choose more than one answer."
+  },
+  {
+    "id": 236,
+    "start": 10210,
+    "end": 10246,
+    "en": "All right. Yeah. So I think this is quite straightforward. So as we saw just now, right, linear combinations of independent galcans will still be galing, right? So definitely two and four, two and four will be the correct answer. If I multiply two g together, unfortunately, this will not be go. Similarly for three, if I take the lot and then add them together, this will not be ging anymore. Okay. And's"
+  },
+  {
+    "id": 237,
+    "start": 10338,
+    "end": 10338,
+    "en": "H."
+  },
+  {
+    "id": 238,
+    "start": 10429,
+    "end": 10474,
+    "en": "Okay. Okay. So for this question, can see that given some constant. That means your P P S is proportional to E p minus two x square plus three x. If you do this guy over here, you can always do the completion of square right. You can always write it as 1/2 Sigma square x minus M square right you have to determine what's the value of meal and Sigma squared. Once you get to this form, you will know that this has to be the Gaussian distribution with mean Mo and Sigma"
+  },
+  {
+    "id": 239,
+    "start": 10474,
+    "end": 10511,
+    "en": "square. Okay. So there cannot be any other distribution as we saw before, right. I my PDF is proportional to some functional form and this functional form corresponds to the gaussian distribution, it has to be the Gaussian distribution. There cannot be another distribution that have this form, right? Okay. So as long as it's a quadratic function at the top, then it has to be a gaussian distribution. Okay. So the answer is true, right. Okay. I think this should be the last motion."
+  },
+  {
+    "id": 240,
+    "start": 10538,
+    "end": 10538,
+    "en": "A."
+  },
+  {
+    "id": 241,
+    "start": 10687,
+    "end": 10732,
+    "en": "Okay, good. Okay, which of the this distribution is contrib prior to this gaussian distribution. So basically, I want the posterior. So for it to be a contributed prior, I need the posterior the post distribution, which is in this case, the is the parameter here. So the posterior distribution, it has to be of the same family, same same family. As a prior distribution p mi. Okay. So if you do at the exponential."
+  },
+  {
+    "id": 242,
+    "start": 10733,
+    "end": 10778,
+    "en": "The pri the prior is exponential, right is this p me right would be would be proportional to E minus Lambda mi, right off this one. And then you want to multiply with the gasian. So the likelihood is the gasian. Multiply with the viral, right. So we can see that the gal sing itself, right is already E -1/2, right x minus mile square and then multiply by E minus Lambda me, right. So you see this is already a quadratic form in me, right? The me there's a mile square inside."
+  },
+  {
+    "id": 243,
+    "start": 10779,
+    "end": 10824,
+    "en": "So when you multiply this thing overall, cannot be a exponential anymore, right cannot be exponential anymore because your exponential can only have a linear form, right? Okay. So the first one cannot be. Similarly, I think I guess the same reasoning applies to uniform, right? Because you still you have to quadate it. Form in the exponential. I can multiply with a uniform, is just a constant right. Of course, the last one then be the answer, right because now the last one, you have e minus half that's minus me square, multiply e minus, say"
+  },
+  {
+    "id": 244,
+    "start": 10825,
+    "end": 10845,
+    "en": "1/2 sigma square me minus its mean, right? Let's say the mean that's call it m squared. So when the two add up is still a contracted in terms of me. So that's why will be a gaussian. So this will be a gcian. So it's trig."
+  },
+  {
+    "id": 245,
+    "start": 10851,
+    "end": 10896,
+    "en": "Okay. So I think that's all for this question. All right. So just to wrap up. So for today, what have we done, right? We have gone through some basic property theory, top about the PDF, all these basic properties. So if you are you have forgotten, you know, your undergraduate engineering mathematics, please do go and review, review all these things. I guess something slightly new is the conjugate distributions. So this one will be um, will be useful in finding formulas for the posterior distribution, but we will later on learn"
+  },
+  {
+    "id": 246,
+    "start": 10896,
+    "end": 10941,
+    "en": "about more advanced techniques that doesn't need to assume this kind of contri distributions. Okay. And then we talk about some standard PDF and yeah, very importantly, the Gaussian distribution. Okay. I want to give of you a high level picture of what is what to expect right in the weeks ahead. Sorry. Okay. So basically, right, in machine learning. What we are going to do is that the typical top flow the typical flow for coming up with a machine learning model. So is basically follow this kind of Pline. So first of all, right, you"
+  },
+  {
+    "id": 247,
+    "start": 10942,
+    "end": 10987,
+    "en": "need to choose what kind of model you want to make use of. So there are many different models you can use, right. In the simplest applications, you will be using this kind of probablistic models with parameters, parametric probabity models, which we are going to top about mostly in the first half of this course. And these models are actually still being widely used in industry. It doesn't mean that now all the industry are using deep determining models, right? In fact, um a lot of industries are still depending on your application, right, they are still using this kind of probablistic models. We are which has the advantage of being easy to train and they are being interpretable, right. So that's why it's not always necessary"
+  },
+  {
+    "id": 248,
+    "start": 10987,
+    "end": 11032,
+    "en": "to use deep turning models, which actually needs a lot of data to train. And of course, in the second half of the course, we will be looking at more of the dep turning models, right. So I call this the loss models because they are not based on probability, but they are using a loss function. Right. So you can then yeah, depending on the application, we may also want to may decide to choose this kind of lost based models. Okay. Once you have chosen the model that you want to use, and of course, the model comes with some parameters, right? So parameter weights, regardless of whether you are using probablistic models or lost based models. All of them has parameter weights that you need to find. What is the optimal"
+  },
+  {
+    "id": 249,
+    "start": 11032,
+    "end": 11078,
+    "en": "value of this parameter weight? So examples are given here, the data value in the Berdi next we we will talk more about this, and then which we will cover this f which models. Which f we'll talk about the Markov models, Hidden Markov models. And then of course, in the second half, we'll top about the deep neural network side, and the parameters are called the basically the network the weights inside the network. Okay. So then we really want to find what is the optimal model parameter, right? How do we define? What is the optimal, right? What is considered optimal. So next, we'll look at some criteria. This maximum likelihood estimator,"
+  },
+  {
+    "id": 250,
+    "start": 11078,
+    "end": 11123,
+    "en": "maximum a posterior estimator. Week three will top about a EM algorithm, which is a way to find to basically learn the maximum likelihood estimator. Week four is talking about the bone watch algorithm, which is used in the HM M Kid MP model, which is actually this bond watch algorithm is actually a version of the EM algorithm. And then we five and S side will top about MCMC techniques. So Then the second half of the cost to find the optimal ameter is usually just based on a loss or s. That's why I call this is called the loss based model. In this case, because"
+  },
+  {
+    "id": 251,
+    "start": 11124,
+    "end": 11169,
+    "en": "the loss, if it has no specific meaning, then in general, people would just use a stotic grading design approach. Is a optimization approach, to minimize the loss. You can see that in a lot of cases, actually the so called loss being used here are actually the so in many application. So you can this MLE is actually also used here to define what the loss is. Of course, after you have trained the model, all of these thing is to basically use the training data to train the model to find the data star, the optimal model parameters. After you have filed the model parameters, you want to use it. You"
+  },
+  {
+    "id": 252,
+    "start": 11170,
+    "end": 11215,
+    "en": "use it in the so called influence time. That means now I give you new observations, new apps. I want you to make use of this training model to tell me something about the outcome. So then then we will talk about so calles offices, the test accuracy, precision recall, and all these other things. Now to measure the performance of the model in influence time. Okay. This is the overview of what this whole thing this whole course is going to talk about. Yeah. And last but not least there are some practice problems here. The I think in the slide that I posted on in the anti it has the solution. This one I didn't solve the solution."
+  },
+  {
+    "id": 253,
+    "start": 11215,
+    "end": 11239,
+    "en": "But anyway, yeah, you should be able to find the one I posted on the antim have the solution, but please try the problems. We have to get the solution first or asking the AI, and then that's the best way you can learn you know the material. Okay. So any que, any last questions?"
+  },
+  {
+    "id": 254,
+    "start": 11244,
+    "end": 11250,
+    "en": "So next, we will be back in the LT face to face in person."
+  },
+  {
+    "id": 255,
+    "start": 11256,
+    "end": 11265,
+    "en": "Yeah, I will post so if you are okay with my handwriting, I'll post these annotated slides online as well in the NT."
+  },
+  {
+    "id": 256,
+    "start": 11276,
+    "end": 11311,
+    "en": "You don't have to answer every question on the clap, right. As long as you attempt the question, I think the system will be able to record that you have a attempted. Yeah, as long as it's not anw, right basically the system, if you don't log in and you don't do anything, you will basically record as absent. As long as you attempt, then you will get the. So, I mean, I want to encourage you to just attempt, right because this one is you don't get penalized or getting wrong answer, right. So since you're attending the lecture, you might as well just try the question."
+  },
+  {
+    "id": 257,
+    "start": 11319,
+    "end": 11335,
+    "en": "Old assignments. There are certainly the past year exam questions that we can try. And then there are actually a lot of problems in the textbooks that I mentioned, right? So the textbook actually is a good source of practice problems."
+  },
+  {
+    "id": 258,
+    "start": 11349,
+    "end": 11359,
+    "en": "All right. Okay. So if no other questions we end here today, and I look forward to seeing all of you next. Thank you, everyone."
+  }
+]

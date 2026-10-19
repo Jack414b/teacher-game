@@ -1,0 +1,1238 @@
+[
+  {
+    "id": 1,
+    "start": 54,
+    "end": 54,
+    "en": "Okay."
+  },
+  {
+    "id": 2,
+    "start": 62,
+    "end": 106,
+    "en": "Okay. Good evening, everybody. Okay. Just reminder before we start. This is Week four. So your home one is due on next Friday, right? Not this Friday. Next Friday. September 11. Okay. So please make sure you don't forget to submit your home one. Okay. So Monday, so you have about two weeks to finish. The question is compulsory for MS three students. If you are taking e6497, then"
+  },
+  {
+    "id": 3,
+    "start": 107,
+    "end": 123,
+    "en": "make sure you also complete question s. Don't miss out on the question s. Okay. The f is here, pass."
+  },
+  {
+    "id": 4,
+    "start": 129,
+    "end": 174,
+    "en": "Okay. So Quick recall about last week. So basically, last week, we talked about mixture models, right. So Previously, in the first two weeks, we were concentrating on standard distributions. So these are very simple, you know, probability distributions. For example, Benoi exponential normal that we can use to model simple data. And the lat week we saw how to combine these distributions together into basically combine multiple of them together by taking a linear combination of the"
+  },
+  {
+    "id": 5,
+    "start": 175,
+    "end": 219,
+    "en": "distributions to form this thing called a mixture model. One particularly important one is called the Gusciu mixture model. That is where all the components, all the distribution components are gauciu distributions. Because this is widely used in many applications to model your data distribution and it's very versatile in the sense that your Gauciu mixture model can basically model almost every distribution, approximate almost every distribution. Okay. So then the question is, once we have this model, right, how do we then try to infer the"
+  },
+  {
+    "id": 6,
+    "start": 220,
+    "end": 252,
+    "en": "model weights? Okay. So before we do that, this is a mathematical form of the mixture model. So you can see that here, we basically have these are the individual probability distributions? We take a probability mixture of this probability distributions combined that right? So that's why this is called mixture model. So this mite model, you can think of it as Bas. We are still operating in the feature domain in the feature or spatial domain."
+  },
+  {
+    "id": 7,
+    "start": 259,
+    "end": 304,
+    "en": "And then we talk about how to infer, the model parameters of your mixture model. So ID, we want to do either MLE or MAP. So typically, we do MLE. If you have some additional information about your model weights, if you have some prior information, then you can do MAP. But we saw that to do to optimize the model weights for the mixture model, is very difficult. It's intractable. So that's why we came up with the EM algorithm, which is supposed to give you"
+  },
+  {
+    "id": 8,
+    "start": 304,
+    "end": 349,
+    "en": "approximate, approximate MLE or MAP. Okay. So this EM algorithm can be applied to find both the MLE and the MAP. MAP is in the case where he had the additional the prior distribution. Okay. So the EM is basically trying to find an approximate solution to this MLE or MAP. Today, we are going to look at a different class of models called the Markov models and hidden Markov models. And basically, the basic, the model can be summarized using these equations will"
+  },
+  {
+    "id": 9,
+    "start": 350,
+    "end": 394,
+    "en": "go in detail. And what these models are doing is looking at the temporal domain. So last week, we were basically looking at the spatial or the facial domain. So we don't talk about time. This week, we will involve the notion of time. We are now talking about time series of data. Then we will use this mark off or hidden mark off model in order to model the temporal domain. And similarly as last week, we hope to find the MLE or MAP of the model weeks. But unfortunately, same situation as last week, the MLE or"
+  },
+  {
+    "id": 10,
+    "start": 395,
+    "end": 425,
+    "en": "MAP, these are difficult to find. For these Markov and hidden Markov models, or rather for hidden Mico model, Mako model is still tractable for Hidden Marco model. Is not easy to same situation as last week, right? You cannot find the MLE directly. So now this week we'll talk about this bone watch algorithm. So actually, this bone watch algorithm is actually a special version, a special case of the EM algorithm."
+  },
+  {
+    "id": 11,
+    "start": 434,
+    "end": 477,
+    "en": "For HMM. Okay. So we'll see why we need to study this. Since we already have the EM algorithm, why we still need to study this, right? Because when we apply the EM algorithm to find the model weights for the HMM, it turns out that there are additional derivations that we need to make. So that's why people have given you a special name, right? Mwah. There are actually the two people who came up with this algorithm? Of course, the basic on the E N, and then they derive the e set, how to do the e set, and then the set, right? Okay. So this is b e."
+  },
+  {
+    "id": 12,
+    "start": 480,
+    "end": 525,
+    "en": "Okay. So we'll start on the mark off models. Why we need to cap out the temporal domain. So applications in everyday life is for example, in speech recognition. Your model is trying to predict or trying to know what was the last word that was spoken even the sentence. Imagine you are running this model is able to decode and able to understand each word inside the sentence. So after you have understood up to a certain point, we want to also"
+  },
+  {
+    "id": 13,
+    "start": 525,
+    "end": 570,
+    "en": "be able to continue understand the next word that was spoken. So there's a temporal core relationship between all the different words that spoken in a sentence. Then there's text generation. So I think all of us will encole this quite frequently. When you type your search item, right in Google. I will immediately give you a list of the most likely items that you are trying to look for. So how does Google know that right? These are the items or the search terms that we are actually looking for, right? So it's basically looking at the things that we are tied and trying to predict what is coming next. Okay. So this prediction will"
+  },
+  {
+    "id": 14,
+    "start": 570,
+    "end": 615,
+    "en": "require some sort of some understanding, right of the sequence nature of the search terms that are being tied by other uses by other users. Okay. So Yeah. So bas. In all these applications, we are trying to predate the next date based on the current state. So a state can represent many dems, for example, like the word that was spoken. The word that is spoken. And then in this case, is the letter or the word that has been tied right inside your s f. So basically, you are given all the previous dates, and then you are trying to predate the next one right based"
+  },
+  {
+    "id": 15,
+    "start": 615,
+    "end": 660,
+    "en": "on the current one that you have seen. So this is called macchine. Yeah, define it rigorously. So basically, we are looking at the piece of a sequence. A sequence of random grabbers. So you have X. Here we will denote using the square bracket to denote the time of the index. Yeah. So Notation wise. Just to make sure that we don't have any confusion. So in the slides, I basically try to use a consistent set of notations."
+  },
+  {
+    "id": 16,
+    "start": 660,
+    "end": 706,
+    "en": "So the square bracket, this one, the t here denotes the time, the time or the index. So I mean, we use the word time is just for convenience, but a lot of things has nothing to do with time. For example, the the word inside a sentence, right, is basically the position of the word instead of time, right. But of course, we'll talk about say stock market stock price, right? Then we're talking about the time, which day, what is the closing price of the stock which day, right? Then is extra time. But this key basically asked for convenience with time, but can mean a lot of things as long as it's some sort of index of the sequence."
+  },
+  {
+    "id": 17,
+    "start": 707,
+    "end": 752,
+    "en": "Okay. So we think of Yeah. And then you will see that sometimes we will put the I. There's I. This index I refers to the sample, which sample it is. So this is a sample index. We call this the time index. Simple investing side we are talking about. I give you some training data. You have the first piece of training data that's x one, and then X one, this is x one. This is the first piece of training data is actually a sequence. X one itself is actually a sequence, consists of x101,"
+  },
+  {
+    "id": 18,
+    "start": 753,
+    "end": 797,
+    "en": "one, one, two, and so 211. And then you can have another sample X two. So you have X two. X2021 and two t two. The subste index refers to the s s index and the square bracket refers to the time. We are doing a sequence of data. Here I give you a generic sequence of data."
+  },
+  {
+    "id": 19,
+    "start": 798,
+    "end": 843,
+    "en": "There's no subse here. Is a generic sequence. One, two, and so on. And each every of these data points, S T. We assume that it comes from so discrete state space. So we take sale in sound discrete. Text for synclit. So without loss of generated, we can assume that the state space is given by legal s one to up to n. So there are any possible values or that your data can kick. So of"
+  },
+  {
+    "id": 20,
+    "start": 843,
+    "end": 888,
+    "en": "course, this is a very simplified case, but it's sufficient for purpose. And then we say that satisfy the make property if the distribution of t, the one at the time t condition on all the past data that you have seen. Up to time x t minus one. The distribution of this dy only depends on the most reason one x t minus one. Here, this is in general. In general, you can imagine that your data"
+  },
+  {
+    "id": 21,
+    "start": 889,
+    "end": 934,
+    "en": "value at time P, is going to depend on everything that happens in the past, the whole history. This is your general sequence data. In general, you will depend on everything that has been observed up to now. But in this special case that we call call chain. So in this special case, it's called make chain, if the current data distrition only depends on the closest time san, right the previous one. That's at time T mine. Okay. So at SC only depends on is only affected by"
+  },
+  {
+    "id": 22,
+    "start": 934,
+    "end": 976,
+    "en": "the sample at time T MS. So that is called Markle Chain. So basically in the main language is called basically says that the future, ST is a future. The future is independent of the past given the present. So given t minus one, this is the present one that you have observed. ST is a future, given the present one, it doesn't depend on everything else in the past. So we are going to give these probability conditional probability distribution a special name, so called the transition probability."
+  },
+  {
+    "id": 23,
+    "start": 987,
+    "end": 1031,
+    "en": "T. T I G means the probability that x t is equals to given that t minus one is equals to. Okay. So Condition on what you observed that the current state is equal to I, what's the probability that your future state, the t is going to be equal to. So keep in mind that here we are looking at simplified case, all your states. These are all the states. All your states can only take value from one to. So I and G. So we're talking about"
+  },
+  {
+    "id": 24,
+    "start": 1032,
+    "end": 1077,
+    "en": "I and G being inside one to right. So this PIG is the probability, right? After you observed that the current state is I, the probability of going to Ste J from state. So that's why it's for the transition probability. Okay. And notice that something here is that you see that in this notation, The t doesn't appear, right this t doesn't appear. So basically, we are saying that this T IJ is independent of t. So it's the same transition probability for all time. Okay. So we're going to again make another very simplified assumption."
+  },
+  {
+    "id": 25,
+    "start": 1078,
+    "end": 1122,
+    "en": "So basically the transitioning starting from say X z transition to X one, the probab probability distribution is going to be exactly the same as going from X one to X two and so on. Regardless regardless of type. This homogeneous genius Machine. Yeah. But of course in this course, we will always assume homogeneous. That's why I won't emphasize homogeneous. By assumption we assume is homogeneous. When I say Machine it means homogeneous. Basically all the transition probabilities are the same."
+  },
+  {
+    "id": 26,
+    "start": 1126,
+    "end": 1150,
+    "en": "Okay. And then we can put everything together. So this TIG, we can write it as a matrix. So in matrix form. T T is a matrix consists of all the TIG T one, one, T, one, two, and so on T one, t21."
+  },
+  {
+    "id": 27,
+    "start": 1156,
+    "end": 1157,
+    "en": "So P."
+  },
+  {
+    "id": 28,
+    "start": 1162,
+    "end": 1168,
+    "en": "Okay. So with us, put everything into one big matrix. So this is ca the transition matrix."
+  },
+  {
+    "id": 29,
+    "start": 1179,
+    "end": 1224,
+    "en": "Okay. And if you do at the transition metro you do at each row. First of all, note that each of this guy is a probability, right. So we are basically talking about this probability. So it's a conditional probability condition on the current state being one, what's the probability of going to one, right? O is a current state. So condition on one, what's the probability of going to, so condition one was probability going to. So each of this guy is a probability value, right? So probability values are all negative because it goes to zero. And mobile, the sum of this each row is going to be one right because this is exactly just a conditional"
+  },
+  {
+    "id": 30,
+    "start": 1225,
+    "end": 1270,
+    "en": "probability, right all condition on the current state being one and going to the next state. So basically, right at the i role, at the role, right we are looking at the probability. So this is P T T one, right, going to state one, is the probability T I two will go to Ste two. The probability T I three will go to state three and so, right? State is T I. All these probabilities have to sum up to one, right? Because from"
+  },
+  {
+    "id": 31,
+    "start": 1270,
+    "end": 1315,
+    "en": "I you must go to one of the other states I cannot go to nowhere. So these probabilities have to all sum up to one. Okay. The first thing that we have here is the T I G. When you sum over j. So over J. That means I'm summing over summing over the rope, right? Okay. Summing across each rope, Summing across over the columns. So I'm summing over taking the sum of each rope So this one will be exactly. Okay. So this is called Rost matrix. So"
+  },
+  {
+    "id": 32,
+    "start": 1315,
+    "end": 1360,
+    "en": "summing up the means that's the special me. Of course, the entries are negative and sum up to one, then this is called roos docs. And we also use a diagram to represent this macro chain. Looking at a very simple case. Let's say you have a transition metric that two side this. Make sure the rules have to sum up to one. So this is beta, this has to be one minus beta. So what does it correspond to. So this is S one, one S two, 12. Basically, When I give you a transition metric, you should be able to draw the diagram"
+  },
+  {
+    "id": 33,
+    "start": 1361,
+    "end": 1403,
+    "en": "immediately. So I can beside the two states. Now this is then this is telling me that the transition from state one back to state one will be have probability one minus Alpha. The transition from state one to state two will have probability Alpha. Two to one is probably data and two back to two, is probably d one minus a. Given the transition diagram, you can definitely draw come out with the transition metric, given the transition metric. You can also come up with the transition diagram. Transition diagrams allow you to visualize"
+  },
+  {
+    "id": 34,
+    "start": 1406,
+    "end": 1451,
+    "en": "we work with formular usually work with the transition metric. Okay. Okay. Now let's say we know the transition metric, we know all the transition probabilities. I'm interested to know the probability distribution of say in this case, one, at time one, what does the probability distribution look like? So let's say at time zero, at time zero, I have a pro I know that this guy is distributed according to some probability distribution P zero. Okay."
+  },
+  {
+    "id": 35,
+    "start": 1451,
+    "end": 1496,
+    "en": "So P zero is basically a factor that do study p01. So P z one is basically what's the probability that X zero equals to one. Okay. And then p02 and so. Remember, we are working in the state spaces 12. You can only take these values one to n. Ease of this is basically the probability. What's the probability of e being ease of the state value. So The say I tell you this is my initial distribution. So now I'm interested to find what is P one."
+  },
+  {
+    "id": 36,
+    "start": 1498,
+    "end": 1542,
+    "en": "So P one will be the probability distriion of probability distribution of X. What's the G. Of course, I'm interested to know for all the way to. So I one to five. These are P one of. Let's see how to do that. So P one of. This is just a probability of x one equals to. And then I hope all of you remember your basic probability."
+  },
+  {
+    "id": 37,
+    "start": 1546,
+    "end": 1585,
+    "en": "So from one to n. So I can basic marginalize out the X from the joint joint PM, the joint probability function or the joint probability distribution. So I can do at the joint distribution, and then I sum over all the possible values of X zero. Then I can break this down. So we have probability of zero, and then we can condition on."
+  },
+  {
+    "id": 38,
+    "start": 1594,
+    "end": 1598,
+    "en": "Okay. So this is your P Z, right? This guy is your PG."
+  },
+  {
+    "id": 39,
+    "start": 1603,
+    "end": 1648,
+    "en": "P Z of J. And then what is this? This is your transition. This is the transition probably. So I'm transitioning from to I. Okay. So then we this summation form. We can also write inside using a matrix form. So P zero. Remember P zero is this row vector over here. So this summation is the same as P. P zero times T P is a transition matrix, and then"
+  },
+  {
+    "id": 40,
+    "start": 1648,
+    "end": 1692,
+    "en": "eu at the element. That's in case. P z is a row vector, T, T, ts matric. What you are going to get is basically another role vector. We are taking the element, the element inside vector. Of course, this role vector by itself, is P one, P one will be exactly P zero times P one is also a role vector. That's how you can find"
+  },
+  {
+    "id": 41,
+    "start": 1696,
+    "end": 1741,
+    "en": "the distribution of X one. But of course, we can continue. We don't have to stop here. Now let's say I'm interested to know what's the distribution of X two, right. That's P two. P two. If we do at this derivation, we can do exactly the same thing with us. Instead of x one, we now change it to x two, instead of x zero, we change it to x x one. P two will be exactly p one times d. Then we know that P one is p zero, p0t times t. This will be P z t squared. So you can see the pap. P three"
+  },
+  {
+    "id": 42,
+    "start": 1742,
+    "end": 1786,
+    "en": "would be, nothing but P z, t e, right and so. In general, if I'm interested in some P, this will be P o times t s p t. So that's how you can find what's the probability distribution of the random able at any time index that you want. So see this probability distribution of course is determined by the transition. So we assume all these transition probabilities, and of course, it's also determined by the initial distribution of the x."
+  },
+  {
+    "id": 43,
+    "start": 1792,
+    "end": 1799,
+    "en": "Okay. So here. This is a transition over here."
+  },
+  {
+    "id": 44,
+    "start": 1804,
+    "end": 1847,
+    "en": "And then in terms of the transition diagram, we can also throw out in terms of the time that. So the first column will be let's say time at time zero, and the second column is at time one at time two. Okay. So and then this transition matrix tells me that we probably 0.2 is from time zero, going to state one from time zero to state one at time one, is 0.21 is given by this time."
+  },
+  {
+    "id": 45,
+    "start": 1851,
+    "end": 1851,
+    "en": "Okay?"
+  },
+  {
+    "id": 46,
+    "start": 1859,
+    "end": 1873,
+    "en": "Okay. So this 0.2 is this 0.2, right? And then 0.8 is a transition from state one to state two, right? So from time one, state one, transition to state two, this will be given by the 0.8."
+  },
+  {
+    "id": 47,
+    "start": 1878,
+    "end": 1922,
+    "en": "Similarly, two to one is 0.7 and two to 20.3. All these probab are the same for between each of the time. Of the zero is homogeneous. At zero at time zero. Here the P zero is 0.50 0.5 equal probability stat one and two. So the 5p1p0 times Yeah. So we can go back and verify this is P 2p1p1 times t. So this. Now."
+  },
+  {
+    "id": 48,
+    "start": 1925,
+    "end": 1930,
+    "en": "Here now you give you some data. So data which is"
+  },
+  {
+    "id": 49,
+    "start": 1935,
+    "end": 1980,
+    "en": "S zero. So I observe some data as one s two. Okay. So this is something I observe. And this happens to be 0121. Okay. The n here is your states here is just two stats one or two. So this is your observed data, right. So I want to find what's the probability of getting this observed data, right? So basically, I'm trying to find the likelihood the likelihood of getting this data point."
+  },
+  {
+    "id": 50,
+    "start": 1981,
+    "end": 2018,
+    "en": "So what's the probability of getting this zero equals to one, one equals to two and two equals to one. So you may expand it out. So the first one, right? What's the probability of S zero equal one, this will be given by P z one, right? And then afterwards, it is basic condition, right. Let me write you probably. So according to your property law,"
+  },
+  {
+    "id": 51,
+    "start": 2026,
+    "end": 2027,
+    "en": "You should get this."
+  },
+  {
+    "id": 52,
+    "start": 2036,
+    "end": 2081,
+    "en": "So in general, right? In general, if I give you a sequence of random is, the jo probability distribution, will be given by basically this expansion. Calculate the probability and then keep conditioning on all the previous ones. But of course this is a micro chain. So you can see that this guy this guy will not meto right so you can in this one. So because of the fact that it is a macro chain, of course here is already a condition on. So two, once you condition one, Once you punition on one,"
+  },
+  {
+    "id": 53,
+    "start": 2082,
+    "end": 2121,
+    "en": "then the row doesn't matter. So that's why you can take out. And then you do at this one. This guy is just a P zero, P zero of one. This guy will be the transition 1-2, and then the third one will be the transition 2-1. Okay. So Yeah. So you can see how at this 0.5, multiply one to two transition one to 20.8, and transition 2-10 0.7."
+  },
+  {
+    "id": 54,
+    "start": 2126,
+    "end": 2172,
+    "en": "Don't confuse with the marginal probability P one is a marginal probability of just x b itself. P two is a marginal probability of X two. But here we are doing conditioning. So don't confuse this. Okay. So applications. Yeah. The first one is the language model. P here, we are talking about simple language model like now your large language model is not based on this microcha this is the simplest one that you can have. Basically,"
+  },
+  {
+    "id": 55,
+    "start": 2172,
+    "end": 2217,
+    "en": "we can model this microcha model, how the words in a sequent from this particular language. For example, in sentence conclusion, we are trying to the next word given the previous word in the sentence. Data compression. So we can use this model, this marco model to basically find what are the more frequently used sentences inside this language. Okay. What are the most common sentences, and then you want to compress that, you will assign a codeword that mo the ones that are more"
+  },
+  {
+    "id": 56,
+    "start": 2217,
+    "end": 2260,
+    "en": "frequently used. In compression, we basically map your information into some other symp these simples are called codewords. Naturally, you want to use as soft codewords as possible in order to compress say your whole document. If we are able to assign software codewords with the more frequently used sentences, then you are going to get better compression. So that's why we can use this model to find three D. What are the most frequently used strings sentences and use codewords. Software codewords. Okay."
+  },
+  {
+    "id": 57,
+    "start": 2263,
+    "end": 2308,
+    "en": "Text classification. Yeah. I give you a document you want to classify the topic of this document or basically come up with some meaning of the document. In this language model, your st space he be red. For example, s space can consist of all the words in the language. For example, in your English language. If you do your aionary, there are so many words inside the visionary. This space here, we write about can be very hugs a very huge st"
+  },
+  {
+    "id": 58,
+    "start": 2308,
+    "end": 2352,
+    "en": "space. And you can use. So there's this grant model. Immigrant model is the synchres model that you can have, right? I bass as telling you what's the probability of that a certain word is equal to x. So if I basic I have some I know the probability distributions of all the words in the English language, then I can tell you which word is more likely. Okay. So this one unigram i as the am suggests, ie means a single work. So I only about one single work. I just look at the probability of this one single work without"
+  },
+  {
+    "id": 59,
+    "start": 2353,
+    "end": 2397,
+    "en": "taking into consideration the previous works same. Has this is not going to be a very good model. Then we have a bi grad model. So this is the backup model that we were talking about. Now I can know the transition probabilities. This will be much better than just using the grad model. Having the transition probabilities, I can tell you right based on the previous word that I've seen, what is the most likely next word next come after it. Okay. So there's a bi grain. But of course we don't need to stop here. We can go we can do grand model. Grain that means that I go and take the previous words."
+  },
+  {
+    "id": 60,
+    "start": 2398,
+    "end": 2443,
+    "en": "So I take the previous words inside the sentence and pre what the next word that com. So of course this son would be more accurate than just the bi grand model. Okay. Although it's called engram Yeah. You can go back and think about it. In fact, this engram model, although it's conditioned on previous words, you can actually interpret this as a mark model. How do you interpret it as a mark model? We basically do at the state space. Now, we consider a spit space that consists of sequences of"
+  },
+  {
+    "id": 61,
+    "start": 2443,
+    "end": 2489,
+    "en": "words. You take the whole state space. So this will be a more complicated model, like what we talked about just now. We take n space together as And work together to form one state. Yeah, then you should be able to see that this is actually a mark model. So, go back and it. So in general, you can see this mark model can be easily applied to all these language models is language model. Yeah, example. Ds,"
+  },
+  {
+    "id": 62,
+    "start": 2490,
+    "end": 2536,
+    "en": "books on the origin of species. So basically people have tried to come up with the migraine and bi gran model for this on the original species. So this is a immigrant model. This all is a bi gran model. The gran model, the white color bar is basically telling you what's the probability that you get a we space? This is a what space. And then you can see that for it. Down here the A, the A over here has this probab and so on. E E is a one probably with the highest probity 01"
+  },
+  {
+    "id": 63,
+    "start": 2536,
+    "end": 2580,
+    "en": "space is a one with the highest probability. So the letter E. This migrant we're talking at the later level. The letter E has the highest probability then followed by some other one. So this is basically migrant model, for all the letters. And then the ira model is basically telling you after you have seen one letter, what is the next letter. So equal be inside the same. After you have seen the letter A, what is most likely to come after? What's the of some"
+  },
+  {
+    "id": 64,
+    "start": 2581,
+    "end": 2626,
+    "en": "other letter that comes after E. So you see the the size of the s corresponds to the different probabilities. Transition probabilities. This is a model that has been trained on original species. Another example is a pitch. Pitt ring is basically used by ogle to give a score to each of the websites to say which one is important. What site has a score authoritative score."
+  },
+  {
+    "id": 65,
+    "start": 2627,
+    "end": 2671,
+    "en": "If it's linked more authoritative, is linked to by other authoritative websites. So basically, if I have I have a very authoritative website, then Google would you do a search site on this particular topic, then Google will basically as your top search result, then they will be able to find the most relevant website for what you're searching for. So that's why they need to come up with this thing called an authoritative score. So Pi is the authoritative sore website I for the top. And then the TJ is the probability that"
+  },
+  {
+    "id": 66,
+    "start": 2672,
+    "end": 2717,
+    "en": "a user follows a link from this website to website I. Okay. So basic this bound by checking. So basically basically like all the users like those users when he lens on website, your browser actually checks whether you click on certain link and that link goes to web website I, right? So that he's able to count how many clicks how many people click on this lin, go to this website I. So all the data then we can try to estimate what this KJ. The TGI. This is exactly the transition metric. I will be"
+  },
+  {
+    "id": 67,
+    "start": 2718,
+    "end": 2740,
+    "en": "basically all the transition TJ transitioning from W f to we side and then multiply by the score from W s and the summing over all the g. This is exactly ac. Okay. Let's find some questions."
+  },
+  {
+    "id": 68,
+    "start": 2766,
+    "end": 2775,
+    "en": "Okay. So these are transition metris. We want to right now the transition, transition bagram. We want to right now the transition metes."
+  },
+  {
+    "id": 69,
+    "start": 2992,
+    "end": 3036,
+    "en": "Okay. I think most of you is right. Yeah. The transition matrix. Basic the transition from one to itself back to self 0.5, right. So that's the first entry in the transition matrix. So you can see that this is zero first option is out right. So 0.50 0.5. Okay. Then transition 1-2 is also 0.5, correct. There's no transition 1-3. So you'll see there's no arrow going 1-3. So it is zero. Correct. Okay. Then now going from"
+  },
+  {
+    "id": 70,
+    "start": 3037,
+    "end": 3067,
+    "en": "two transition 2-1 is 0.4. Two correct. Transition from two to itself, right? You can see there's no loop that goes from two back to itself. So it's going to be zero. So this zero. So this is wrong. I think we don't need to verify the reside, but of course you can go back and verify the rests. 0.6, all this would be correct. Okay. So s two."
+  },
+  {
+    "id": 71,
+    "start": 3077,
+    "end": 3077,
+    "en": "Okay, L"
+  },
+  {
+    "id": 72,
+    "start": 3267,
+    "end": 3267,
+    "en": "Oh."
+  },
+  {
+    "id": 73,
+    "start": 3335,
+    "end": 3379,
+    "en": "All right. Okay. So you can see that the first one, this is a joint property distribution. Okay. If you expend P, this will be y condition on, and then this will be z condition on both S and Y, right? So this is your This is true in all cases, In any general sequence of X and Y. So so this by itself is not a macro change. So your X Y, C. So y depends on X and then z depends on both X and Y. So"
+  },
+  {
+    "id": 74,
+    "start": 3380,
+    "end": 3425,
+    "en": "sic do studies. Look at the third one first. The third one is say that X and then y is condition of x, so y depends on x, and then z is condition on y? It doesn't condition of x anymore. So only depends on y. Indeed, this is a macho san. How about the second X, and then y depends on x, y condition X, and then z also depends on x also depend. First, it may not go by macro shame, but in fact,"
+  },
+  {
+    "id": 75,
+    "start": 3425,
+    "end": 3469,
+    "en": "it is a macro shame because you can think of it a, a Y, X depends on y. Although the arrow is drawn here. Y is dependent on that means X is also dependent on y. You can think of it as y depends on x depends on y and then z depends on x. We can actually write this side. So if you combine the first two terms, this will be p x y. Okay. And then this will be possible. If I take out the y first,"
+  },
+  {
+    "id": 76,
+    "start": 3471,
+    "end": 3505,
+    "en": "given Y P z, correct? So you will be in this format. So indeed this is this is also M s. Yeah. So. So I didn't set the qu format correctly. I have set you can choose multi answers. So actually, the correct answers will be two and three. Okay. Okay. Okay, this one is next."
+  },
+  {
+    "id": 77,
+    "start": 3510,
+    "end": 3519,
+    "en": "Let me see. Okay. We continue with this this main test."
+  },
+  {
+    "id": 78,
+    "start": 3543,
+    "end": 3560,
+    "en": "So this is the actual application. I fun from research paper. So this is from those paper starting all these ancient t. This model is this research paper I quite some time ago. Okay."
+  },
+  {
+    "id": 79,
+    "start": 3802,
+    "end": 3802,
+    "en": "G."
+  },
+  {
+    "id": 80,
+    "start": 3842,
+    "end": 3887,
+    "en": "Okay. So most machine learning models, there's no absolutely best model given any aggregation. So whether we can find something that works well or something that works better. So as long as possible, then we can try to model the data whatever machine model that's reasonable that suitable, right to capture the data. The main is using the gree blocks each ball is a picture. It's quite similar to Chinese characters. I would say, each of the block is actually consists of a feature"
+  },
+  {
+    "id": 81,
+    "start": 3887,
+    "end": 3932,
+    "en": "bar. A those I'm not exploded in this area. I imagine that this block actually carries maybe a lot more meaning than a single Chinese character. But then otherwise it's passing. And then the way is read is basic hit two columns each time. And you starting from the first block, you go to the second column, the block, and go this way, this way, so and so on. So the order of reading doesn't really matter to us in this problem. As long as you age you all these blocks, you can put them in a single sequence. That's wining up"
+  },
+  {
+    "id": 82,
+    "start": 3934,
+    "end": 3979,
+    "en": "in a sequence. Then as long as you do that, then, you know, you can definitely model this as a mack of model. So basically think of each block a basically one character inside your sequence and then Yeah. You can basically trying to learn the transition probably between all these blocks. So of course, the each block. They are only finite number of these pictorial blocks. So basically all the possible blocks all the possible gas we for the st space of the model. This is basically. When you apply your fun model, you"
+  },
+  {
+    "id": 83,
+    "start": 3979,
+    "end": 4003,
+    "en": "have to understand what's your application. First of all, you have to understand what's the six space? What kind of six spas are we working with? And then the six saves, we will try to learn the transition probilti, going from one state to another state. Okay. Okay. So how do you learn the transition probabilities?"
+  },
+  {
+    "id": 84,
+    "start": 4016,
+    "end": 4061,
+    "en": "Basically, we have a mark model. So your markup model is for one single data point. So now I give you one single data point x. X consists of is actually a sequence zero, one, and so on. So the probability distribution of one data X, and the parameters inside my model consists of this Pi and t. Pi is basically the probability distribution of"
+  },
+  {
+    "id": 85,
+    "start": 4062,
+    "end": 4106,
+    "en": "the initial distribution. Just how we call it in the bigger slides, we call it zero initial distribution. This is the P zero. Here we going forward, we use the notation pi to indicate initial distribution. This is the Pi Pi i is the probability of S zero equals to your initial distribution. This is something that we can also learn from the data. We may not know this in advance is your your ts metric."
+  },
+  {
+    "id": 86,
+    "start": 4114,
+    "end": 4144,
+    "en": "So again, we can write out the whole livelihood function. So this is the likelihood of observing this particular data X. So this is Pi of X zero, your initial one multiplied by now the condition of X zero, you transition to x one. And then transition from X one, transition to X two and so."
+  },
+  {
+    "id": 87,
+    "start": 4150,
+    "end": 4194,
+    "en": "T minus one transition to t. Okay. So you can see the parameters inside the model consists of all the Pis, as well as all these transition probabilities. And basically, we are trying to em or trying to find the MLE of Pi as well as t. In order to do that, same as before, now I give you the training data. So I have training data. Training data set. So D, D consists of many samples. We have X one."
+  },
+  {
+    "id": 88,
+    "start": 4196,
+    "end": 4240,
+    "en": "Remember, each of these is a sequence X one going from zero to T one. And then X two, going from zero to T two, and so n, going from zero to T n. We just simply write X one. So this is to emphasize is 0-1. Okay. So basic one, does this mean? This is one, zero all the way to x1t1. So each sample itself is a sequence. The"
+  },
+  {
+    "id": 89,
+    "start": 4242,
+    "end": 4285,
+    "en": "whole is one sequence. And this whole is another sequence. So this guy is x20 all the way to two t two. So the T one and T two need not be the same, right can be different length. So in general, your T one may not be also T two. So my training data set, right can consist of many sequences of different length Different length. So this is your whole training data set."
+  },
+  {
+    "id": 90,
+    "start": 4290,
+    "end": 4335,
+    "en": "Yeah. But here in order to be able to train the model, to infer to estimate i and T. Of course, we have to assume that all the training points, all the training secs, all the sequences have the same i, same initial distribution, as well as the same transition probability same transition matrix. So we try to find the MLE. Okay. First of all, to find the MLU, we met the lot Id hood function. So remember from your your second week. So we want to maximize the log D. So let's try to write down the log do function."
+  },
+  {
+    "id": 91,
+    "start": 4339,
+    "end": 4383,
+    "en": "So the lot Ido function, the lot will go into the product, become a multiplication one to n data points, lot of X X. So each of the XI is one data 0.1 data sequence. So the lot now now become a sum of the lot of the individual data points. Then for each of the data points, for each of the XI is given by this guy over here right. So we just have to plug this in, of course, the X become I."
+  },
+  {
+    "id": 92,
+    "start": 4385,
+    "end": 4387,
+    "en": "Okay. So we just plug everything in."
+  },
+  {
+    "id": 93,
+    "start": 4393,
+    "end": 4399,
+    "en": "So you have log Pi of the xi zero."
+  },
+  {
+    "id": 94,
+    "start": 4406,
+    "end": 4407,
+    "en": "Last."
+  },
+  {
+    "id": 95,
+    "start": 4412,
+    "end": 4436,
+    "en": "Now we need to have the t, t of i t minus one to the transition all the transitions. There are how many transitions transitions going from t equals to one all the way to t. Okay."
+  },
+  {
+    "id": 96,
+    "start": 4443,
+    "end": 4454,
+    "en": "Yeah. Then afterwards, we just collect all the terms that are the same together. So this so you can see that this SI"
+  },
+  {
+    "id": 97,
+    "start": 4459,
+    "end": 4504,
+    "en": "Okay. So maybe let me see. Okay. The example coming up. So basically, You have many sequences you have s cons. You have one, zero, one, one, one, two, one. You have x20, two, one, 22 so the qu. The n of t. And can have different length. Basic, you can look"
+  },
+  {
+    "id": 98,
+    "start": 4504,
+    "end": 4549,
+    "en": "at all the side the first term inside the sequence. Because we know that all these are coming from the same six splits up to. So we can basically collect all the terms that are equal together, right all have the same those that have the same state with just combined together. So with this sum, right this sum, I will just write it as lot of Pi x small x. X is one of the states, and then I'm basically summing out over all X X from one to n. So this is the state. And of course, just summing out d"
+  },
+  {
+    "id": 99,
+    "start": 4550,
+    "end": 4595,
+    "en": "is not correct, right? Because I now because there could be many terms that have the same state. So now I need to multiply by the weight of n x n x n x is basically the number of sequences with with the first term with your x zero equals to x. Basically, I do a all the sequences, how many of them start with this x. So you can write it as a sum. So we can use the indicator function here. A the xi xi zero gos to x."
+  },
+  {
+    "id": 100,
+    "start": 4597,
+    "end": 4641,
+    "en": "So i from one to n. Okay. Similarly, for this summation. Let's change from the sample and time inds to state space representation. So now I basically summing over the X and Y, X and Y are all the states. And because these are transitions from from state X to state Y, right? I collect all of them together. Sorry. I missed out the lot here. There has to be a lot. So lot of all the transitions from X to Y. And of course, I need to multiply by how many of them. So n X Y."
+  },
+  {
+    "id": 101,
+    "start": 4642,
+    "end": 4687,
+    "en": "So your X Y is the number of transition transitions from X to Y in your whole. All your sequences, you look at how many transitions can you see, going from X to Y. So just call that. This will be the sum over all the center point, sum over all the times, where you have this transition going from x equals to x transition to x"
+  },
+  {
+    "id": 102,
+    "start": 4689,
+    "end": 4734,
+    "en": "equals to y. A Cow how many transitions from X to Y. The reason why we want to do that is because what we really want is to estimate all these Pi x as well as T X Y, right? We are not trying to estimate. I mean, this X z will basically take on one of these values. O Peters are the Pi x as well as T. So that's what writing this form. Now I can differentiate this. For example, Okay. So for example, if I'm trying to find"
+  },
+  {
+    "id": 103,
+    "start": 4736,
+    "end": 4780,
+    "en": "the MLE, MLE for Pi x, What do I need to do? Okay. So these are same as before. We need to make use of your calculus. Remember to optimize a constraint function. I need to if it's constrained by certain things, I need to write down the lagrange and then I optimize the lagrange and solve for the raimeter, and then you can find the solution. So basically, the lagrangian in this case, this is your This is your function that you want to maximize."
+  },
+  {
+    "id": 104,
+    "start": 4782,
+    "end": 4826,
+    "en": "Now I'm interested in Pi x. Again this one, so I just focus on this. My la ground gene here will be your lag ground gene will be equals to n x. All Pi x. I don't even care about the other x terms. Only for that particular X, because I take the partial derivative, all the other Pi y, and all the other terms will go to zero. So last gung. What is the bungee here? Your Pi x has to be equal equals to zero, and then the sum, has to be both sum over X. So you have Lambda,"
+  },
+  {
+    "id": 105,
+    "start": 4828,
+    "end": 4852,
+    "en": "So, maybe I so call it y. No to confuse with that s. So this is n. Then maybe that's minus. Then I can differentiate with respect to P, P respect to Pi."
+  },
+  {
+    "id": 106,
+    "start": 4859,
+    "end": 4904,
+    "en": "So minus all the Pi y when you take the P that will do with P X, only one term will remain, right? Only the Y equals to X term will remain. So it's a minus lambda, right because when you differentiate the Pi x, you will be goes to one, then all the others. So there's only one term lambda here. I set to zero, so my Pi t would be equals to n x over Lambda. Then I can solve for lambda. I know that the summation over t one to n must be equal"
+  },
+  {
+    "id": 107,
+    "start": 4904,
+    "end": 4909,
+    "en": "to one. This means that this one over Lambda"
+  },
+  {
+    "id": 108,
+    "start": 4917,
+    "end": 4961,
+    "en": "What is this? So n x is the number of sequences that start X. And then I starting over all the possible x. These will be exactly n, the p n sequences. These will be just a total number of sequences. Yes. So Lamda will be one over n. So that means, the optimal P x is n x over n. That's how you find the MLE for Pi. Similarly for the TX Y, we will do the same thing. Except that now for the TX Y,"
+  },
+  {
+    "id": 109,
+    "start": 4962,
+    "end": 5008,
+    "en": "the We need to make sure that that your matrix t is all the terms are no negative and is rule stock past right sum of the rules must be equal to one. So then yeah, but it's very similar to this one. So you just have to write down the one. Okay. All these these are supplementary. All the one d supplementary, you don't really have to worry. T for those who are interested. Hs. So Yeah. If you go and write double Lagrange,"
+  },
+  {
+    "id": 110,
+    "start": 5008,
+    "end": 5053,
+    "en": "then you optimize, you'll find that the LE for K Y is exactly goal of this. This is actually quite is basically telling you what's the proportion of data sequences that start with x. So this is we give you the initial probability distribution of the first da. And then the TX Y is basically harmony transitions of X y divided by the total number of transitions starting from X to some other subion from C equals one to. So this that"
+  },
+  {
+    "id": 111,
+    "start": 5053,
+    "end": 5098,
+    "en": "a proportion of by of all these transitions that start, go to y, right. So a single fraction. Okay. But you can see that in this model, you you may not be able to find the The Pi X or the T X Y. Probably the TX is the more defer one. I I don't observe the X Y at all. My some of the transition is very rare to go from O var x to one Y. Maybe in your training data, you actually don't have that. So for example, right? We have 50,000 words in our"
+  },
+  {
+    "id": 112,
+    "start": 5098,
+    "end": 5140,
+    "en": "vocabulary, and your bigra model has basic 2.5 PDM pmters. So basically, we are looking at 50,000 50,000 transition a is 50,000 50,000. So it's likely that in your training data right. Certain work pass may not appear inside the training data could be so very very rare, i from one w to another. Maybe you don't see that in a training data, then you may think that the transition probably as to according to the MLV. Okay. So that's one problem so we more that"
+  },
+  {
+    "id": 113,
+    "start": 5145,
+    "end": 5190,
+    "en": "Okay. So quickly, M over here. Yeah. So basically, I have a training a six space of 26 training three training data sequences. The first one is 121, the second one is 22. The third one is 1121. Okay. Okay. So we can see that you will expand out the boyhood of training data set. The blue one, the blue color ones correspond to the first sequence. The green one is the second sequence and the orange one is the third sequence. We write it this"
+  },
+  {
+    "id": 114,
+    "start": 5190,
+    "end": 5235,
+    "en": "way. Now bally I'm going to collect all the high one together. We can see there's one Pi one here, one Pi one here. That's all that together. This is basic two z one, one equal to one. That's how you get two log Pi one. And then there's only one Pi x two. So that's how you on this one Then I'm going to collect all the t11 together. There's only 111. Then t one, two, how many one. There's one, one, two here,"
+  },
+  {
+    "id": 115,
+    "start": 5235,
+    "end": 5281,
+    "en": "112 here. That's how we get the 212. Then t2121, there's one p two to one here, 1p21 he that's how we get 221. Then finally, the t22. This last part is really basic basic collecting all the times together. Okay. So then you yeah, so we can find the NOI NOIs. Okay. Okay, good. So let's take a soft break here, and then we come back"
+  },
+  {
+    "id": 116,
+    "start": 5281,
+    "end": 5282,
+    "en": "in 840."
+  },
+  {
+    "id": 117,
+    "start": 5334,
+    "end": 5379,
+    "en": "Yes. Yes. I ask a question. Yes. It's more about like the application oriented or do we have to, like, know the proof steps? No proof sets are more derivations. It's more about applications. Derivations. We may ask you to de cera MLE MAP, all these things? Okay. Yeah. But we also have to know how to use the formula, like the one you just like the examples. Yes. Okay. T. Questions for C. Wow. I don't remember. Like, maybe three or four. Yeah."
+  },
+  {
+    "id": 118,
+    "start": 5379,
+    "end": 5385,
+    "en": "Okay. But we multiple past. It's from week one to week four. Yes. Yeah."
+  },
+  {
+    "id": 119,
+    "start": 6012,
+    "end": 6026,
+    "en": "Okay. So let's come back and now we talk about Microcha. Now let's go on to the next topic is called Hidden Markov model M M."
+  },
+  {
+    "id": 120,
+    "start": 6036,
+    "end": 6050,
+    "en": "Similar as before, we have a macro chain. Let's start with Marco chain, but now that's called zero. Z one, Z two and so"
+  },
+  {
+    "id": 121,
+    "start": 6063,
+    "end": 6108,
+    "en": "ZT. Okay. And then this is this micro change unfortunately different from just now. This micro chain is not observable. We actually don't observe the state of this micro chain. So that's why these are at. These are called the latent states. So the latent states. The self for Mcleha. So this is a Mico Shain. This is MC, Mclech. What do we observe in this case, Instead of observing the latent state, we actually observe something that is produced by the latent state, and this is X. X is the one that we"
+  },
+  {
+    "id": 122,
+    "start": 6109,
+    "end": 6117,
+    "en": "observe. So the z zero induces, the z one induces one, and so"
+  },
+  {
+    "id": 123,
+    "start": 6124,
+    "end": 6168,
+    "en": "Okay. These are called the emissions. So you can think of. Yeah. So basically, each of the emits something that you can then observe. This is the observe. You observe this. This is hidden is hd. This is a hidden mark model. The mark of chain is one that is hidden. What you observe is the emissions. A emissions themselves do not form a mark chain because you can see. For example, this S two, even if I tell you what is the value of S one,"
+  },
+  {
+    "id": 124,
+    "start": 6170,
+    "end": 6199,
+    "en": "two depends on two. Two depends on. One depends on z and z zero will basically produce the S zero. So even if I know S one, two will still be dependent on S zero. So it doesn't for the macro shape. The emission macros."
+  },
+  {
+    "id": 125,
+    "start": 6206,
+    "end": 6251,
+    "en": "Yeah. If we look at the measurements or the observations themselves, these observations are not mark strain, right? It doesn't form macrost. But we assume we assume that there's some latent state that is producing all these emissions, producing all these observations, and the latent states are the ones that form the mark strain. So this will then give you the hidden macro mole. So sa as before, we have the The Pi, which is the initial distribution of the z zero, we have a t, which is the transition probabilities"
+  },
+  {
+    "id": 126,
+    "start": 6252,
+    "end": 6299,
+    "en": "for the z for the dt state. But now we have something extra. We also have this initial part. The initial part, we can also use a parametric model to model the emission part. Then we're going to assume that this parametric model is depends on the latent state itself. This will depend on some parameter that is going to depend on z zero. This one will depend on z one and so. Okay. So in general, right, my P D."
+  },
+  {
+    "id": 127,
+    "start": 6301,
+    "end": 6346,
+    "en": "My PSD given the dent state. We assume that is coming from some piametric family that is, um with perameters five, and then this five parameter is going to depend on the t state. And then you can see that this ZT, all these ZT is the mark change, right? We assume that it come from some state states one, two up to n. So there are only 5152 up to five possible sets of Pameter,"
+  },
+  {
+    "id": 128,
+    "start": 6346,
+    "end": 6391,
+    "en": "for this initial probability. So maybe Okay. Maybe one quick example here, for example, For example, we can assume that this ST given z t. This is a gaussian distion. Is a gaussian dision with some mean that depends on z. So for example that's So t even supo t goes to small. We assume that this gausin description with some mean Mu and some covariance Sigma."
+  },
+  {
+    "id": 129,
+    "start": 6394,
+    "end": 6439,
+    "en": "Basically, the n number of unknown parameter sets. So we have M one, Sigma one, that we don't know, right? We have M two Cima two that we don't know that we want to learn from the data and M B M Ciga these are all things that we need to estimate from your data from the training data. And of course, in addition to that, we also want to estimate the Pi and the t or thetas. So these will be all the parameters that we want to estimate for the"
+  },
+  {
+    "id": 130,
+    "start": 6439,
+    "end": 6484,
+    "en": "sing data. Okay. Before we do that, how do apply. Okay. One good thing about the HMM is that we do not need to assume mark off property for the observations. So as we saw, the emissions that you observed, these are mark. This basically allows you to have long range dependencies between observations and the only mark part is the data s So for example, in the speech recognition, can think of ST, the ignition is the visual doctor"
+  },
+  {
+    "id": 131,
+    "start": 6484,
+    "end": 6529,
+    "en": "that's extracted from your speech signal. So as I'm talking, maybe you are recording my voice, right. So your recording is actually going to depend on not only what I produce, but also the environment, and this LT, how the sound reverberate in this environment. And then your sensor, right, your recorder captures this this speech This switch pattern. The Ops inside your record switch is this vibration the sound you hear is actually vibration sound wave in the act. Composing your sensor, your recorder is now using"
+  },
+  {
+    "id": 132,
+    "start": 6529,
+    "end": 6574,
+    "en": "the circuit, you will convert to a series of voltages. This ST is actually really just the voltages, the amplitudes that you capture from your electronic c. ST is your pattern. And D is the written state, right? It is actually the word that I'm trying to say. Your P is what you observed. It doesn't actually your P by itself doesn't tell you what is the word that I'm trying to say, so that's why is something that is not observed by your sensor. And the word that I'm trying to say is in my brain, right? Is something that I keep to myself but I'm staying out. So when you"
+  },
+  {
+    "id": 133,
+    "start": 6574,
+    "end": 6619,
+    "en": "see the ST, right, is basically the emission, right, the emission from this word and the latent state, right, the actional word that I that I'm thinking about, is the latent state that is not observed by. Okay. And of course in my brain, right, the sentence that I'm trying to speak, is a language model. We can model it as a mark off model. So that's where the ZP part right is basic model as a marco that's a language model, and then the emission distribution, the ST, even the T. This is basically the acoustic model. So the word that I'm trying to"
+  },
+  {
+    "id": 134,
+    "start": 6620,
+    "end": 6664,
+    "en": "say, given that given the partic word that I'm trying to say, my vocal c will try to produce that word, and then once I produce that sound, is going to reverberate the LT and then your device is going to capture it, right. So this will actually depends on a lot of things. Okay. So this whole distribution is basically is the acoustic model that we are trying to who represent the sole that you capture. Okay. Okay. Another application is, for example, in this case is activity recognition. So in a video, you see a video right. Inside the"
+  },
+  {
+    "id": 135,
+    "start": 6665,
+    "end": 6710,
+    "en": "video, the person may be playing basketball or playing volleyball or doing some sport activity. But SP re a pizze the pizze inside your video frame Image what you capture that release pier values. So y. So what you observe is not. Is not the ZD itself, right? The actual activity that is the person is performing on off. But as a human, you can recognize EDD, but for the AI model, right, you only see the is the underlying activity that is being performed,"
+  },
+  {
+    "id": 136,
+    "start": 6710,
+    "end": 6755,
+    "en": "is something that is not observed directly. So then we can model HMM Another one is the gene finding. So in your DNA modecues. Sorry, DNA ***** types. You basically DNA is represented by basic four ***** types, AC G and P. Yeah, Tose of you who have done more bios me probably knows more. Your DNA is basically a sequence made up of these letters represented by a sequence that made out of these letters C G and P. These are things that you can"
+  },
+  {
+    "id": 137,
+    "start": 6755,
+    "end": 6801,
+    "en": "actually observe right in the lab, you can find out this DNA strength, what are The letters are representing this whole DNA string. And then the ZD, right? The ZD is the whether this p of the DNA is a gene coding region or not. So it turns out that Actually, we don't know everything about DNA, right? Turns out that there are certain parts that we we find that that humans have found that certain parts of the DNA were basically encode certain genes. Yeah, that were basically, you know, determine what develops"
+  },
+  {
+    "id": 138,
+    "start": 6801,
+    "end": 6845,
+    "en": "and how the body develops? The so called endings. What we can observe, is the ACG necro tax, but we don't know what whether this one is a folding vision or not. This is the latent part, the T. The T will be something that you cannot observe directly, but we can use a HMM to model this as a macro that we cannot observe directly, but what we observe, will be the ***** tag thesis. Okay. So"
+  },
+  {
+    "id": 139,
+    "start": 6846,
+    "end": 6891,
+    "en": "here. So the emission probabilities. Yeah, the lot applications, we will use the Dan distribution as the emission distribution. So we can see that here. Yeah. If your tents, then the Dan distribution will be controlled by new market. Of course, these are the variable parameters of the model that we are trying to infer. Okay. So that's good at this point, is also available. Around won't go through that. Here in this example, Let's"
+  },
+  {
+    "id": 140,
+    "start": 6891,
+    "end": 6936,
+    "en": "say plain dis I plan dis and one of three is t this die this is a fi 1/6 probability of getting e of the number 16 But then the player can switch the die to something that in fact, right now getting six has 510 probably D and then the rest will have much lower probably does want to switch the so with the die."
+  },
+  {
+    "id": 141,
+    "start": 6936,
+    "end": 6981,
+    "en": "I you see all the timeline. So you will basically try to the will change the diet Whether is a f or wed die is something that you cannot. You don't see if they look exactly the same. You dons when the player has shoot the die, and shoot the die. And and then yeah. So what you observe is basically the outcomes like after you throw the die. So now, The sx here will be one or two. Whether it's a fair ye or is"
+  },
+  {
+    "id": 142,
+    "start": 6982,
+    "end": 7027,
+    "en": "it a load die the weed one. And then the outcomes of initial will be basically the number, right, what you see from the die. And then the state the state initial probability distribution will be this. So this is Pi is basically telling you what's the probability that is f y and what is the probability that is loaded dye. At the beginning. And then of course, we have a transition matrix. So this is basically telling you what's the probability that the player is stretching from the fat to the liter and from the lower"
+  },
+  {
+    "id": 143,
+    "start": 7027,
+    "end": 7072,
+    "en": "back to the fat cr. And then we have the emission probability. So in this case, this emission probability is a categorical probability distribution. So under the case is a i, so quals to one, the categorical distribution, this is a uniform distribution over the six states. And then under the case is what's that is a loaded die? Then this is your new distribution. Okay. So basically, we don't s all this in advance. Okay. In this particular application, maybe we do know the 51 factor. So that makes the problem easier that we don't need to estimate"
+  },
+  {
+    "id": 144,
+    "start": 7072,
+    "end": 7100,
+    "en": "the 51 factor, right? This is already know. What we don't sell in advance, then we Pi and the t. So we want to use the MLE. We want to estimate the MOE of Pi. So same as before, to estimate the MLE. We we are given a set of training data."
+  },
+  {
+    "id": 145,
+    "start": 7106,
+    "end": 7151,
+    "en": "Okay. So same as the marco chain one, we have Z sequences, right. So we have x10 to t one, all the sequences two n. Notice that here we are not given the z, the letter states. We are only given the emissions Okay. But if we take one step backwards assume. Assume that we can observe the hidden states or the den states. Then things becomes very easy. So in"
+  },
+  {
+    "id": 146,
+    "start": 7154,
+    "end": 7162,
+    "en": "the ea the easy case is now you actually know both the and the z. So"
+  },
+  {
+    "id": 147,
+    "start": 7171,
+    "end": 7171,
+    "en": "you know this."
+  },
+  {
+    "id": 148,
+    "start": 7181,
+    "end": 7226,
+    "en": "So next. So if I know the zs, then everything becomes very easy. So in this case, Yeah, I can write down the lock hood very easily. So the lohod, guy over here. So Your data here is the tie in the t. In the most general case, I also need to estimate the emission parameters. In this case, I can basically expand it out using the knowledge of the at six. So I can write it as a lot"
+  },
+  {
+    "id": 149,
+    "start": 7226,
+    "end": 7231,
+    "en": "of the I sorry, the tie of the CI."
+  },
+  {
+    "id": 150,
+    "start": 7240,
+    "end": 7271,
+    "en": "And then the transitions, right? The transitions from the z transitions from z t minus one to t to t. Okay. So this will be the of the chain for the dt. Then of course, finally, I have the emissions as well."
+  },
+  {
+    "id": 151,
+    "start": 7291,
+    "end": 7336,
+    "en": "So, can you see that in this, In this case. A lot A the locks are inside the submission. A the locks are inside the submission. This the when I want to maximize the lot by when I take the parts det, the pas de will go back the submission. That differentiate as before. That's. But unfortunately, we encounter the same problem as last week. We don't s the z. There's no. We cannot extend the lot in this way. And then we have the same problem, right as what we member, you get"
+  },
+  {
+    "id": 152,
+    "start": 7336,
+    "end": 7381,
+    "en": "the lot of sum right. So the lot is outside the submission instead of inside the submission. So then we have used the Y algorithm. Okay. So the YM algorithm for the HMM in this case has a special names called the bone wash al algorithm. All right. So Yeah. The next few slides supplementary is basic showing you how to derive the EM algorithm. The e stat and the stat. And you can imagine, since it has a special name."
+  },
+  {
+    "id": 153,
+    "start": 7382,
+    "end": 7426,
+    "en": "This deion is not easy at all. Owes that's called EM algorithm. So Bong and watch, they come out of w to compute the e efficient way, compute the est and is actually quite involved, I would say. This will be y The interest I'm not going to go through. I'm not going to go through so is for those who are interested. Base We say as what we've done before, in the east that, we need to find this function. Math. I mean It's not big math. It's not big map but derivation a lot of alg ground."
+  },
+  {
+    "id": 154,
+    "start": 7427,
+    "end": 7473,
+    "en": "It turns out that. After you do some simplification, you can simplify into a few things. There are all these terms ambas Lamba zero lamba IT. These are the lamba terms. Then there are all these one called the C terms C T terms. Then Bon was basically come out with a w to compute not ba. My mistake is gama simple gama. Gama terms. Yeah. Basically, they come out with a w to complete this gama terms. All right. So this is a condition probability."
+  },
+  {
+    "id": 155,
+    "start": 7474,
+    "end": 7519,
+    "en": "As is telling you what's the probability that the latent state is equals to z, right? After the condition of what you have served the basic all the emissions that you have observed, right? And then this term is basic is related to the transition probably Ds. But it's not the conditional transition. This one is the joint probably between k minus one, the z at k minus one and the state at K. So it is the joint probably. Again, compsion on all the emissions. And compute two terms. There's this thing the forward new port."
+  },
+  {
+    "id": 156,
+    "start": 7522,
+    "end": 7567,
+    "en": "Okay. So again, all of these are supplementary. For what algorithm. Assuming that we can compute these. Then once the compute the s that will be basically the end of the e the e sep basically consists of this. C all these Once you know how to complete all these, then they are there is the e s. Then in the s, we basically try to optimize to maximize the function and it turns out this f over here. We can see all them Cs are being in the set. And then moreover,"
+  },
+  {
+    "id": 157,
+    "start": 7569,
+    "end": 7614,
+    "en": "to find the transmission probabilities, this will depend on what kind of transmission distributions that you are assuming for your model. For example, if you assume a gaussian, then the f, all these files will be last me in the Cima gramma. Then you can do the same thing, do the dying and then you can derive a me in the same month. All of these things have been cleated in your py packages, your package will have everything all incled. So you don't actually have inclement yourself. But from those of"
+  },
+  {
+    "id": 158,
+    "start": 7614,
+    "end": 7659,
+    "en": "you who are interested, know right. The background and how is the right. You can at the slide. Yeah. And then the next slide is going into details, right? How exactly did we compute that ba the sion right the e. So using this thing called forward backw boning watch that come out with this recursive procedure. What is the forward recursion that allows you to compute this alpha. And then there's a backward recursion that allows you to complete the data. And then using this forward and backward. A recs then we can. Finally, come up with"
+  },
+  {
+    "id": 159,
+    "start": 7659,
+    "end": 7684,
+    "en": "the gam is b. If you look at the Alpha. What is this alpha, basic computing, what's the probability that your tens even the observed all the observed emissions. Which is very similar to what we are looking for, right? In"
+  },
+  {
+    "id": 160,
+    "start": 7689,
+    "end": 7734,
+    "en": "in Gama. So maybe let me go back. So this is this Alpha Alpha is for for any key, Okay, for any key that I'm interested in, what is the the latent state the vertical condition on all the emissions that you observe up to that t. Whereas the gamma is what is the probability of the latent state vertical t condition on everything that you have observed for the whole sequence, all the way to the end. This small t can be something in the middle. I'm conditioning on everything"
+  },
+  {
+    "id": 161,
+    "start": 7735,
+    "end": 7778,
+    "en": "that I've observed all the way to the end. So there's a difference. So the alpha is bass condition on up to the time. Whereas the way so can see that now the beta is the end. The beta is bas. The observation from last one onwards, all the way to the end, condition of the current state being t equals to z. These two combine will then give you the gamma. Yeah. A lot of covers here, those of you who are interested."
+  },
+  {
+    "id": 162,
+    "start": 7782,
+    "end": 7827,
+    "en": "Then the C. As can also be computed using the Alpha and Beta emission probabilities and funion of probabilities. Okay. Soar submarine, right? So in the east st the east we're computing the Alpha. The Alpha i. This is the probability of observing a time key given emission observations up to that time key. And beta I is the probability of the emissions"
+  },
+  {
+    "id": 163,
+    "start": 7828,
+    "end": 7872,
+    "en": "from time plus one all the way to the end, given that your later state at time is supposed to list and then these two combined for work new, basically running these two recursions, and then you can complete the gamma. And then the C the s and then the end set will be simply given by these formulas over here. Okay. So I yeah. So that's the basic contribution from Bon and was able to come up with this for work that we work done. Okay. Let's do some"
+  },
+  {
+    "id": 164,
+    "start": 7873,
+    "end": 7873,
+    "en": "questions."
+  },
+  {
+    "id": 165,
+    "start": 7903,
+    "end": 7916,
+    "en": "Okay. So in this case, this is a HMM, but here we are interested to the probability. So this is the overall probability."
+  },
+  {
+    "id": 166,
+    "start": 8107,
+    "end": 8107,
+    "en": "And"
+  },
+  {
+    "id": 167,
+    "start": 8180,
+    "end": 8180,
+    "en": "Oh."
+  },
+  {
+    "id": 168,
+    "start": 8249,
+    "end": 8258,
+    "en": "Okay. So we can try to systematically going from to right. So this is HMM."
+  },
+  {
+    "id": 169,
+    "start": 8265,
+    "end": 8310,
+    "en": "The zero meets the 012. Going from left to right. First of all, we have the probability of distribution of z zero. Set this one p. Then we have x zero will depend on z zero. Then we go to the next one. This will be the probability of z one. Now condition on z zero. The z one is not affected by the zero because the z one"
+  },
+  {
+    "id": 170,
+    "start": 8310,
+    "end": 8352,
+    "en": "only depends on the z zero, and then multiply by one condition on z one. And we don't need to have the z zero here, because your X one only depends on z one. And then go to the third one will be two condition of z one. This is a matin. Once the condition on one, it doesn't depend on z zero anymore, and then we have two, condition on z two."
+  },
+  {
+    "id": 171,
+    "start": 8356,
+    "end": 8386,
+    "en": "Okay. So should be one, right. The problem with two is that the z didn't condition on the previous state of the z, same. So two is incorrect. The issue with number three is that this one, you actually doesn't depend on, s' depend on X. Okay. So your answer would be one."
+  },
+  {
+    "id": 172,
+    "start": 8404,
+    "end": 8438,
+    "en": "Although the derivation of the homework algorithm is supplementary, but I hope all you is able to know, you know, that. What is the for algorithm doing? What is the algorithm. So this is part of your education I ask you about for. But you don't need to know how to de Yeah. Only for those who are interested do slide."
+  },
+  {
+    "id": 173,
+    "start": 8530,
+    "end": 8530,
+    "en": "Okay."
+  },
+  {
+    "id": 174,
+    "start": 8559,
+    "end": 8571,
+    "en": "A even quick, about half half things fast. T"
+  },
+  {
+    "id": 175,
+    "start": 8579,
+    "end": 8603,
+    "en": "Technically f because actually using the etes using the ee to compute something else compute the dam and then only in the end se make use of this. Yeah. So you want to be precise. Be"
+  },
+  {
+    "id": 176,
+    "start": 8610,
+    "end": 8629,
+    "en": "Coming back to the MM text. So now previously, we used the macros chain to model the am text. Now yeah. Now we are going to use the HA right. So we have to decide. H What are the s? What are the initial?"
+  },
+  {
+    "id": 177,
+    "start": 8907,
+    "end": 8952,
+    "en": "Okay. So in this case, because the wall is not is okay, because the observation, right, the observation is using a visual scanner to produce that image. So we only have access to that image. So these observations would be the images of the clock site. So we have used a scanner to scan the wall and the image is recorded. So this is the actual observation. And of course, the underlying gris block is the one that produces this image. So that's the"
+  },
+  {
+    "id": 178,
+    "start": 8952,
+    "end": 8997,
+    "en": "late state. The ate state will be the identity of the grip block corresponding to each recorded image. Definitely not the facing direction, this make sense. The meaning of each of the gris block. Again, you have to ask yourself. I mean, at first sounds like a reasonable answer, but actually if you ask yourself, right? This model itself cannot produce meaning, right. We are not able to infer the meaning of the grid blocks from the HMM. We can only infer the identity. Your latent state, we know that is from one to,"
+  },
+  {
+    "id": 179,
+    "start": 8997,
+    "end": 9043,
+    "en": "right? So would be the, you know, how many there are possible patterns. And then we are trying to infer what are the underlying patterns? But the meaning itself right from this data is not possible to for us to infer right without any additional information. Imagine if I do a random a random random permutation of the blocks and take the image. You are still able to produce the whole sequence that try to estimate whole sequence. But then the meaning is totally different already. Okay. So So when you apply the model, when you apply the model, you need to understand, what is the capability"
+  },
+  {
+    "id": 180,
+    "start": 9043,
+    "end": 9053,
+    "en": "on this model? What is it able to allow you to refer on? Okay? Yeah. So the answer number one, the identity."
+  },
+  {
+    "id": 181,
+    "start": 9060,
+    "end": 9105,
+    "en": "Okay. So what's the application, right? So applications of this HMM. So the first application is the filtering. So here, basically, I I observed so sorry. So filtering. So means I observe everything, the ds. I observe the ds zero all the way to T. And then I'm trying to infer, right? I'm trying to find the tent T. So"
+  },
+  {
+    "id": 182,
+    "start": 9105,
+    "end": 9150,
+    "en": "basically, I give you, I'm trying to infer T given x from zero from zero up to time k, up to the current time k. So this all. So as you solve before, this is as what the f algorithm that the alpha, the Alpha value that we're computing. So this is can be computed using the algorithm. The next one is smoothing. Smoothing would be I observe everything from zero up to say some t. That's zero up"
+  },
+  {
+    "id": 183,
+    "start": 9151,
+    "end": 9196,
+    "en": "to some b t. Then I'm trying to infer t time k. Now I have more observation. I observe more than the current time key, and I use all these observations to infer the to infer the latent state at current time it. Okay. So this was corresponding to just now, I mean, in the previous the Alpha, right, this would be correspond to that what do we call that the gama, right? Okay. So that's why this one needs to use the forward and network"
+  },
+  {
+    "id": 184,
+    "start": 9196,
+    "end": 9200,
+    "en": "algorithm forward network in order to complete this."
+  },
+  {
+    "id": 185,
+    "start": 9206,
+    "end": 9250,
+    "en": "Another vari is so called fixed smoothing. I actually is same as smoothing. Is how we define. Now we have the whole B t. That's all the observations, but again, we are intere we are at time t. Instead of trying to infer, we infer t minus l. So that's a that But you can think of this guy, this guy is actually the smoothing. This whole thing is actually smoothing. Instead of BT, I use mot. I'm just doing something."
+  },
+  {
+    "id": 186,
+    "start": 9251,
+    "end": 9296,
+    "en": "So it's out the terminology. So that's why is using the forward backward. And then the last one is the prediction. Prediction. So Okay. Now you are at time t. So you observe everything up to T. You want to predict something in the future. So you want to predict the T plus H. You can also predict the emission at the future. It's also possible. We try to predict"
+  },
+  {
+    "id": 187,
+    "start": 9296,
+    "end": 9342,
+    "en": "the laden state. You can also try to predict the future observation. This one. For example, I'm trying to predict the laden state. Yeah. We have to extend it up. Basically, we will sum over all the later sticks up to t plus. T plus h is the one that. We will marginalize up all the t up to p minus one. To compute this time, this is nothing but all the transitions multiplied by the transitions."
+  },
+  {
+    "id": 188,
+    "start": 9343,
+    "end": 9388,
+    "en": "And then finally you have that's the fur path over here. Similarly to the vis p we can also try to expand out. Yeah. This one, the equations, I'm not going to go in detail, but you should be able to figure out so it's not that complicated. I guess the more important one is the so called the AP. Maximum A posterior estimation. Of the whole sequence. Here, I give you"
+  },
+  {
+    "id": 189,
+    "start": 9389,
+    "end": 9434,
+    "en": "all the emissions, X zero, all the way to S t. And I'm trying to estimate all the z, z from zero to B t at one. Previously, previously, I give you from zero to D. I'm only interested in one, one particular z t. Now I give you X zero to t. I'm interested to know all the z from zero to t. So I'm going to optimize the whole sequence. This one is just optimized for one particular small key. This one is optimized for the whole sequence."
+  },
+  {
+    "id": 190,
+    "start": 9435,
+    "end": 9450,
+    "en": "So this will actually give you the best result. This is the maximum the MAP estimate. To do that, you can measure it's not so straightforward. So that's why there's a special meme. It's called the B algorithm."
+  },
+  {
+    "id": 191,
+    "start": 9456,
+    "end": 9500,
+    "en": "Yeah. Again, this is part of the uation. I don't expect you to know all the steps in the by algorithm, but at least somebody ask you how to predict how to estimate who you can immediately tell your friend. You will use the teary algorithm. You will see very smart right. Okay. So the algorithm itself is yeah, for those of you are interested is very is a very famous algorithm, actually. For those of you who are doing especially doing communication engineering, you probably have heard of this pop algorithm before, right. So this is basically a way to"
+  },
+  {
+    "id": 192,
+    "start": 9501,
+    "end": 9545,
+    "en": "to compute the most likely sequence from, you know, your receive sequence of symbols at your receiver, you receive sequence of observation t and then you want to complete the most likely sequence of transmitted symbols. So that will be using the ot algo, which is as based on this HM. Okay. Yeah. So by saying a complicated. Yeah. So the supplementary again, for those of you who are interested. So we can see a lot of cos is compre. Okay one example here."
+  },
+  {
+    "id": 193,
+    "start": 9546,
+    "end": 9591,
+    "en": "But the high level is the is actually not that difficult, basically. Every possible you know, at every possible state we busy working backwards and finding the most likely path. The most likely one that created all these the observe symbols. Then how to do this in an efficient way. This is where the algorithm is what the algorithm is try to do. Okay. So finally, we come to a rear example, rear application. Okay. So here"
+  },
+  {
+    "id": 194,
+    "start": 9592,
+    "end": 9637,
+    "en": "we are trying to model the stock price of a stop using a HMM. So I'm going to keep it simple here. We are going to use three states to model the stock price regime of this particular stop. Again, we are going to look at the daily log returns and volatility. But of course, in the industry, people will use a lot more factors. So a lot of other factors that you can compute. For example, using the ETS, using the fuel prices, even option prices, and a lot of other things in the macro environment that will affect"
+  },
+  {
+    "id": 195,
+    "start": 9637,
+    "end": 9657,
+    "en": "your stock price. Okay. But for vis reiation, we will just use these two and then but of course the algorithm, everything is exactly the same. That increasing the number of factors. Preparing the data here, we are using the Yahoo Finance."
+  },
+  {
+    "id": 196,
+    "start": 9663,
+    "end": 9686,
+    "en": "Yeah. Okay. You can see it. This one is. I'm downloading the data fort computing the log return, the volatility, and then we are doing a Gaus HMM. So basically the emission probabilities."
+  },
+  {
+    "id": 197,
+    "start": 9695,
+    "end": 9740,
+    "en": "What is it? We are going to assume that initial the emission will be what we observe then as well as the vol is something that we can observe from the closings of the salt. We can compute that. That's exactly the emission. And we are going to assume that this emission is going to be a gi course, the parameters of the gc will depend on which regime is in, whether it's in rising or going down or going out or high v low vol. So the state is the so"
+  },
+  {
+    "id": 198,
+    "start": 9740,
+    "end": 9785,
+    "en": "called regime. So it's up to you how you want to define how many number of regimes. Usually, we will not do so many, so we can interpret it. So for example, in this case, we basically have three regimes, corresponding to the the bad market, the be train and the bo train, and then the high quality DD one. Okay. So this is setting up the model? So here, the n states you can change it. Okay. So we are looking at the Tesla"
+  },
+  {
+    "id": 199,
+    "start": 9786,
+    "end": 9831,
+    "en": "Tesla stock price 2023-2024. And basically, this is the data that you can get from the Yahoo Finance. Okay. So basically after we get the data, we can fit the HMM model. After the model, these are the three regimes that we have. You see this one is the basic negative, log return ti is not so high. This one is positive return, also normal"
+  },
+  {
+    "id": 200,
+    "start": 9831,
+    "end": 9875,
+    "en": "volatity, and this one is also positive return, but high voti regime number two. Okay. The rest is. Okay. So this HMM model is basically able to tell you, for example, regi number two, right? This is the orange color pop. Okay. So it's able to tell you that this is the high volubility, as well as high return phases. Okay. And then regime one is basically the lower vbilit but positive mean return. But of course you see that it's not always that you will get positive return."
+  },
+  {
+    "id": 201,
+    "start": 9876,
+    "end": 9921,
+    "en": "So Yeah. So this basically allows allows the trader to understand where the stock price is a different regimes, and then, you know, and usually people who are trying to use different hygiene instruments to try to hedge for the risks that they see in each of these different regimes. And of course the s and then of course for the ales, they will use this as a way to recommend to customers, you know, what to do under different these regimes. The umbo"
+  },
+  {
+    "id": 202,
+    "start": 9921,
+    "end": 9967,
+    "en": "is available for you to saw as a summary. What we learned there is basically how to make use of Mcle chains to model the temporal relationships. Although we we use time as the description, but keep in mind that as long as it's a sequence doesn't have to be time. Is for convenience we say time. As long as it is a sequence, you can use the macro chain to model. We learned about how to find the MLE for the micro chain so that one is easy we can find the MLE. But for the hidden micro chain, this is the one that is difficult to find"
+  },
+  {
+    "id": 203,
+    "start": 9967,
+    "end": 10011,
+    "en": "the MLE, so then we have to use the bone watch algorithm the EM. In the in the ESP we are using the forward backward, and then the S basically maximize that Q function. Important thing to take away. We have different types of inference. One is the fing, then we have the smoothing, and then you have the fedion, and probably the most important one is the algorithm. Finding the most likely path. All right. Okay. Any questions? Any last."
+  },
+  {
+    "id": 204,
+    "start": 10020,
+    "end": 10041,
+    "en": "Okay. So reminder, right? Remember to do your home submits next Friday, due next Friday. But the homework one will only cover the material up to today. So after today, you should be able to do the home one. Okay. So I'll see you."
+  },
+  {
+    "id": 205,
+    "start": 10047,
+    "end": 10047,
+    "en": "Thank you."
+  },
+  {
+    "id": 206,
+    "start": 10138,
+    "end": 10179,
+    "en": "Yes. Thank you for the lecture. Do you have to know about CR? I think CR does conditional random. Right. Okay. It's part of me. I want to ask. It's normally used in LPs for entity recognition. Okay. I'm not familiar with that. Yeah, but never mind. Right. Yeah. Yeah."
+  }
+]

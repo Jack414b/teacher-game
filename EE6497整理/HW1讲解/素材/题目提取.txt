@@ -1,0 +1,89 @@
+=== PAGE 1 ===
+1
+IE4497/EE6497 Pattern Recognition and Deep Learning
+Homework 1
+To be submitted by 11 Sep. 2026, 23:59
+1.(10 marks) Provideshort answersto each of the following.
+(a) Suppose logp (x) =ax +b for x≥0, wherea,b are constants witha< 0. What famous
+pdf isp(x)?
+(b) Conditioned on z∼Cat (·|0.5,0.4,0.1), x has exponential distribution Exp (x|λz),
+where λ1 = 7.8, λ2 = 0.6and λ3 = 4.5. Isp(x)a mixture model? Write down the pdf of
+xin terms ofExp (·|·).
+(c) TheR 2 value is defined by
+R2 = 1−
+∑︁n
+i=1(yi−ˆyi)2
+∑︁n
+i=1(yi−¯y)2,
+where yi is thei-th training response, ˆyi its predicted response, and¯y= 1
+n
+∑︁
+iyi. Can
+R2 <0? Explain how this can happen.
+2.(25 marks) A hidden Markov model (HMM) has latent state spaceZ ={s1,s 2}and
+emission symbols{o1,o 2}. The initial state probabilities areπ(s1) = π(s2) = 1/2. The state
+transition matrix is
+T=
+⎡
+⎢⎣
+a1−a
+1−b b
+⎤
+⎥⎦,
+and the emission probabilities are given by
+p(o1|s1) =p, p(o 2|s1) = 1−p,
+p(o1|s2) =q, p(o 2|s2) = 1−q.
+For a sequence of lengthL, letz[1 : L] = (z[1] ,..., z[L])denote the latent states and
+x[1 :L] = (x[1],...,x[L])denote the corresponding emissions.
+In a HMM, only the emission sequence is observed. On the other hand, if the latent states
+are observed in addition to the emissions, this is astandard Markov model with emissions.
+In this model, an observed sequence of lengthLconsists of the pair(z[1 :L],x[1 :L]).
+(a) Suppose observations overL= 2time steps are made.
+
+=== PAGE 2 ===
+2
+(i) Consider the standard Markov model with emissions, where the emission sequence
+isx[1 : 2] = (x[1] = o2, x[2] = o1). Derive an expression for the joint probability
+p(z[1], z[2], x[1] =o2, x[2] =o1)in terms ofa,b,p, andq for each possible combination
+ofz[1]andz[2].
+(ii) Consider the HMM in which only the emission sequence is observed. Derive an
+expression for the likelihood of the emission sequence(x[1] =o2, x[2] =o1)in terms
+ofa,b,p, andq.
+(b) Suppose p and q are known andp̸=q, buta and b are unknown. Derive the maximum
+likelihood estimate (MLE) foraandbin each of the following cases:
+(i) In the standard Markov model with emissions, the observed data consists of four
+independent sequences as follows:
+•(z 1[1] =s 1,z 1[2] =s 1,x 1[1] =o 2,x 1[2] =o 1);
+•(z 2[1] =s 1,z 2[2] =s 2,x 2[1] =o 2,x 2[2] =o 1);
+•(z 3[1] =s 2,z 3[2] =s 2,x 3[1] =o 2,x 3[2] =o 1);
+•(z 4[1] =s 2,z 4[2] =s 2,x 4[1] =o 2,x 4[2] =o 1).
+Hint: You may use the expressions derived in part (a)(i).
+(ii) In the HMM, a single emission sequence is observed as follows:(x1[1] =o2, x1[2] =o1).
+Hint: You may directly optimize the expression derived in part (a)(ii). Consider the
+cases wherep>qandp<qseparately.
+(c) In the HMM, suppose now that the observed data consists of5independent emission
+sequences, each of lengthL = 20. What algorithm would you use to find the MLE fora
+andband why?
+The following question is mandatory for students taking EE6497 and optional (bonus) for
+students taking IE4497.
+3.(15 marks) Consider a device whose time to failure is modeled as a random variable
+x taking values in the set{1, 2,...,r,r + 1}. The probability mass function (pmf) ofx is
+
+=== PAGE 3 ===
+3
+defined as follows:
+p(x=k|θ) =θk−1(1−θ),fork= 1,2,...,r,
+p(x=r+ 1|θ) =θr,
+where r is a positive integer and0<θ≤1. Suppose the times to failure ofn independent
+devices are observed, denoted asx1,x 2,...,x n. Letnk represent the number of observed
+failure timesx i that take the valuek, fork= 1,2,...,r+ 1.
+(a) Derive the log likelihood of the observed time to failure datax1,x 2,...,x n. Express your
+answer in terms of the quantitiesnk, k = 1,...,r + 1, taking care that the probability
+of the eventx=r+ 1has a different formula from the other events.
+(b) Show that the MLE ofθis given by
+θMLE =
+∑︁r+1
+k=1knk−n
+∑︁r+1
+k=1knk−nr+1
+.

@@ -1,0 +1,593 @@
+[001] 00:00:23-00:01:08
+Okay. Good evening, everybody. Okay. So let's do a quick recap of what we did last week. Okay. So basically, you were mainly talking about how to determine the so called optimal model parameters of the model that you have chosen. So in your machine learning pipeline, basically, you have to first of all, a suitable model. Okay. You have to choose a suitable model regardless of whether it's some distribution or, you
+
+[002] 00:01:08-00:01:52
+know, neural network. And all these distributions or neural network will have some model parameters, right that you need to learn from your training data. Okay. So we discussed last week how to so called learn these model parameters, right? What it means to be optimal in terms of the model parameters. So the first one was using the MLE. So in the MLE is basically you are trying to maximize the likelihood. So D D is your training data and then you have the unknown parameters that you want to learn, D is the
+
+[003] 00:01:54-00:02:39
+training data set. We saw that the maps of this is basically the same as the maps of the taking the log. So because the log is a monotonically increasing function, so they have the same optimizer. Usually, we use the log is because it makes your computation easier. There's no particular reason why you must use lot. Is that it makes the finding the derivative easier, because we saw that this guy over here, we assume the data set is IID. So this
+
+[004] 00:02:39-00:02:51
+guy will become a product of the data points, the Dh of each of the data points. So if I take log, then this becomes a sum.
+
+[005] 00:02:57-00:03:42
+Then to find the maximizer. Usually, what we do is to simply take the partial derivative with respect to the parameter that we are trying to look for. If I take the partial derivative, the advantage of having a sum is that now the partial derivative can go inside interchange with the summation sym. This becomes much easier to compute. That was the MLE. Then we'll also talk about MAP. For MAP, we are trying to maximize the posterior. So now we treat the data as something that's random,
+
+[006] 00:03:43-00:04:28
+and we are trying to maximize the posteror distribution of the data, the parameters, given that you have observed the data set, the training data. Using base rule, we saw that this is proportional, right? This guy is proportional to the likelihood multiplied by the prior distribution. And of course, this would be the same as taking the maps is the same as taking the maps of the lot as well. So typically, we'll also take the lot. So this would now be maximizing maximizing
+
+[007] 00:04:28-00:05:13
+the log likelihood plus the lot of the prior. So now we are maximizing this. So there's an extra term over here. So this extra term is the one that allows you to put in your prior belief, right, your additional information. So if you know some additional information, that this data is more likely to be of certain value, then you can use that. But of course, if you don't have additional information, if my P data is just proportional to one, meaning it's a uniform distribution. No matter what is the value of data
+
+[008] 00:05:14-00:05:59
+is the same probability, uniform distribution, then you can see that in this case, this guy would be something that is, will be a lot of a constant, a lot of a constant when you take the differentiation, this will become zero. So then then is exactly the same as the MLE, right. So in this case, this is actually equivalent to MLE. Okay. So this guy is basically allow you to, you know, but in the additional information that you know about data. So that was the focus of last week, how to
+
+[009] 00:05:59-00:06:43
+find what is the reasonable procedure that we usually use to find the optimal parameters, so the MLE or the MAP. This one, we are going to change gears a little bit. Now we are going to look at slightly more complicated models. Previously, we were basically using simple distribution, like your bedoi exponential, Gaussian distribution. Today we'll learn about how to combine these distributions, combine them together to build more complicated distributions that can hopefully model your application or your data better.
+
+[010] 00:06:44-00:07:29
+We'll talk about make sure models today. And then of course, in subsequent roots, we will see how to do additional more complicated models, Okay. The mixture models that we're going to talk about, We'll have this form, so I'll go through this in detail later. So you can see that it has this kind of form. And basically, we are going to use the EM MLE algorithm to find the optimal parameter. But it turns out that because of the way we construct the mixture model, finally MLE directly is not so easy. That's why today, we have to learn something new. We are going to learn
+
+[011] 00:07:29-00:08:13
+this thing called the EM algorithm, which is actually basically trying to find the MLE. This algorithm is actually a way to approximate approximate the MLE, because the MLE itself becomes intractable. Okay. So yeah. So that's the and very high level overview of the mixture model. So the question is, why do we need mixture models, right? So if you look at this example over here, so they say you are measuring the height and weight of a population, right? So this is a two D plot. Each point corresponds to the height and weight of one individual.
+
+[012] 00:08:14-00:08:59
+If you look at this guy over here, you want to feed a distribution to this, you may think that y, I will try to fit a gauzing distribution to this data. But you can see that it becomes very difficult to fit a ging distribution because there are some parts that are quite diffuse over here. There are some parts that are quite dense over here. It made sense to try to fit two gin distributions, instead of a single gucing distribution. For example, if somehow, we'll talk about this later on, if somehow I can cluster the data into two parts. So the red color one and the blue color part, then I can fit one gucing distribution in this red color part and then fit another
+
+[013] 00:08:59-00:09:45
+gucing distribution to this other part. Then it makes it much more convenient. Instead of trying to forcibly fit one single gin distribution to the whole data set. Another example, typical example is that, of course, in images, the can have many objects, right in an image. So for example, the elephant and the zebra, right they will look quite different. If I'm trying to fit one distribution to all the objects or even if they are the same animals, right is going to become very difficult. So your fitting will not be very accurate. So instead, we will try to if possible, we want to fit different distributions,
+
+[014] 00:09:45-00:10:29
+different objects inside your image. In this example, we can see that even even in the case where they are the same animals, the same bird, to represent the whole image, right, we actually need, for example, two gaucin distributions. It's impossible to have just one single gaucin distribution in order to, you know, to cover two objects, right? So you have multiple objects in the same image, you will probably need more than one distribution, right to be associated with each of the object in your image. So this will be kind of the motivation. So this one will be is a actual example, right, actual practical example.
+
+[015] 00:10:31-00:11:16
+You can go to this link, maybe This is a point cloud sation using the so called hierarchical GM Dusi model. We'll learn more about this GM later. Basically, the Point Cloud. One example is the lidar, on your autonomous vehicle. You have this lid which is actually producing, the laser will hit some object, you will return back to the sensor. You will record something called Point Cloud is a three D point cloud. And we are trying to represent the Point Cloud, using
+
+[016] 00:11:17-00:11:59
+different distribution. In this Gigab repose history, people have used this Gausia mite model, to represent the Point Cloud. You can see in this example, this is actually a vehicle. Moving along the street, this is the vehicle. So you can see that as it moves along the street, it will be very difficult to represent all the Lida point clouds using one single distribution. But rather you can see that here the different colors will represent different distributions. We're actually using many different distributions combined together to represent the whole point cloud for this Lida scan.
+
+[017] 00:12:03-00:12:47
+Yeah. Another example here is they are trying to represent the rabbit using the point cloud. Again, you can see not possible to represent the rabbit using one single one single gals. But rather we are now dividing it into many different pastures and representing them with different. All these gals will treat them this whole thing. This whole thing is called a mixture. It's a mixture or multiple gals together that will represent this whole object. This one is this is using 100 galcan. This is using 800 thousands. Okay. Yeah, so we can see how
+
+[018] 00:12:49-00:13:34
+this is done, but yeah. Okay. Coming back to that, you can yeah look at the Treat, play around with the gig hub. Then we come to what are all these so called mixture models that we are trying to do? Basically, the idea is actually very simple. Originally, we have we have one distribution. Previously, we were always talking about one single distribution with some model weight. So this is your parameter weight. Okay. Here I'm going to use a different symbel from data because later on
+
+[019] 00:13:35-00:14:19
+you'll see I need to use the data for something else. So this is ta. This eta is basically the data that we have been using previously. Previously, we use one single distribution to model the data. But now very simple, we are going to allow it to have multiple distributions. So we are to allow we are basically looking at some eta one and then we have Data two and so on. So let's say we decide to make use of k of them, right. So we have K distributions to model the data, and we are basically combining them together into this thing called mixture. Basically we are going to take
+
+[020] 00:14:23-00:14:42
+some probability weight. So say let's call it zo one this then we basically combine them together.
+
+[021] 00:14:49-00:14:49
+So.
+
+[022] 00:15:00-00:15:13
+So this is my overall distribution. So this is given now I call it data, right? So my data here is the overall model. So this is the overall.
+
+[023] 00:15:19-00:16:01
+So your data will consist of all the tas. There are t of them. Of course, sometimes in some application, we also don't know what should be all these probability weights, right that we are used to weight the different distributions. So we'll also treat them as unknown, as something to be estimated. So you will also include the Pis. So simply write P. P basically this Pi over here is actually a distribution. So a discrete distribution, Pi one, Pi two, and so.
+
+[024] 00:16:05-00:16:50
+This itself a okay, we can call this a categorical distribution. So it basically tells you what's the probability that I belong to the first component. We call this one single component, this is the first component, this is the second one, this is the third one. If I give you X, this Pi one tells you what's the probability of this X coming from the first component. Pi two is the one that tells you what's the probability of this X coming from the second component, and so on. Pi k is the probability of being drawn from the component. So this is itself a
+
+[025] 00:16:50-00:17:35
+distribution, which means that all the Pi Pi small k is all non negative and then the sum. From one to b k equals to one. Okay. Yeah. So we can see the ID is very simple. We basically we have some some ads that we observe, some facial vector that we observe. We know that this facial vector could be coming from K different distributions, but we don't know which one is in advance. So we allowed it to say that we
+
+[026] 00:17:35-00:18:20
+have certain probability or coming from the first distribution, certain probability from the second distribution and so on. And then certain probability from the last distribution. You can see that this is basically the overall the overall distribution that you are working with. I give you a K. If I don't tell you in advance which component is coming from, this is exactly the likelihood of the data. This will be the likelihood of the data without knowing which component it comes from. All right. So Yeah. Typically, we use I hope you all are not confused by this notation.
+
+[027] 00:18:21-00:19:06
+I may do a bit scary, but it's not right, it's just a summation. So it's basically this guy written in a compact form, right? Summation small k from one to big K, K components, Pi, sm K K. Okay. So it can be written in a very compact form. Okay. And then we are going to to think that each component, which component is coming from is actually given by some so called latent variable that we don't observe. Let's interpret it as having some latent variable. L at just means it's unobserved.
+
+[028] 00:19:06-00:19:51
+We don't actually observe it. So there's some latent variable z that tells you which component this is coming from, right. So now we have k components, and then if for some reason, let's say, if some auricle, right, some body tells you this x is coming from component three, then my z will goes to three. If it's coming from component K, then my z will equals to k, right? But the z itself is not something you observe. You only observe the d. Okay. But we can think of it as there's some underlying z that is basically giving you the the component
+
+[029] 00:19:51-00:20:14
+that the is coming from, right? So your Z itself. So the z can take on value one, two, up to k, right, and basically is is from the categorical distribution is from your. So P K is simply the probability of z equals to small k. Okay.
+
+[030] 00:20:20-00:20:29
+Okay. So In general, this is called a mixture model. This is called mixture model. This is called a
+
+[031] 00:20:34-00:21:02
+Now we can specialize it to a Gausia Mature model. As you can guess, the Gausia mixture model means that all the individual components are Gaussian. That's why it has a special name. It's called G M for git model. That means the distribution you're working with is basically a sum of gaucia.
+
+[032] 00:21:07-00:21:52
+So the Dacian PDF, M K Sigma K. So this is the mean, and this is your covariance matrix. By the way, I hope we are all clear. All these are vectors So I'm too lazy to write the vector sign. All these are vectors. And of course, this Sigma is a matrix. Okay. Then in this case, the data, what is the data? The data would be the the means and the covering matrices. We don't
+
+[033] 00:21:52-00:22:37
+s all these in advance. There are k of them, and then of course, the Pi. Usually we will write the Pi at the front because this is the first thing that you see. The Pi will be the probably distribution of the latent variable. So one example over here. So we can see in this dataset. So these are actual dataset. Of course, at the beginning, you cannot you don't know what colors they are. These colors are added on later on, you are only given the data points. And then we have a way to partition the data points into three different groups
+
+[034] 00:22:37-00:23:22
+or three different clusters. So the blue one, the green one, and the red one. Once you have done this partitioning, you can see that using the gucian distribution to model each of the different clusters makes sense, because y, we can see you can model it quite well. All these circles are the conto of your gucian distribution. Okay. So we have three galen distribution. And the first gu distribution has mean 00, so it's the blue one right with this covenan matrix over here. And then the weight given is 0.3. So basically how we get the 0.3 is that basically 30% of
+
+[035] 00:23:22-00:24:06
+the original data happens to be in the blue cluster. So that's why it's 0.3. Then we have the second cluster is 0404 would be this one, the green one. The mean is 04. Yes, a different variance Sigma two from before, and then also 0.3. Then the last one is we weighted 0.4. 40% of the data is in the red color one, and the mean is at 44, right. So you can see the center of the galcin is at 44, and this galcin is symmetric. So that's why the core variance is side.
+
+[036] 00:24:13-00:24:47
+The Pi here would be simply the weight 0.3, 0.3, 0.4, and of course, the data will be the Pi and the meals and Sigmas. In some applications, you may already know the Pi in advance, so then you don't need to estimate it, then you don't need to put the Pi inside the data. I would say in most applications all applications, the meals and the Simas would not be know in advanced. So this would be things that you really have to estimate from your training data.
+
+[037] 00:24:54-00:25:37
+Okay. Yeah, we can do at this upter notebook, but we'll do at this again, come back to this again. Basically, this upter notebook is telling you I give you this dataset, how to partition or cluster the data points into different clusters. So that we can apply the gucian. Here you can see that there are five gis, basically one galcan here, one gal here, one here, another gcian here for the more diffuse data and another gucian over here. Yeah. Okay. So let's do some quick questions.
+
+[038] 00:25:58-00:26:14
+Okay. So you can choose more than one answer. So by the way, so you go the clap right in the t two days we tree, go to the tin We tree and then enter the Clap from here. Oh
+
+[039] 00:27:44-00:28:28
+Okay. So there's a question here. Is the MAPE always superior to the MLE? Not necessary, so depends on how well you choose the prior distribution. Remember, we have a mathematical basis for the MLE, right? So that is in the supplementary material. So the MLE is if you don't choose any prior, it will always be consistent. As long as you have enough data samples, we can prove that mathematically it will be consistent. You will converge to the true parameter. Of course, assuming that your data is coming from this particular distribution, right. Whereas the MAP
+
+[040] 00:28:29-00:29:13
+because you have some prior distribution added to it, then it may not become consistent anymore. Depending on how you choose the prior distribution, maybe you chose it from the I, is not consistent with the true data. Then you may ask, Why do I want the MAP? In this case when if you know something in advance, you can add it to the MLE. This will allow you to find the optimal data with less samples, you can optimize it and you can find it. Faster, right in less iterative steps. Later we'll see you in some complicated situations, you may not
+
+[041] 00:29:14-00:29:54
+be able to find the MLE directly, right? But it's just calculation. We have to use certain algorithms to find the MLE. Of course, having additional information, you can constrain the optimization better. You can hopefully get better results with less samples. But of course, this will very much depend on you choosing the appropriate prior distribution. Okay. So by itself, mathematically, the ML E always work, right? It's always consistent, but then yeah, there are a lot of other algorithmical considerations.
+
+[042] 00:30:05-00:30:50
+Okay. I think most of you have tried. So basically, the question is asking which are the following and Gaucu mite models. So basically, this is more a definition kind of thing. So to make sure everybody understands is when people talk about GMM, Gauciu mit model, we mean you know, this thing over here, all the components be gi, right. So this question is making sure you understand the terminology. So we can see that here. This of this is exponential, right. This guy is exponential distribution. This is exponential distribution. You may be wondering what's this thing here, right?
+
+[043] 00:30:50-00:31:36
+This is the indicator function. So this indicator. So it is a it's basically going to be bigger than zero or is going to be equals to one. I my x is bigger than zero and zero otherwise. Be your exponential distribution is actually starting from zero. And then the rest are equals to zero. This indicator is to indicate this equals to zero up to here and then you have the exponential. Okay. Of course, this is gaussian.
+
+[044] 00:31:37-00:32:22
+You can see that here we are mixing an exponential. We are mixing an exponential with a gaussian. So by definition is not GM. Of course, but there's nothing wrong with this, actually, right? There's absolutely nothing wrong. Maybe some of your application may require you to me and exponential and gauciu. There's nothing wrong that is not a GMA, right? That's all. Okay. So this one, you can see this is indeed a GM MM. So this is this is Gaucian, right, this Gaucan, and then we have a mixture, right? This is one third probability, and
+
+[045] 00:32:22-00:32:37
+this is two third probability. Right. So I hope you notice this right. This guy is the same as two with the two here. Okay. So indeed, this is Gausia mixture.
+
+[046] 00:32:45-00:32:45
+Okay.
+
+[047] 00:33:12-00:33:13
+Okay. Is tan.
+
+[048] 00:35:16-00:36:01
+Okay. So one question here, this Pi K is this Pi K is the distribution of the latent variable. So it's not the pi distribution of the parameter, the model weight parameter. Distribution of the at variable. But you will see that in some textbooks, People also call it the prior distribution, but please make sure you are not confused. When people say in the textbook, right, when they write that this is a prior distribution that actually mean the distribution of the latent variable. The latent variable is something you don't observe. It's something that you can think of
+
+[049] 00:36:01-00:36:33
+it as something that has been chosen in advance, the latent variable decides. God decides which cluster which component your data is coming from and then, you know, then you observe the ads. That's why people also call it a py distribution, but the is a distribution of the latent variable. Not the py distribution of the model way. Don't be confused. Okay. Coming back to this.
+
+[050] 00:36:38-00:37:24
+Okay. I think most of you will try it. If you do at this distribution over here, if you try to visualize it, I actually looks like this, right. When x is bigger than zero, you have a gusian that looks like this. So this is your guia 01. Then when x is less than zero, you have a gi that looks like this is wider, right? I say bigger variance. This is Gian 02. This is your PDF. It is a valid PDF is no negative. The area under the curve is exactly equals to one. Be half your galan
+
+[051] 00:37:24-00:37:51
+happens to be symmetric. This will be exactly half and this is also half the total area is one. Indeed, this is a probability distribution. Is a very funny looking property distribution. So the question is, whether it's a mixturre model or not. Yeah. Why don't we try to see whether we can write it as a mixturre model. So maybe you can write it in this way, right?
+
+[052] 00:38:06-00:38:50
+We can write in this way, right? This is valid, right. When X is bigger than zero, this part, if X is bigger than zero, this part will go away, right? Then you're left with this. When X is less than zero, this part will go away, then you're left with this. Ex getting the PDF. Is a sum of two things, right, sum of two components. Okay. Now the question is that each of these components probability distribution. Remember your miter model by definition has to do like this, some Pi some PDF.
+
+[053] 00:38:51-00:39:35
+Here you can see that this guy itself, this is not a PDF, but no problem, right? We can make it into a PDF times two to eight then becomes a PDF, B then the area will be you will integrate to one then multiply by half. No. So indeed is a mixture distribution, right? As a equal mixture of this strings looking distribution, right? Mixture of this guy and mixture of this guy, right? With probability half reach. Okay.
+
+[054] 00:39:37-00:39:44
+Yeah. So it's a bit tricky, but anyway, just for fun. Okay.
+
+[055] 00:39:51-00:40:35
+Sorry. Okay. So, good. Quite a lot of you managed to get it, correct? Yeah. Okay. Coming back to this. Okay. So now coming back to the real business. So we have this mit model. We are interested to basically to infer, right to find the optimal weights the optimal data, which consists of the pies, as well as all these data, right? As before, we can maximize the log likelihood. Now,
+
+[056] 00:40:36-00:40:44
+I have a training data set. I take the log. So this will become the sum.
+
+[057] 00:40:50-00:41:05
+And then notice this guy itself is the michel distribution. This guy itself. So by itself is a sum. But now is suing over the k components. PK
+
+[058] 00:41:13-00:41:58
+Correct? Okay. So there's a lot of a summation, right, a lot of a summation over here. And this will make it very difficult to find the MLE. So to find the MLE, I need to take the partial derivative. So basically, m Going to take the partial delity with respect to data. So the partial delity can come inside here, but I'm doing partial derivative of this whole thing, which is I need to differentiate the lot of a sum, which will be very complicated. Let's see. Turns out there are not only that there are quite a number of issues related to
+
+[059] 00:41:58-00:42:43
+this. For example, in the GMM model, if you look at the GMM, now all these are gaussian, Let's say we have the case where it's a very simple one. You just have the K is unknown, and then the Sigma, the Sigma K has a very simple form, right is just the small Sigma k times indicator function, identity matrix. So it's not the most general form. So that's assume it looks like this, right. So in this case, let's say you have more than one component.
+
+[060] 00:42:44-00:43:28
+So basically, for example, you have the Pi one x Okay. Let's forget about multiple data points, right? Let's say we only have one data point and you have two components. So we have Mu one and Sigma one, i plus i two M two Sigma two. And we are trying to maximize this. We are trying to maximize this. We are trying to find the values of M one, M two, Sigma one Sigma two. Here we may
+
+[061] 00:43:29-00:44:14
+even simpler. We assume the pies are known. We're just going to maximize this expression for m12 Cima two. In this case, you can see that. For example, here I can choose my say my me one to be exactly equals to x, the data point that I observe, right? This is your observation is your observation. I choose my mean one to be exactly equals to x. Then in this case, this distribution will now reduce. Remember your gaussian distribution.
+
+[062] 00:44:15-00:44:59
+This is proportional E minus 12 Sigma square x minus me one square, right. No, because we don't solve the Sigma as well, two square square. I if I choose my me one, of course, I don't sol what is the true value me one, let's do a pop experiment. Let's say I I I let me one equals to X. What is going to happen. Then, this will go to zero, right. So you are left with
+
+[063] 00:45:00-00:45:45
+one over square root two Pi Sigma one, right over here. Now Regardless regardless of what is this? This is some finite value. So fit negative value, this guy. Basically, the overall expression is going to be equals to one over Sigma one plus some other value. So finite. That only depends on Mu two and Sigma two. In the second expression, it only depends on u Cima. Now I'm trying to maximize
+
+[064] 00:45:45-00:46:30
+this. I'm trying to maximize this. Say over M one. To maximize this over M one I just Cima one go to zero, Cigma one go to zero, this guy will go to infinity. If I'm trying to maximize this, I'll choose my Sigma one as small as possible. And then the whole expression go to infinity, which doesn't make sense. You cannot have a infinite PDF. Well, yeah, you can approach to infinity. That's true. Yeah. But in this example, you wouldn't make sen sight because, um We know that the Cima one
+
+[065] 00:46:31-00:47:16
+cannot be going to zero. Cima one going to zero means. I'm going to put a very narrow. This this gauing distribution will be just focused on this one particular data points. I'm going to put a very narrow gauing distribution there, which will not make practical sense. This is called a singularity in the likelihood function. So this kind of thing can always happen, right? So basically, in this case, you may think that your optimal right your optimal parameter gives you one gauing distribution that looks like this and then another gauing distribution that is very narrow and focused on
+
+[066] 00:47:16-00:48:01
+one particular data point. So this is not good. But of course, we don't have a guaranteed way to avoid this. So what people usually do is to use heuristics, right. So this is called a collapse. So we will usually use heuristics to avoid this, meaning that, during the optimization process, when we see something like this, we will have to reset the mean. So this happens is because of this, right. We are basically happens to choose the mean to be exactly equals to the value, or very close to the value of one single data point. So to
+
+[067] 00:48:02-00:48:25
+avoid this, we will in the optimization process, right, we will basically synch reset it to some other random value, right and also reset the covalence that we found to some random value and restart the process. Okay. This is something to take note of. Another problem is a so called identifiability issue.
+
+[068] 00:48:30-00:49:15
+Coming back to the example here. So let's say I have 0.3 with Gaussian say 01 plus 0.7, with Gian, say 225. Okay. Something on this. So this will be if we after we have done all the optimization, we find that we think that this is Pi one, right? And this is M one, this is your Sigma one, right. Then this will be your Pi two
+
+[069] 00:49:16-00:49:40
+this is M two, this is your two, right? Okay. So after we have done the otimization, we believe that these are the optimal values your MLE. Then your friend decide to redo the whole thing, right? Your friend takes the same data, exactly the same thing, run the same optimization. But it happens that now he gets a different value 0.7.
+
+[070] 00:49:51-00:50:36
+They are the same, right? Okay. These two are the same results that. The two terms are interchange. But mathematically, they are same, right? So your friend get this answer. Your friend says that M one should be two, right? You think that Mu one should be zero. Your friend thinks that M two be zero, you think that M two be two. Right? But of both of you are right, right? There's no no single one right answer. This is what we mean by identifiable. For model to be identifiable, it means that if I give you the two parameters,
+
+[071] 00:50:38-00:50:59
+this model parameter is is is the Pi zero point s d. 0125. This is your model parameter. And then your frames one side this.
+
+[072] 00:51:07-00:51:52
+The ordering methods. So we can see that down here, the data one is not equal to data two, right these are basic order vectors. Data one is not equal to data two, but then the two distributions are actually the same, exactly the same, right? For them to be identifiable, we mean that if my model parameters are different, then PDF, right, my distributions has to be different. Then we say that they are identifiable. So you can imagine if it's identifiable, it makes life easier, right because um If I give you one set of data, it will correspond to exactly one unique distribution. You know exactly what it is. Whereas in this case, it can
+
+[073] 00:51:52-00:52:37
+happen that There are multiple different data values that give you the same distribution. Then it is called unidentifiable. The reason for unidentifity here is actually very simple, is almost kind of CD kind of reason, is because your sum, your addition is commutative, right? A plus B equals to b plus a, nothing march to it. But it makes your model unidentifiable. So you can permute the indices and you still get the same solution. Which means that when you optimize this lo likelihood, you can see that there can be many inside
+
+[074] 00:52:37-00:53:21
+this whole big optimization space for the data. So this data lives in a huge optimization space, right? There are one, two, three, four, five, six, six parameter space. In this six dimensional space, there are actually many solutions, right, multiple solutions that will give you the optimal, right. So there's no unique global optimal, right. Which can be a problem h. Usually when we want to maximize something, if there's one unique global optimal, then we can be sure. O algorithm is converging to that one unit optimal. Whereas if there are multiple one, then we cannot be sure, whether it's converging to some optimal or not.
+
+[075] 00:53:24-00:54:09
+Yeah. Unfortunately, there's no solution to this problem. We just have to be aware of it and actually yeah, the reason is very kind of a bit CD, I would say, but be aware of it, you know, your solution that you obtain, may not always be the best one. And a simple way is to permit it, then you will get another is actually the same PDF, but a different solution. I think the last problem is the most important. Here we're trying to find the MLE for this mixture model. Even we take the log likelihood,
+
+[076] 00:54:09-00:54:54
+you can see that here, the lot will go interchange with the first submission. This first submission is over the data points. You have data points, and now you have a lot inside, but the lot lot of this whole submission, which is the mite PDI over here. So the red color part, right this log cannot interchange with this summation, right over here. So if I try to find the partial derivative, remember, you need to apply your what's that your chain rule, right? Your chain rule to find the partial derivative, so you differentiate the log first and then you will get
+
+[077] 00:54:56-00:55:39
+differentiate the lot, you will get the reciprocal, right, you'll get something at the bottom, and then you need to differentiate the inside this submission, you are going to get this complicated expression, and then to find the MLE, you have to set this equals to zero, and then you have to solve for this data in this very complicated expression. In this expression, because you have the data at the bottom over here, and you may have data over here as well. The Ata case are part of the data as well. You are not going to have a simple convex optimization problem. This will be a highly non convex optimization that is hard to solve.
+
+[078] 00:55:43-00:56:28
+So this is numerically, this is a big problem. Okay. But notice that if I happen to know the latent variables. Of course, this is not something that you know, right, but somehow some Oracle tells you, what are the latent variables? So the latent variables are the one that tell you which component, which of the component your data is coming from. So instead of just Instead of just finding the lot of the ads. These are your observed data points. So somehow, if
+
+[079] 00:56:28-00:56:42
+I now know, the as as well as the corresponding Z, Z one is the latent variable for the first data point. Z two is the latent variable for the second data point and so
+
+[080] 00:56:49-00:57:33
+Then this lot likelihood function is much easier to evaluate. In fact, this lot likelihood function is basically the same as what we have done last week. Not much different. Again, we assume it is IID ID. So you'll become a submission of the lot z. And now because the Z is now known, this will be just P of Z. This probability is a joint PDF. I can take out the z first, right. So P z. This is the probability of
+
+[081] 00:57:34-00:57:38
+multiplied by x given Z, right.
+
+[082] 00:57:49-00:58:28
+And then once this is given, right, then basically this tells you which component is coming from. So I know exactly. This guy is basically from the z component, right? So this guy is from the A Z depending on what's the value of CI. Okay. So for example, equals to one, right? So this will be a one, equals to two, this will be a two and so. So you can see that now this becomes very simple, right I can expand out the log.
+
+[083] 00:58:35-00:58:48
+And then and then to take the you take the puzzle derivative, you will again go inside the sum, right? So you can then
+
+[084] 00:58:56-00:58:57
+So it's the same as before.
+
+[085] 00:59:04-00:59:09
+And then we can set the zero, we solve as before, right in.
+
+[086] 00:59:14-00:59:22
+But unfortunately, we don't have that, right. We don't know the CI. This is what we hope to have, but we don't have right? We'll start with this. We'll start with this.
+
+[087] 00:59:28-01:00:12
+Okay. This slide the next few slides are basically for the GM case, but there's nothing new here. Is just that basically all these ps changed to the gaussian distribution. So an example to guys. So in the gaussian distribution case, so you can see we can simplify all the way to here if I do know the Z s. So that's called to XI and Z. So for simplicity, notational simplicity, we are going to let YI to be I I. We will call this the complete data.
+
+[088] 01:00:15-01:01:00
+So the observe, right? The actual observe one is XI, this is what we observe. We don't see the I right. This is later. So this is what we call the incomplete data. Complete data. Y i is the so called the complete data, but we hope to have the complete data, but we don't have, right? But if we do have the complete data. So now we are trying to maximize the lot likelihood of the complete data instead of the incomplete data, it becomes very simple, right. In the Gaussian case, if I do the MLE, so
+
+[089] 01:01:00-01:01:45
+you can treat this as an exercise, you can go back and try. You take the say you want to find the optimal, the MLE of Pi K, the MLE estimate of P K. You just differentiate respect of P K set two to zero, then you will be able to find what's the optimal What is the formula to get the Pi case? Similarly to find the M case, the MLE for the mi case, and the MOE for the Sigma, as you get this close expressions. That's the case where you have the complete data. That's what we hope to have. But unfortunately, we don't have this complete data. This is where
+
+[090] 01:01:45-01:02:29
+the EM algorithm comes in. Okay. So in the EN algorithm, the assumption is that if I have the complete data, then maximizing the log likelihood or maximizing the likelihood is easy, right as what we saw before. Okay. So why is the complete data? I can easily maximize the likelihood. But unfortunately we are not seeing the complete data, we're seeing the incomplete data. In this case, is more general than what I presented just now. In general, it can be that your X is just a function of T Y. So we can think of X
+
+[091] 01:02:30-01:03:15
+to be a function of T Y, right? So I just happens that in the case we are discussing here, this function is just taking the first coordinate, the first coordinate. YI. So basically taking this guy. So D or I. But in general, this algorithm applies more generally. If I have some complete data, YI, my XI what I observed, right is basically some function of this YI can be some complicated function of YI. But cannot be too complicated data. And then YI is the complete data and
+
+[092] 01:03:15-01:03:59
+to find the MLE of the complete data is easy. We can easily maximize it. But unfortunately, we only have the incomplete data. When we find the MLE, we are actually maximizing the log likelihood of the x, not the y. Okay. This may be hard to optimize. The problem is that y is unknown. So people are very smart. Actually humans are actually very smart. Some someone came up with the idea, that if y is unknown, why don't I instead of
+
+[093] 01:04:01-01:04:46
+we are trying to maximize the of this guy ,lihod of the y. But y is unknown. I can't compute the lilihod. Then the next best thing I can do is to compute the expectation of thelihod. Right? So it's the same as somebody give you an unknown distribution. I give you a probability distribution, a gauing distribution. You don't know what is the exact sample that's going to come from this gusting distribution. I just tell you that it's a gauing distribution. You know nothing, then I'm going to take some samples from this gauing distribution. Of course, you won't be able to tell me what are the sample
+
+[094] 01:04:47-01:05:32
+values. You just know that it's from this guin distribution. The best guess that you can make is to say that the sample is going to can be approximated by the mean of the gausin distribution. So here since we cannot find the lot likelihood directly because we don't know why we are going to compute the expectation of the log likelihood. Okay. But we are going to compute the expectation of this log likelihood is also not straightforward, right? I mean, what kind of expectation are we referring to? So here we are going to. So
+
+[095] 01:05:32-01:06:17
+this is something that we cannot compute. So we are going to take expectation. And Okay Let me leave do space. We're going to take expectation right But this expectation, again, I need to be able to take expectation otherwise, I can't compute this, right. I need to be able to somehow be able to compute the expectation. I'm going to compute this expectation, assuming that but a assuming that of course, I know the this is something I observed, and I also know some estimate of the parameter. Assuming that I know some estimate.
+
+[096] 01:06:18-01:06:49
+So we can call this a guess, guesstimate guestimate guestimate of data. If somehow I have a good guess on what this data is, if I know the data, I basically know the whole distrition, correct. Data is the model parameters. Let me write it down. So your
+
+[097] 01:06:56-01:07:26
+your P y given data. Is a Pi of. Imagine your y is x and z. So it's Pi of z, multiply by given of z. Theta all the Ps and all the ta
+
+[098] 01:07:32-01:08:17
+Okay. So if I can guess, if I have a guess of what the data, right, meaning I somehow I know roughly what is the what all the Pi values? What all the Ata values? Then definitely, I can compute this PDM, right? The PDM is given by this. Once I can compute the PDF, then of course, I can find the expectation of this lot. Right. This expectation is taken over the y such that is distributed according to this distribution and data hab. Assuming that this data hab,
+
+[099] 01:08:17-01:08:53
+the gas is the true data value. So I can compute this expectation. Yeah. Then you may be wondering, then what if this estimate is not correct, right? This estimate is way off, then this expectation will be totally wrong. But it turns out that this is where the EM algorithm comes in. This is the expectation maximization algorithm.
+
+[100] 01:09:10-01:09:55
+So it turns out that this is actually a good way to find the MLE. So basically, first of all, I'm going to come up with some random gas of theta. So it doesn't matter. We come out with some random gas of data. And then I'm going to repeat this process. I'm going to this whole process. In your iteration, I have two steps. One is called the e step. So the e step is to basically compute the expectation, like what we did just now. So we give it a name, so we call this a Q function. So Q of data
+
+[101] 01:09:56-01:10:41
+given the estimate from the previous step. QM is the estimate from the previous iteration, and we are going to keep iterating. At each iteration, we know what's the estimate from the previous one. For example, at the first iteration, I have already given you what is data zero? This is the initial guess. Then at the second iteration, I would have already completed Data one, so I can make in the second iteration QM is from the previous iteration, and this is basically our guess this our guess. So this is the expectation that we're computing,
+
+[102] 01:10:41-01:10:44
+right, taking expectation over y.
+
+[103] 01:10:50-01:10:59
+Using the previous estimate as the guess or the data of a lot of Y.
+
+[104] 01:11:07-01:11:24
+Okay. Okay. Do expand it out, this means that I'm integrating integrating this log PDF, right? With respect to this PDF that I have guessed.
+
+[105] 01:11:30-01:12:15
+Okay? And notice that this data this is the variable here, this data is the unknown. That's why this is a function in terms of data. For different values of data, now we still don't know what is the real optimal data value. So we keep it as something that we can optimize. But to compute, the expectation will use the previous estimate, plug it into this PDF. This PDF is now fully computable, once we have fixed the data value, which is the data M, This PDF is fully computable. Once we know this PDF,
+
+[106] 01:12:15-01:13:00
+I can find this expectation. But of course, this expectation would be a function of data. For different data values, you are going to get a different expectation value. So by itself is a function of data. So of course, that means you cannot really go and do it numerically, you cannot go and compute all the possible expected value, right for all the possible data values, right, that will be very inefficient. So that's why this will still be in a formula form, right. So that is in the Et And then now in the M step, that's the part that we are going to optimize. We are going to optimize the Q function. My updated guess would be basically
+
+[107] 01:13:00-01:13:08
+taking maximize the queue function. Okay.
+
+[108] 01:13:17-01:14:02
+Yeah. Typically, in terms of implementation, if the mixture model is tractable, you are actually able to come up with a exact formula for this que function. We'll see an example, which is the GMM data on. There will be a close form formula that you can make use of. For this que function, and then in the M stat, you just have to just just a normal function in terms of data, you can maximize the data. And in fact, there's a close form formula, for this data plus one. You don't even have to go and manually maximize, right? All the formulas have been worked out. So that will be a typical case, right. But of
+
+[109] 01:14:02-01:14:47
+course, in a lot of applications, that may not be the case, then this will basis be a function, right? Some sort of function that you implement inside your code. And then you have to go in the M step, you may have to use, for example, some grading descent or some other general optimization techniques in order to optimize this Q function inside your code. Yeah, in all cases, is the same, right? We always do the etep then the statep, and we keep repeating this. So we'll keep iterating until some sort of conversion happens. Meaning that, for example, we can compute, the PDF, the log likelihood value after each step, and
+
+[110] 01:14:47-01:15:03
+once the locked likelihood value doesn't change by a lot, then we say that we will stop there. Okay. So this is called the EM algorithm. Okay. Any questions here. Before I go
+
+[111] 01:15:08-01:15:22
+Yes, so. Okay. Okay. Maybe this is a good time to take a short break here, so we'll come back at 8:30, and then we'll go through the GMM example.
+
+[112] 01:15:38-01:15:40
+I didn't I missed the
+
+[113] 01:30:44-01:31:28
+Okay. Let's come back. So you can see in the EM algorithm, basically we are iterating the E and steps, keep repeating these two steps. And in order to be able to repeat these two steps, the E step, I need to be able to find this Q function. So as a reminder, this is actually a function of data. We don't so what is the optimal value of data. So this is actually a function of data. So that's going to be not so simple, right. So you basically have to find the expectation and also basically everything has to be done.
+
+[114] 01:31:29-01:32:14
+You can say that things have to be done in a in a analytical way, right because I mean, you can't really unless you do a very huge database and then, you know, try to compute this que function for all the possible values of data, right? That would be very inefficient. And then in the step, this is the part where we will then make use of the Q function, is a function of data, I'm trying to optimize it, right? I'm trying to find the optimal value of data in the stap It turns out there are some examples. Probably the ones that we care most about is the GMM, right? So Gausia Mitchell model
+
+[115] 01:32:14-01:32:59
+is actually a very versatile tool that can be used in many applications. In fact, you can prove that GMM are universal in some sense, right? Um In a specific sense, when you are trying to estimate to approximate other distributions, you can always use a suitable GMM to approximate any given distribution, up to certain technical conditions. That's why working with GMM is like at least from the engineering perspective, is, you know, is one of the most important. So it turns out that for the GMM, we can find this que function
+
+[116] 01:32:59-01:33:44
+easily. There's a formula for it, and we can also find the optimize the que function also, right? So we can actually derived formulas for this. So that's why now when you go and do at the Python packages that implement the GMM, they are all based on specific formulas that are derived, right, not using, you know, not doing this kind of E and M iteration manually. Yeah. So I guess this is a part where being able to simplify and dive mathematical expression becomes very important. Right?
+
+[117] 01:33:44-01:34:28
+Yeah. So to recap, what are we trying to do? We are trying to find this Q function. We assume your Y. This is your whole data set. Now not just Y, Y. This is from one to n data points, and each data point consists of XI and Z. But of course, this is let, right? The Zs are let you don't observe. The X is the one that you observe.
+
+[118] 01:34:31-01:34:35
+Okay. If we do at this Q function,
+
+[119] 01:34:43-01:35:27
+So we are trying to compute the expectation of this log PDF of all the Ys, the whole data training data. Given Of course, given all the ads that you have observed. So ads is the observed one, these are all the ads. And the previous estimate of data. So that's trying to explain this expression over here. So this is the usual log likelihood, right. So we can write it as a take the lot inside the submission of the data points.
+
+[120] 01:35:28-01:35:30
+So now you have Xi i.
+
+[121] 01:35:40-01:35:49
+Okay. And then we can do one more step. We can bring the expectation inside the submission. So
+
+[122] 01:36:02-01:36:47
+Okay. We ready actually have to focus on the thing inside the summation. If we can work out what is this thing inside the submission, then we just apply the summation afterwards. Let's look at the case of the GMM. All these things here, I'm not going to derive every single thing in detail, but it's more of the supplementary for you guys. But I will go through some initial steps. Especially the otimzation one I won't really go through these are very standard optimization. Step and supplement show you okay. So I'm not going to ask you to you won't be tested on this.
+
+[123] 01:36:47-01:37:32
+But I think it's always good to know, at least, go through these once in your life, and then you'll become a better person you have understood this. Then you will never be need to make use of this anymore. But I think it's good to experience at one side. Here. Let's see how we can simplify this expression here. Okay. So we have to focus on the one inside here. So this inside. So we can expand so this is a joint probability. This is a joint PDF, we can basically
+
+[124] 01:37:33-01:38:17
+what's that? So before we expand out the joint PDF, let's look at the conditioning first. So okay. So reminder. If I'm trying to find the expectation of So, I can write it as a summation of the conditional expectation of let's say condition on z equals to k. And then multiply by the probability of z equals to k. I hope all of you remember this from
+
+[125] 01:38:18-01:39:03
+your basic probability, right. If I'm trying to find the expectation or something, I can always break it down into conditional expectations and then sum it out by multiplying the probabilities of whatever I'm conditioning on. Okay. So this is the expectation that I'm trying to evaluate. So I'm going to do the same thing over here. I'm going to condition on on on Z, So condition on the value of Z. So probability of the CI equals to small k. And of course, this guy will carry along. And then
+
+[126] 01:39:03-01:39:15
+this will become the expectation of whatever that is inside. Now I have condition on Z I. I have condition on Z I equals to k.
+
+[127] 01:39:21-01:39:21
+Okay.
+
+[128] 01:39:30-01:40:15
+Okay. So this this thing we are going to call this what's that R K. So simplify the notation. This is called RK. And then what is inside here? So you can see that this guy this expectation condition on all these things. Now I condition on z equals to k, that means this z z is now becomes k. I basically have a lot and of course, I condition on. This is also now a fixed constant. In fact, this expectation, there's no more expectation because I already condition on the values
+
+[129] 01:40:15-01:40:57
+of Z and on the value of X. This is K. Let me just write z equals to k. Under this condition. Then of course, this guy will be a lot of the Pi Pi K. Let me write one more step. This is a joint PDF, so I can take out the Zi Zi equals to k. There's a probability of z equals to k multiply by PDF of x given now z equals to k, this will be the A K.
+
+[130] 01:41:01-01:41:45
+In this case, because this is a gi, the At K is M K and Sigma K. We're looking at the galiu. Finally, you have a lot of Pi K gii M. Okay. And then we have the RK at the front, right. So these are multiply inside. So you can see the RI K is multiplying inside. And then we have the two summation, right. One is sum over
+
+[131] 01:41:46-01:42:29
+n sum over i from one to n, and one is some over k from one to B. So that's why you have these two double sum. Now we have simplified the Q function to be this. We can see that. Here we are trying to find the Pi K. We just have to differentiate with respect to Pi K set to zero in order to optimize for the Pi K. Then for each of the Mu K and Cigna K, we will do the same thing because this gi, we know what the gsum PDF looks like. So we can just plug in the gi PDF formula. We can simplify this part.
+
+[132] 01:42:31-01:43:16
+But this RK, what is this RK? We can try to come up with a simplification for this RK. This RK, remember, we it to be equals to d. So this p probability of z equals to k given all the s and the previous estimate. This is called the responsibility. It's called the responsibility probability or just responsibility is because you can see that this RI K is multiplied to each of the terms here. You can
+
+[133] 01:43:17-01:44:00
+think of this actually as a weight. That's why people call it responsibility, is how much weight is being assigned to this particular data sample, and to this particular variable K K value. That's why it's called the responsibility. To find this responsibility, we can use base, Base rule. Yeah. So you have I was two K. Multiplied by. First of all, this guy
+
+[134] 01:44:04-01:44:27
+I'm conditioning on all the we assume that the data is IID. Only the XI will matter here. X one, two, all the other data points doesn't matter. This conditioning, we can simplify to condition on X because this is the PDF for the Z. This one becomes.
+
+[135] 01:44:36-01:44:36
+Okay.
+
+[136] 01:44:43-01:44:45
+So this is a base base.
+
+[137] 01:44:51-01:45:31
+And why we want to write in this way? Because we know this is a Gau Mature model, right? So Gau Mite model tells me what is the PDF of XI given I. So that's the whole reason. So that's why I can now writes this P. This is from the previous estimate. And then this is the Gacian, Guan I K, right Ki. But this is from the previous estimate. And then of course, the bottom will be yeah, that's all the possible expand out.
+
+[138] 01:45:36-01:45:37
+Pine.
+
+[139] 01:45:47-01:46:31
+Okay. So these are your base. Then we can do some simplification, the summation of the R K, right? We call it N K. Yeah. You can see that previously, this will then now simplify to something like this. And here we have plug in the formula for the Gaussian PDF. Okay. You can see that the Q function now has an analytical form. This is basically a formula that you can write down and it depends on the values of all the Pis and the Sima case, and the case, right? Now we want to optimize this kind.
+
+[140] 01:46:33-01:47:18
+We are trying to optimize this que function here. This optimization is not a unconstrained optimization. So is constrained by the Pi K has to be some to one has to be no negative, and the Sigma K has to be possibly definite. Remember, your covariance metric side has to be possibly definite cannot be some random matric. Yeah. We need to o find the optimal value of data, which is the Pi and the mise and the Cima K, subject to the constraints. Yeah. This part, I'm not going to go through in detail. So more supplementary for you guys, but I hope
+
+[141] 01:47:19-01:48:04
+you remember how to do this. This is from your calculus as well. Remember, if you are trying to maximize some function subject to some constraint, right, you have to form this thing called the lagrangen, right? So you do the lagrangin, and then you optimize the lagrangin, and then you make sure that your solution, right satisfy the constraints, right? Okay. So this is exactly what we are doing here. We form the largarngin, then you take the partial derivative, we solve for it, and then the lagrange parameter, is typically something that you can find from the constraint right because your solution has to satisfy the given constraints. So by using that, then you can
+
+[142] 01:48:04-01:48:49
+find the value or the lagrange parameters. That's how you how we derive the estimate for the Pi's actually very simple, is basically the n case divided by n. And then the estimate for the l case is basically given by this formula here. So you can see this responsibility multiplied by the X and then take the average. And finally, the Sigma, right? The Sigma will be they say given by this guy over here. Okay. Okay. So for GMM, you can see that it turns out
+
+[143] 01:48:49-01:49:34
+that The solution is basically in analytical form. So every step has formulas. Basically in the GMM. Okay. The full EM algorithm for GMM at the beginning, we will initialize some Pi zero, some Mu zero, some Sigma zero. So cho some random ones that make sense. For example, your e zero, you cannot you have to be positive definite, right? You have to choose the positive definite matric. So with that, you can compute the log likelihood value. So that's at the beginning, and then we are going to iterate. The E step. In the E step,
+
+[144] 01:49:35-01:50:20
+you can see that we just to find the final solution. All these solutions just actually make use of the value of RK, all these RK values, as well as n K value. In the E step, we are basically just computing the IK values. Don't need to actually do any expectation. In the E step, we will simply compute the RI K values according according to this formula that we derive. This formula make use of the previous estimates, you just plug everything in, plug everything in, and then you can compute the RIK. In the etep we just computing RIs. And the
+
+[145] 01:50:20-01:51:04
+N K N K are summation of RIC. Then in the M stat, that's the part where we are optimizing, but of course, we don't need to go and manually optimize because we already know the solution, right? The solutions are given here. In the M stat, The optimal, the next update is basically given by these three formulas here. After the tep we can update the lot likelihood function value. You can compute the new lot function value and we'll keep repeating this process. And we'll repeat it until the lot likelihood function value, very similar from one step to the next step, right I smaller than some small epsilon value, then we'll stop that.
+
+[146] 01:51:07-01:51:52
+Okay. So you can see it actually for GMM, that is actually very simple. So there's some this Guin demo Fa foo, right code over here that you can take a look. Yeah. In this case, it is actually creating two synthetic clusters over here. So you can see the basic two synthetic clusters, and then we initialize the gi two gusans at these two corners. This is the initialization. And then you can see when we apply the GMM bass applying the formulas
+
+[147] 01:51:53-01:52:37
+in multiple iterations. At the beginning s this, then comes this. After three iterations slight. After five iterations, the galcan do studies. After 16 iterations, right? So we can see its basic approach to what you expect. At the beginning, you expect that the optimal solutions to be one gain here and one gc here. So you can see it is converging to the one that you expect. In this code over here, All right. The main part is this applied EM. This is from a function from this
+
+[148] 01:52:38-01:53:23
+GMM library. If you go to the GMM library and do at the applied EM function, right? You can see that this is exactly what we were saying, right? We are basic just computing the response by probability, right. And then computing the log likelihood. Sorry. We are doing the M stat M stat is basically computing those optimal updates right? Just compute the optimal update. And then compute the lot likelihood. Maybe we can even look at the what's the function for the M. In the stat, so we can see this is exactly what we went through
+
+[149] 01:53:23-01:53:53
+just now. The Pi K is given by n K over n. The Mu K is given by this guy, so it's basically implementing this formula over here. This guy over here, and then the S K also. You can actually do one to one correspondence. You can see the implementation is basically the formulas derived.
+
+[150] 01:54:01-01:54:33
+All right. Yeah. So GM everything is actually implemented in the library already. So definitely nobody is expecting you to reimplement it yourself. But I guess the whole point here, going through this exercise at least once in your life, right, is to know why are we doing in this way, right? This is, you know, from this EM algorithm and these are things that have been derived, right? Okay. That's fine.
+
+[151] 01:58:09-01:58:53
+Okay. I think probably most of you have tried. So this a straightforward question. In the E step, right, we are trying to find the expectation of this log, but we cannot compute it directly, so we have to do some estimate, right. So we are actually computing the expectation by assuming that the distribution is equals to the one where we use the previous estimate. So this data is from the previous estimate. So will be number three. So we are taking the PDF of Y, but we respect using the previous data n.
+
+[152] 01:58:57-01:59:42
+Okay. So there's a question here. Maybe. Okay. So for the MLE, right, we are trying to maximize the likelihood of the tivation, right with respect to data. But for the EM, what are we trying to do? So EM is actually trying to approximate MLE. Okay. So maybe I didn't emphasize that point. The whole point is that to find the MLE for the mixture distribution is difficult, right? We saw before. To find the MLE for this mixture distribution, we have to optimize this guy, which is difficult. So
+
+[153] 01:59:43-02:00:28
+is difficult. So that's why instead of trying to optimize it directly, we are using the EM algorithm to approximate the MLE. Okay. So I I haven't in fact, it's not proven, right, so I didn't this point, the EM algorithm is just an approximation of the MLE. There's no guarantee that you'll find the MLE. But there is one guarantee is that you will always increase the lot likelihood, you will find a data. When you do the iteration, your data will only get better and better. And your lot life hood will only increase, monotonically increase. So you will increase, you will converge, but you will converge to
+
+[154] 02:00:28-02:01:13
+a local optimal, right? I may not converge to the global optimal. The global optimal is the MLE. But this M algorithm is guaranteed to converge to some local optimal, which may not be the global optimal. And this is unfortunately this is converging to a global optimal is something that nobody can guarantee, right. No matter what algorithm, this kind of numerical algorithm, Yeah. You cannot guarantee that it will convert to global optimal. The best that we can cope for is convert to some local optimal. Usually, if you want some better result, what people usually do is to now
+
+[155] 02:01:13-02:01:58
+use multiple different data. You choose one data, Ota zero, you run the EM, get one result. Then you try again, do another Data zero, we get another result. You do a few runs and then choose the best one. So that's one typical approach. This EM is basically approximating the MLE. In the EM algorithm, Yeah, we are integrating this lot PY given data. Using this PDF, which is the P K. The P K is the one inside data. Pi K is a parameter that we are trying to optimize.
+
+[156] 02:02:00-02:02:45
+Is the Pi K, right. We are not using P K here. We are not using P K in the expectation. The P K appears inside the parameter. Okay. And that is the one that we are trying to optimize, right in the M stack. So to be more concrete, you do at the EM algorithm, right? Sorry, you look at the GMM. You can see that in the e st, the so called Pi k is basically the one from the previous estimate. It's not the current one. The current one is the one that we are trying to optimize. This is using the previous estimate to compute all these responsibilities, and then this Pi
+
+[157] 02:02:45-02:02:52
+n plus one k, this is the one that we are optimizing. So this is now given by this. Okay.
+
+[158] 02:02:59-02:03:22
+Yeah. I will depend on the initial value you chose basically because it's converting to a local optimal. You the initial value may give you a different local optimal. Yeah. One way to overcome this is to to run a few times and then choose the best one.
+
+[159] 02:03:31-02:03:41
+Okay. Yeah, very good questions. Any more. Okay. Okay, if not, let's continue with this clap.
+
+[160] 02:05:08-02:05:42
+So this s will be simple right stands or what M is maximization. Okay. So I think ya, most of the at correct, right. So we are trying to find data to maximize this function. So not minimize and of course, not set to zero, right Unless we say we take the partial with respect to data set to zero, right. But we are actually maximizing.
+
+[161] 02:05:49-02:06:32
+Okay. Yeah, this EM GMM. This GMM solving the GMM using the EM is also can be applied to this thing called the K means algorithm, which is to do clustering. In this case, in the K means, We are basically given a lot of data points, many data points. And then what we want to do is to cluster them, find suitable clusters so that those similar data points are grouped together in the same cluster.
+
+[162] 02:06:34-02:07:18
+Okay. Here, we are going to assume that for this K Mings algorithm, we're going to assume that K is known, is known in advanced. Okay. Of course, if you don't s what's the value of k, you have to basically try different values of k and then at some point, you choose the one that that will stop basically you need to compute. There's this loss function that you compute, and then you will choose the value of k whereby the loss starts with the two off. So I I choose k to be very large with the same number of as the data points of course, your loss will become zero, will always decay.
+
+[163] 02:07:19-02:08:04
+But this is not what we want. So we'll choose a suitable value of k so that at some point it doesn't decay very fast anymore. Yeah. That's how people usually choose the K. How does this how to work out this k means algorithm. Basic, we are going to assume that the Sigma k is just Sigma square. So it's the same sigma K for all the components, and then we assume that the Pi Pi k is equals to one over K basis uniform for the latent variables. Only the K is something that is unknown, that we're
+
+[164] 02:08:04-02:08:26
+going to try to figure In the E step, we are not going to compute the responsibility as before, but we're going to do this thing called the EM, art em. Meaning that we are going to the responsibility to be equals to one,
+
+[165] 02:08:33-02:09:17
+this responsibility is basically assigning the assigning weights to each data point I to which cluster k, we are going to let the full weight to be assigned to a particular cluster. If this cluster happens to be the one that has that is closest to your data point. If this cluster in terms of the previous estimated mean is the closest. So for example, So for example, I have all these data points. So I have estimated my Mu one m to be here,
+
+[166] 02:09:18-02:10:03
+and then the Mu two m to be here. So now I do at one particular data point. So I compute the distance of this data point to the previous mean that I estimated, and then I choose the one that is closer to it. So in this case, in this case, I will be choosing this one this will be b cluster one. I will assign this particular data point, right to cluster one. Then I'll repeat the same process. For every single data point a, I'm going to assign it to one of the clusters, depending basically choosing the closest
+
+[167] 02:10:03-02:10:49
+one. For each observation as, find the cluster center closest to it. And then my Q function will be according to the gausin distribution will basically look like this. Then to maximize the Q function in the stat, we just have to maximize this. Yeah. You can go and derive it. The formula will come out very simple. The M K plus one, the new cluster center will be just simply the average the average of all the points that are aside from this cluster. In this example here, if this is my two original clustered,
+
+[168] 02:10:49-02:11:21
+right. So then you will basically look something like this. After the assignment, you will basically look something like this. And then I'm going to update. Now this will be the average find the new, right? The new one, the updated Mu one plus one. And down maybe this one is the Mu two n plus one. So the updated cluster center. So then we keep repeating this process, right until we have some sort of conversion.
+
+[169] 02:11:27-02:11:27
+Okay.
+
+[170] 02:11:33-02:11:34
+So
+
+[171] 02:11:46-02:12:31
+Yeah. This is an example here. Yeah. I'm not going to run it. But this is my original data points. Now when I do the K at the beginning, let's say I'm trying to partition into one, two, three, four, five, five clusters. So you can see that at the beginning, this is the random choice. So you will partition into these five clusters. And then okay. So you can see this is the at each step, right you will update the centroids, the Mu case, right, the Mu case, update, then assign points to each of the clusters. So you can see
+
+[172] 02:12:31-02:12:53
+the color region will change, and then update the centroids again, then reassign the points, so you can see here the color region and this one is different. Until at some point you converge. Here because I chose five, five clusters. This is what.
+
+[173] 02:12:58-02:13:17
+Yeah this part haven't converged yet. Then if you run it long enough, you can see that you converge in this way, is something that you expect. You can play around with it. You can also different k value, number of clusters and see what happens.
+
+[174] 02:13:26-02:13:59
+Then let's move on to as we saw before, MLE last week we saw for the MLE, we also have the MAP if we have some additional prior knowledge. Here, similarly, we can also do MAP estimation. MLE estimation for the mixture model. Here we are trying to optimize the posterior. Here we are optimize the posterior. By this is given by this.
+
+[175] 02:14:05-02:14:23
+So this is B. In the MLE case, basically simply optimize this, we apply the EM to optimize this. But now, of course, we have a prior distribution here as well. So we do at the log.
+
+[176] 02:14:30-02:15:15
+We can do the same as what we do before. But now except we have this log P data, which is the prior distrition. We have a plus log P data. We can still apply the EM here. In the EM algorithm in the E Step is the same as before. Same as before. The only difference is that in the M stat. When we maximize the Q function, you will have to add the P data as over here, in your stat. That's the only difference. This is the EM algorithm for MAP. Why we want to do the MAP
+
+[177] 02:15:16-02:16:01
+Because in some cases, Adding these prior distributions to your parameters can help your algorithm to converge. This is an example over here, especially when the dimension of your x is very large. When your dimension becomes very large, you are actually optimizing in a large high dimensional space. Your dimension of X determines your dimension of the mu case as well as your Sigma case. I become a high dimensional space or optimization becomes more difficult. Then you may encounter numerical issues due to, for example, singular matrices and things like this. But using the
+
+[178] 02:16:01-02:16:46
+MAP part, right basically the MAP allows you to add a prior belief, right, which means that it allows you to constrain your parameter s, your me case and cig markets, constrain them to be in a nice space, right so that during your optimization, right, it doesn't go and convert to something that gives you a singular matrix, right, you know, and something that would cause numerical errors, right. So you basically use a prior distribution to constrain what your me case and C market can look like. Okay. So you can see that in this test, right, The vertical actually is showing you the fraction of times whereby the EM
+
+[179] 02:16:47-02:17:32
+algorithm for this GMM fails, it doesn't give you a good result, a reasonable result, basically, it will just diverge or give you some very big value, for the covariance metric. As a dimensionality increase, then the fraction actually going to approach to one. Then definitely applying the MLE, or the EM algorithm directly to find the MLE is not going to be workable, right. On your dimension is above, say 50, 50 dimensions. Whereas, you can see that by choosing the pier distribution p data in a suitable way, we can actually basically keep
+
+[180] 02:17:32-02:18:15
+it to almost zero. Okay. So you can successfully use the EM algorithm by adding this log P data here, and applying the EM algorithm. In almost all the cases, you are able to find convert to a suitable value for the Mu case and Sigma. Okay. And then let me see. Okay. Yeah. Last but not least, let's look at a actual real example. W is my most.
+
+[181] 02:18:22-02:19:07
+Yeah. So previously, when I t this call some students, ya. Keep asking me, what's the use of all these, what is the real world use? Indeed, I'm going to show you like a real world use. This is this Gaussian mixture model is actually widely used in industry. So don't think that industry, nowadays, we are just using deep neural networks and all these things. In fact, in my previous life, I was actually in a investment bank. We were all using this kind of traditional signal processing, GMM models, and all that. Because these are proven to work very well. In
+
+[182] 02:19:08-02:19:53
+this You can do at this Market GMM Supter Notebook. So we are using the Yahoo Finance as to extract data from there. And what we are doing here, right? Okay. So basically, I'm analyzing this VDA stock. And I'm looking at the lot written as well as the volatility of the closing price for the amphDo stock. But of course, if you work in the i band, right we will use a lot of other factors. This is just to illustrate, right? Using only two factors, lot written and volatility. So that is easier to visualize otherwise, I can't clock a high dimensional,
+
+[183] 02:19:53-02:20:38
+you, scatter clock, right. So that's why we're keeping to only two factors here, but in the actual application, you can we typically you will use a lot more factors. Okay. Here, this is basically yeah, getting the closing plis and completing the lot return and volatility over multiple days, right? In fact, over multiple years. I don't remember. Yeah. I think starting from 2015, all the way to a few months ago, when I run this code. Okay. So this is a snaps of the first tank
+
+[184] 02:20:38-02:21:24
+rows. And this is the scatter plot of the lot written versus the volatility. Basically, in this application, we are trying to decide the so called at this time, whether it is a bull market or a bear market. The bull market is basically characterized by less volatility, but higher return. A bear market is basically characterized by lower return, but higher volatility. We are trying to use the Basically now there are two components here, you can see that this data basically consists of two components.
+
+[185] 02:21:24-02:22:09
+On one component is characterizing the bull market, and one component is characterizing the bad market. And of course, nobody will be is going to tell you in advance whether right this particular day, is it a bull market or a bad market, right? So this is something that we cannot observe directly, right? It is a latent variable that we cannot observe. And so for various reasons, we want to decide whether it's bad or bull market. And typically, this information can then be used in other analysis, right to decide, you know, to do your portfolio optimization, to do recommendations to your clients and things like this. Okay. So how can we then
+
+[186] 02:22:10-02:22:54
+try to estimate, right, the bank bull market. We have a model, but we don't have the parameters, weight, the model weights of the model. We just know that it consists of two components. We have a Pi one and Pi two, and then we have a Mu one Sigma one, M two Sigma two. These are the two Gaussian distributions, we don't know the exact parameters. So we can use the historical data to estimate all these parameters, and then and then we can Yeah. So we can actually do some clustering as well, right to cluster all the data points and all the dates into
+
+[187] 02:22:55-02:23:40
+whether it's bull or bear market. Yeah. You can look at the basically, you can see here we're fitting the Gausin mite model according to the data. And this is the final result from your EM algorithm. There are two means and two coerence matrices here, and you also have the two weights here. And then some visualization. We can see that the algorithm work quite well, basically all the low volatility data points is classified as the bull market. The high volatility data points
+
+[188] 02:23:40-02:24:25
+is classified as the bar market. Okay. The return probably. You can see in this data, the ban b in terms of the return, is not so obvious. The market one is the one with a tighter range of return. Then the ban market one is the one that actually have a lot of negative returns, but because of high volatility, it also had some big positive returns as well. And then finally, using this model, we can now classify, basic whether it's bed or blue according
+
+[189] 02:24:25-02:25:10
+to the invidious stock closed price. You can see it makes sense. The red one is the one that where the stock prices are decreasing. But then you can see some cs. This is where there's high voit, this is classified as the bad market, is the bad market, and then the green one will be the so called the bue market. Okay. So yeah. So you can take the notebook is provided right in the amd you can take a look. And this is really one of the real world applications, right of your Cosi Miter model. Okay. Summarize.
+
+[190] 02:25:13-02:25:58
+Yeah. In general, your mixture model consists of basically multiple components, weighted by some probability weights. In the most general case, all these components, in fact, can have different probability distributions. Need not be all gis need not be all explanation all that. You can have different distributions together depending on your application. Okay. But one of the most important one is the Gusel Mature model because it is widely used, and also, as I mentioned, in fact, most engineer application, using the GM Gali
+
+[191] 02:25:58-02:26:43
+Mature model is sufficient to model almost anything that you can think of, because it's some universal property. And then. So because this miter model, right finally the MLE is intractable. So we need to make use of this EM algorithm to approximate the MLE. And the EM algorithm basically consists of the E Step and M stat. And we also talked about the K means algorithm, which is a special case of this EM algorithm. And then finally, right we talked about the EM for MAP, right. So this is where you just add the lot of P data, right the lot prior distrition
+
+[192] 02:26:43-02:27:27
+to your Mtep. Okay, good. There are some practice problems here, and then there's also some background reading here. This is the part where we can actually prove that the EM algorithm will continuously give you something better. Basically, the log likelihood at each iteration of your EM algorithm can only increase, it will not decrease. Which means that you will converge to some local optimal. May not be the global optimal, but you will converge to some local optimal. So there's a proof here. And I think that's all for today.
+
+[193] 02:27:29-02:28:14
+Any questions, right? Last. Okay. Good. EM algorithm if the different gaussian share a common mean. Let me see. Yeah. There's no reason why you wouldn't work. Yes. I you know in advance that they share a common mean, then you can always constrain it by but you have to derive the equations from now, especially in the optimization part. Now you are using some additional constraint. So you need to when you do this optimization, right, you need to set the constraint here and then your lagrange will be different,
+
+[194] 02:28:14-02:28:19
+and then solution will be different. So this is the part that you need to take care of. Okay.
+
+[195] 02:28:25-02:28:27
+Okay. Any other questions?
+
+[196] 02:28:51-02:28:53
+Okay, I think that's it. Yeah. So
+
+[197] 02:28:59-02:29:17
+Yeah. I think that's it. Just in case you don't know there's a so called self paced session, in your clap. If you want to it's the same questions as what we go through in the lecture. If you want to retry again, you can always try it.
+
+[198] 02:29:23-02:29:32
+Okay. I'm not sure whether you can see the solution or not. You can me know. But it's actually the same questions. Thank you.
